@@ -1,0 +1,2 @@
+The sum of the 3 numbers is :6
+The sum of the 3 numbers is: 6

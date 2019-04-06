@@ -1,0 +1,4 @@
+Jacob 100
+Nameless 50
+Bocaj 10
+ZZZ 1
