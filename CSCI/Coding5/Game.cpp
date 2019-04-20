@@ -76,6 +76,7 @@ void Game::Foyer() {
   //Room 1
   bool inRoom = true;
   CinReader read;
+<<<<<<< HEAD
   while (inRoom) {
     cout << "You stand in the Foyer.\n\n"
     << "To the west the sun flows through a large glass door.\n"
@@ -112,6 +113,28 @@ void Game::Foyer() {
         cerr << "Invalid action taken.\n";
         break;
     }
+=======
+  char c = toupper(read.readChar("wWeEsSlL"));
+  switch (c) {
+    case 'W':
+      cout << "You open the door to the Sun Room.\n";
+      roomNumber_ = 2;
+      break;
+    case 'E':
+      cout << "You open the door to the Office.\n";
+      roomNumber_ = 3;
+      break;
+    case 'S':
+      cout << "You head down the dimly lit hallway.\n";
+      roomNumber_ = 4;
+      break;
+    case 'L':
+      cout << "You look around.\n";
+      break;
+    default:
+      cerr << "Invalid action taken.\n";
+      break;
+>>>>>>> 13f4a2c8d23d055cf39c1a2e4e931ed14d7cef7f
   }
 }
 
@@ -119,6 +142,7 @@ void Game::SunRoom() {
   //Room 2
   bool inRoom = true;
   CinReader read;
+<<<<<<< HEAD
   while(inRoom) {
     cout << "You bask in the light of the Sun Room.\n"
     << "You feel your health regaining.\n\n"
@@ -150,6 +174,24 @@ void Game::SunRoom() {
         cerr << "Invalid action taken.\n";
         break;
     }
+=======
+  char c = toupper(read.readChar("eEsSlL"));
+  switch (c) {
+    case 'E':
+      cout << "You open the door to the Foyer.\n";
+      roomNumber_ = 1;
+      break;
+    case 'S':
+      cout << "You walk towards an overgrown garden.\n";
+      roomNumber_ = 5;
+      break;
+    case 'L':
+      cout << "You look around.\n";
+      break;
+    default:
+      cerr << "Invalid action taken.\n";
+      break;
+>>>>>>> 13f4a2c8d23d055cf39c1a2e4e931ed14d7cef7f
   }
 }
 

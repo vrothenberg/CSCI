@@ -30,9 +30,10 @@ public:
   //Mutator Functions
   void SetName();
   void SetName(string name);
-  void SetRole();
-  void SetAttributes(string role, int experience, int health,
+  void Creation();
+  void SetAttributes(string role, int level, int experience, int health,
     int attack, int armor, int dexterity, int intelligence, int speed);
+  void SetRole(string role);
   void SetLevel(int level);
   void SetExp(int exp);
   void SetHealth(int health);
