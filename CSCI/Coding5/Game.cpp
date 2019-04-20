@@ -67,7 +67,7 @@ void Game::Foyer() {
   << "(S)outh\n"
   << "(L)ook around\n";
   CinReader read;
-  char c = read.readChar("wWeEsSlL");
+  char c = toupper(read.readChar("wWeEsSlL"));
   switch (c) {
     case 'W':
       cout << "You open the door to the Sun Room.\n";
@@ -98,7 +98,7 @@ void Game::SunRoom() {
   << "To the east is the Foyer.\n"
   << "To the south is the Garden.\n";
   CinReader read;
-  char c = read.readChar("eEsSlL");
+  char c = toupper(read.readChar("eEsSlL"));
   switch (c) {
     case 'E':
       cout << "You open the door to the Foyer.\n";
