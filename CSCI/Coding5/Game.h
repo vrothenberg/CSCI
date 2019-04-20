@@ -12,12 +12,19 @@ class Game {
 public:
   Game();
   void Start();
+
 private:
-  int number_;
-  bool gameOver_;
-  int roomNumber_;
+  //Global variables
+
+  bool gameOver_ = false;
+  int roomNumber_ = 1;
+  int gameTicks_ = 0;
+  bool caveDiscovered_ = false;
+
   //Helper Functions
   void LoadRoom();
+  void Tick();
+  void ClearScreen();
 
   //Room Functions
   void Foyer();
@@ -30,6 +37,12 @@ private:
   void Cave();
   void Utility();
   void Tomb();
+
+  //Puzzle
+  void LookAround();
+
+
+
 
 
 
