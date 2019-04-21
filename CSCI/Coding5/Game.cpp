@@ -82,6 +82,7 @@ void Game::HUD(Player p) {
 
 void Game::Foyer() {
   //Room 1
+  //Loot, Armor, Weapon
 
   bool inRoom = true;
   CinReader read;
@@ -127,6 +128,7 @@ void Game::Foyer() {
 
 void Game::SunRoom() {
   //Room 2
+  //Loot, Armor
 
   bool inRoom = true;
   CinReader read;
@@ -167,6 +169,7 @@ void Game::SunRoom() {
 
 void Game::Office() {
   //Room 3
+  //Loot, Armor, Weapon
   CinReader read;
   bool inRoom = true;
   string readCharString = "eEsSlL";
@@ -205,6 +208,7 @@ void Game::Office() {
 
 void Game::Hall() {
   //Room 4
+  //Enemy, Loot
   CinReader read;
   string readCharString = "nNwWeEsS";
   bool inRoom = true;
@@ -263,6 +267,8 @@ void Game::Hall() {
 
 void Game::Garden() {
   //Room 5
+  //Enemy, Loot, Weapon
+
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNeEsSlL";
@@ -313,6 +319,7 @@ void Game::Garden() {
 
 void Game::Library() {
   //Room 6
+  //Enemy, Loot, Weapon
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWlL";
@@ -350,6 +357,7 @@ void Game::Library() {
 
 void Game::Basement() {
   //Room 7
+  //Enemy, Loot, Weapon
 
   bool inRoom = true;
   CinReader read;
@@ -403,6 +411,7 @@ void Game::Basement() {
 
 void Game::Cave() {
   //Room 8
+  //Enemy, Loot
 
   bool inRoom = true;
   CinReader read;
@@ -442,6 +451,7 @@ void Game::Cave() {
 
 void Game::Utility() {
   //Room 9
+  //Enemy, Loot, Armor, Weapon
 
   bool inRoom = true;
   CinReader read;
@@ -474,6 +484,7 @@ void Game::Utility() {
 
 void Game::Tomb() {
   //Room 10
+  //Boss
 
   bool inRoom = true;
   CinReader read;
@@ -529,10 +540,6 @@ void Game::LookAround() {
     default:
       cerr << "Invalid random number generation!\n";
       break;
-
   }
-
-
-
   cout << "You roll a " << i << endl;
 }

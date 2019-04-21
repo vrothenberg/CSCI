@@ -4,7 +4,7 @@
 int main() {
   Game newGame;
   newGame.Start();
-  cout << "End." << endl;
+  cout << "Game over!" << endl;
 
   return 0;
 }

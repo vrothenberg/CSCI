@@ -15,6 +15,16 @@ public:
   Game();
   void Start();
   Player newPlayer_;
+  const array[][] roomEnemyArray_ = {{1,2,3},
+  {1,2,3},
+  {1,2,3}}
+  //Finish
+  const array[] enemyArray_ = {
+    {"Desperate Realtor", },
+    {"Angry Snake"},
+    {"Hypocritical Anarchist"},
+    {""}
+  }
 
 private:
   //Global variables
