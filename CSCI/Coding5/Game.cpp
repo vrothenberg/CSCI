@@ -5,22 +5,23 @@
 #include "CinReader.h"
 
 
-
 Game::Game() {
+  srand((unsigned)time(0));
   gameOver_ = false;
   roomNumber_ = 1;
+  ClearScreen();
+  cout << "Welcome to the game!" << endl;
+  newPlayer_.Creation();
 }
 
 void Game::Start() {
-  cout << "Welcome to the game!" << endl;
-
-  while(!gameOver_){
-    LoadRoom();
-    Tick();
+  ClearScreen();
+  while(!gameOver_) {
+    LoadRoom(newPlayer_);
   }
 }
 
-void Game::LoadRoom() {
+void Game::LoadRoom(Player p) {
 
   switch(roomNumber_) {
     case 1:
@@ -54,12 +55,13 @@ void Game::LoadRoom() {
       Tomb();
       break;
     default:
-      cerr << "Invalid room number\n";
+      cerr << "Invalid room number.\n";
       break;
   }
 }
 
 void Game::Tick() {
+  HUD(newPlayer_);
   gameTicks_++;
 }
 
@@ -72,11 +74,20 @@ void Game::ClearScreen() {
 #endif
 }
 
+void Game::HUD(Player p) {
+  //stringf padding
+  cout << p.GetName() << " the level " << p.GetLevel() << " " << p.GetRole() << endl;
+  cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl;
+}
+
 void Game::Foyer() {
   //Room 1
+
   bool inRoom = true;
   CinReader read;
+  string readCharString = "wWeEsSlL";
   while (inRoom) {
+    Tick();
     cout << "You stand in the Foyer.\n\n"
     << "To the west the sun flows through a large glass door.\n"
     << "To the east is an old mahogany door.\n"
@@ -86,7 +97,7 @@ void Game::Foyer() {
     << "(E)ast\n"
     << "(S)outh\n"
     << "(L)ook around\n";
-    char c = read.readChar("wWeEsSlL");
+    char c = toupper(read.readChar(readCharString));
     ClearScreen();
     switch (c) {
       case 'W':
@@ -100,12 +111,11 @@ void Game::Foyer() {
         inRoom = false;
         break;
       case 'S':
-        cout << "You head down the dimly lit hallway.\n";
+        cout << "You walk down the dimly lit hallway.\n";
         roomNumber_ = 4;
         inRoom = false;
         break;
       case 'L':
-        cout << "You look around.\n";
         LookAround();
         break;
       default:
@@ -117,19 +127,21 @@ void Game::Foyer() {
 
 void Game::SunRoom() {
   //Room 2
+
   bool inRoom = true;
   CinReader read;
+  string readCharString = "eEsSlL";
   while(inRoom) {
+    Tick();
     cout << "You bask in the light of the Sun Room.\n"
     << "You feel your health regaining.\n\n"
     << "To the east is the Foyer.\n"
     << "To the south a door leads down a verdant, meandering path.\n"
     << "Enter your action: \n"
-    << "(W)est\n"
     << "(E)ast\n"
     << "(S)outh\n"
     << "(L)ook around\n";
-    char c = read.readChar("eEsSlL");
+    char c = toupper(read.readChar(readCharString));
     ClearScreen();
     switch (c) {
       case 'E':
@@ -153,26 +165,30 @@ void Game::SunRoom() {
   }
 }
 
-
 void Game::Office() {
   //Room 3
   CinReader read;
-  char c = read.readChar("eEsSlL");
   bool inRoom = true;
+  string readCharString = "eEsSlL";
   while (inRoom) {
+    Tick();
     cout << "You enter a well furnished Office.\n\n"
     << "To the west is the Foyer.\n"
-    << "To the south is the Library.\n";
-    char c = read.readChar("eEsSlL");
+    << "To the south is the Library.\n"
+    << "Enter your action: \n"
+    << "(W)est\n"
+    << "(S)outh\n"
+    << "(L)ook around\n";
+    char c = toupper(read.readChar(readCharString));
     ClearScreen();
     switch (c) {
       case 'W':
-        cout << "You open the door to the Hall.\n";
-        roomNumber_ = 4;
+        cout << "You leave the Office.\n";
+        roomNumber_ = 1;
         inRoom = false;
         break;
       case 'S':
-        cout << "You open the door to the Library.\n";
+        cout << "You leave the Office.\n";
         roomNumber_ = 6;
         inRoom = false;
         break;
@@ -190,19 +206,31 @@ void Game::Office() {
 void Game::Hall() {
   //Room 4
   CinReader read;
-  cout << "Enter your direction: \n";
   string readCharString = "nNwWeEsS";
-  char c  = read.readChar(readCharString);
   bool inRoom = true;
-  while(inRoom) {
+  while (inRoom) {
+    Tick();
     cout << "You walk down the dimly lit Hall.\n\n"
     << "To the north is the Foyer.\n"
     << "To the west is the Garden.\n"
-    << "To the east is the Library.\n"
-    << "To the south is a locked door.\n";
+    << "To the east is the Library.\n";
+    if (basementKey_) cout << "To the south is the basement.\n";
+    else cout << "To the south is a locked door.\n";
+    cout << "Enter your action: \n"
+    << "(N)orth\n"
+    << "(W)est\n"
+    << "(E)ast\n"
+    << "(S)outh\n"
+    << "(L)ook around\n";
+
+    char c  = toupper(read.readChar(readCharString));
     ClearScreen();
     switch (c) {
-      ClearScreen();
+      case 'N':
+        cout << "You walk towards the Foyer.\n";
+        roomNumber_ = 1;
+        inRoom = false;
+        break;
       case 'W':
         cout << "You open the door to the Garden.\n";
         roomNumber_ = 5;
@@ -214,9 +242,14 @@ void Game::Hall() {
         inRoom = false;
         break;
       case 'S':
-        cout << "You go down into the basement.\n";
-        roomNumber_ = 7;
-        inRoom = false;
+        if (basementKey_) {
+          cout << "You go down into the basement.\n";
+          roomNumber_ = 7;
+          inRoom = false;
+        } else {
+          cout << "The door won't open.\n";
+        }
+        break;
       case 'L':
         cout << "You look around.\n";
         LookAround();
@@ -226,37 +259,46 @@ void Game::Hall() {
         break;
     }
   }
-
 }
 
 void Game::Garden() {
   //Room 5
   bool inRoom = true;
   CinReader read;
-  string roomCharString = "nNeElL";
-  if (caveDiscovered_ && roomCharString != "nNeElLsS") roomCharString += "sS";
+  string roomCharString = "nNeEsSlL";
   while (inRoom) {
+    Tick();
     cout << "You stand in an overgrown garden.\n\n"
     << "To the north is the Sun Room.\n"
-    << "To the east is the Hall\n";
+    << "To the east is the Hall.\n";
     if(caveDiscovered_) {
       cout << "To the south is a Cave.\n";
     }
-    char c = read.readChar(roomCharString);
+    cout << "Enter your action: \n"
+    << "(N)orth\n"
+    << "(E)ast\n";
+    if(caveDiscovered_) {
+      cout << "(S)outh\n";
+    }
+    cout << "(L)ook around\n";
+    char c = toupper(read.readChar(roomCharString));
+    ClearScreen();
     switch (c) {
       case 'N':
         cout << "You walk up a meandering path to the Sun Room.\n";
         roomNumber_ = 2;
         inRoom = false;
       case 'E':
-        cout << "You open the door to the Foyer.\n";
-        roomNumber_ = 1;
+        cout << "You open the door to the Hall.\n";
+        roomNumber_ = 4;
         inRoom = false;
         break;
       case 'S':
-        cout << "You walk towards an overgrown garden.\n";
-        roomNumber_ = 5;
-        inRoom = false;
+        if (caveDiscovered_) {
+          cout << "You climb down into a cave.\n";
+          roomNumber_ = 8;
+          inRoom = false;
+        } else cout << "The thicket repels you.\n";
         break;
       case 'L':
         cout << "You look around.\n";
@@ -266,22 +308,28 @@ void Game::Garden() {
         cerr << "Invalid action taken.\n";
         break;
     }
-    Tick();
   }
 }
+
 void Game::Library() {
   //Room 6
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWlL";
   while (inRoom) {
+    Tick();
     cout << "You stand in a dusty library.  Books tower above.\n\n"
     << "To the north is the Office.\n"
-    << "To the west is the Hall\n";
-    char c = read.readChar(roomCharString);
+    << "To the west is the Hall.\n"
+    << "Enter your action: \n"
+    << "(N)orth\n"
+    << "(W)est\n"
+    << "(L)ook around\n";
+    char c = toupper(read.readChar(roomCharString));
+    ClearScreen();
     switch (c) {
       case 'N':
-        cout << "You walk up a meandering path to the Sun Room.\n";
+        cout << "You open the door to the Office.\n";
         roomNumber_ = 3;
         inRoom = false;
       case 'W':
@@ -297,24 +345,31 @@ void Game::Library() {
         cerr << "Invalid action taken.\n";
         break;
     }
-
-    Tick();
   }
-
 }
+
 void Game::Basement() {
   //Room 7
 
   bool inRoom = true;
   CinReader read;
-  string roomCharString = "nNwWlL";
+  string roomCharString = "nNwWeEsSlL";
   while (inRoom) {
+    Tick();
     cout << "You stand in a cold basement. To your side is a cavern.\n"
     << "A single bare lightbulb hangs above.\n\n"
-    << "To the north is the Hall.\n"
+    << "To the north is a stairway to the Hall.\n"
     << "To the west a faint light glimmers from the rocks.\n"
-    << "To the east is a maintenace door marked 'Utility'.\n";
-    char c = read.readChar(roomCharString);
+    << "To the east is a maintenace door marked 'Utility'.\n"
+    << "To the south is a stone doorway.  It's engraved with glowing symbols.\n"
+    << "Enter your action: \n"
+    << "(N)orth\n"
+    << "(W)est\n"
+    << "(E)ast\n"
+    << "(S)outh\n"
+    << "(L)ook around\n";
+    char c = toupper(read.readChar(roomCharString));
+    ClearScreen();
     switch (c) {
       case 'N':
         cout << "You open the door to the Hall.\n";
@@ -322,7 +377,7 @@ void Game::Basement() {
         inRoom = false;
       case 'W':
         cout << "You walk into the cavern.\n";
-        roomNumber_ = 5;
+        roomNumber_ = 8;
         inRoom = false;
         break;
       case 'E':
@@ -343,11 +398,9 @@ void Game::Basement() {
         cerr << "Invalid action taken.\n";
         break;
     }
-
-    Tick();
   }
-
 }
+
 void Game::Cave() {
   //Room 8
 
@@ -355,17 +408,24 @@ void Game::Cave() {
   CinReader read;
   string roomCharString = "nNeElL";
   while (inRoom) {
+    Tick();
     cout << "You hunch down in a small, dark cave.\n\n"
     << "To the north sunlight breaches the crevices.\n"
-    << "To the east a cavern opens.\n";
-    char c = read.readChar(roomCharString);
+    << "To the east a cavern opens.\n"
+    << "Enter your action: \n"
+    << "(N)orth\n"
+    << "(E)ast\n"
+    << "(L)ook around\n";
+    char c = toupper(read.readChar(roomCharString));
+    ClearScreen();
     switch (c) {
       case 'N':
+        caveDiscovered_ = true;
         cout << "You climb into the light.\n";
         roomNumber_ = 5;
         inRoom = false;
       case 'E':
-        cout << "You walk into the cave.\n";
+        cout << "You crawl into the cavern.\n";
         roomNumber_ = 7;
         inRoom = false;
         break;
@@ -377,10 +437,9 @@ void Game::Cave() {
         cerr << "Invalid action taken.\n";
         break;
     }
-
-    Tick();
   }
 }
+
 void Game::Utility() {
   //Room 9
 
@@ -388,9 +447,14 @@ void Game::Utility() {
   CinReader read;
   string roomCharString = "wWlL";
   while (inRoom) {
+    Tick();
     cout << "You stand in a well-stocked utility room.\n\n"
-    << "To the west is the maintenance door.\n";
-    char c = read.readChar(roomCharString);
+    << "To the west is the maintenance door.\n"
+    << "Enter your action: \n"
+    << "(W)est\n"
+    << "(L)ook around\n";
+    char c = toupper(read.readChar(roomCharString));
+    ClearScreen();
     switch (c) {
       case 'W':
         cout << "You open the maintenance door to the basement.\n";
@@ -405,7 +469,6 @@ void Game::Utility() {
         cerr << "Invalid action taken.\n";
         break;
     }
-    Tick();
   }
 }
 
@@ -416,9 +479,14 @@ void Game::Tomb() {
   CinReader read;
   string roomCharString = "nNlL";
   while (inRoom) {
+    Tick();
     cout << "You stand before an ominous tomb.\n\n"
-    << "To the north is the basement.\n";
-    char c = read.readChar(roomCharString);
+    << "To the north is the basement.\n"
+    << "Enter your action: \n"
+    << "(N)orth\n"
+    << "(L)ook around\n";
+    char c = toupper(read.readChar(roomCharString));
+    ClearScreen();
     switch (c) {
       case 'N':
         cout << "You seek respite in the basement.\n";
@@ -433,10 +501,38 @@ void Game::Tomb() {
         cerr << "Invalid action taken.\n";
         break;
     }
-    Tick();
   }
 }
 
 void Game::LookAround() {
-  cout << "You looked around.\n";
+  int i = (rand()%6) + 1;
+  cout << "You look around and find... \n";
+  switch (i) {
+    case 1:
+      cout << "A thing!\n";
+      break;
+    case 2:
+      cout << "A hidden secret!\n";
+      break;
+    case 3:
+      cout << "A weapon!";
+      break;
+    case 4:
+      cout << "A piece of armor!";
+      break;
+    case 5:
+      cout << "A mysterious force acts!\n";
+      break;
+    case 6:
+      cout << "An enemy approaches!\n";
+      break;
+    default:
+      cerr << "Invalid random number generation!\n";
+      break;
+
+  }
+
+
+
+  cout << "You roll a " << i << endl;
 }

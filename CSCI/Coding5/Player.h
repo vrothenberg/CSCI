@@ -20,6 +20,7 @@ public:
   string GetRole();
   int GetLevel();
   int GetExp();
+  int GetWealth();
   int GetHealth();
   int GetAttack();
   int GetArmor();
@@ -49,6 +50,7 @@ private:
   string role_ = "Aimless";
   int level_ = 1;
   int experience_ = 0;
+  int wealth_ = 0;
   int health_ = 0;
   int attack_ = 0;
   int armor_ = 0;

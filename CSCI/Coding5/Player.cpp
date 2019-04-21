@@ -2,35 +2,7 @@
 
 //Constructors
 Player::Player() {
-  SetName();
-  cout << "Choose your role: \n"
-  << "(S) Scientist - Clever and intrepid. \n"
-  << "(H) Hazmat - Equipped for the worst. \n"
-  << "(D) Detective - Incisive and dexterous. \n"
-  << "(R) Repo man - Strong and determined. \n"
-  << "(T) Teenager - Curious and fast. \n";
-  CinReader read;
-  char c = toupper(read.readChar("sShHdDrRtT"));
-  switch (c) {
-    case 'S':
-      SetAttributes("Scientist", 1, 0, 10, 3, 2, 3, 10, 3);
-      break;
-    case 'H':
-      SetAttributes("Hazmat",    1, 0, 20, 4, 5, 2, 3, 1);
-      break;
-    case 'D':
-      SetAttributes("Detective", 1, 0, 15, 5, 3, 4, 7, 3);
-      break;
-    case 'R':
-      SetAttributes("Repo Man",  1, 0, 30, 7, 7, 5, 2, 2);
-      break;
-    case 'T':
-      SetAttributes("Teenager",  1, 0, 5 , 2, 2, 7, 5, 7);
-      break;
-    default:
-      cerr << "Invalid role!\n";
-      break;
-  }
+  cout << "Player initialized.  Call Creation() to set up character.\n";
 }
 
 //Accessor Functions
@@ -45,6 +17,9 @@ int Player::GetLevel() {
 }
 int Player::GetExp() {
   return experience_;
+}
+int Player::GetWealth() {
+  return wealth_;
 }
 int Player::GetHealth() {
   return health_;
@@ -61,7 +36,6 @@ int Player::GetArmor() {
 
 void Player::Creation() {
   SetName();
-
   cout << "Choose your role: \n"
   << "(S) Scientist - Clever and intrepid. \n"
   << "(H) Hazmat - Equipped for the worst. \n"
@@ -128,7 +102,7 @@ void Player::SetLevel(int level) {
   else cerr << "Invalid level!\n";
 }
 void Player::SetExp(int exp) {
-  if (exp > 0) experience_ = exp;
+  if (exp >= 0) experience_ = exp;
   else cerr << "Invalid experience!\n";
 }
 void Player::SetHealth(int health) {

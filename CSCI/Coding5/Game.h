@@ -3,7 +3,9 @@
 #define ROTHENBERG_GAME_H
 
 #include <iostream>
+#include <ctime>
 #include "CinReader.h"
+#include "Player.h"
 using std::cout;
 using std::endl;
 using std::cerr;
@@ -12,6 +14,7 @@ class Game {
 public:
   Game();
   void Start();
+  Player newPlayer_;
 
 private:
   //Global variables
@@ -20,11 +23,13 @@ private:
   int roomNumber_ = 1;
   int gameTicks_ = 0;
   bool caveDiscovered_ = false;
+  bool basementKey_ = false;
 
   //Helper Functions
-  void LoadRoom();
+  void LoadRoom(Player p);
   void Tick();
   void ClearScreen();
+  void HUD(Player p);
 
   //Room Functions
   void Foyer();
