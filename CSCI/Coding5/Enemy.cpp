@@ -1,8 +1,9 @@
 #include "Enemy.h"
 
+//Constructors
 Enemy::Enemy();
 Enemy::Enemy(int room, int difficulty) {
-  Game.roomEnemyArray_[room][difficulty];
+  newGame.roomEnemyArray_[room][difficulty];
 }
 
 //Accessor Functions
@@ -42,13 +43,33 @@ void Enemy::Creation() {
 
 }
 void Enemy::SetAttributes(string role, int level, int experience, int health,
-  int attack, int armor, int dexterity, int intelligence, int speed);
-void Enemy::SetRole(string role);
-void Enemy::SetLevel(int level);
-void Enemy::SetExp(int exp);
-void Enemy::SetHealth(int health);
-void Enemy::SetAttack(int attack);
-void Enemy::SetArmor(int armor);
-void Enemy::SetDexterity(int dexterity);
-void Enemy::SetIntelligence(int intelligence);
-void Enemy::SetSpeed(int speed);
+  int attack, int armor, int dexterity, int intelligence, int speed) {
+
+  }
+void Enemy::SetRole(string role) {
+  role_ = role;
+}
+void Enemy::SetLevel(int level) {
+  level_ = level;
+}
+void Enemy::SetExp(int exp) {
+  experience_ = exp;
+}
+void Enemy::SetHealth(int health) {
+  health_ = health;
+}
+void Enemy::SetAttack(int attack) {
+  attack_ = attack;
+}
+void Enemy::SetArmor(int armor) {
+  armor_ = armor;
+}
+void Enemy::SetDexterity(int dexterity) {
+  dexterity_ = dexterity;
+}
+void Enemy::SetIntelligence(int intelligence) {
+  intelligence_ = intelligence;
+}
+void Enemy::SetSpeed(int speed) {
+  speed_ = speed;
+}
