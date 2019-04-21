@@ -33,7 +33,6 @@ int Player::GetArmor() {
 
 //Mutator Functions
 
-
 void Player::Creation() {
   SetName();
   cout << "Choose your role: \n"

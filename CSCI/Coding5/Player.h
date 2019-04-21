@@ -9,6 +9,8 @@ using std::endl;
 using std::cerr;
 using std::string;
 
+
+
 class Player {
 public:
   //Constructors
@@ -45,7 +47,7 @@ public:
   void SetSpeed(int speed);
 
 private:
-  //Default member variable values
+  //Default Player member variable values
   string name_ = "Nameless";
   string role_ = "Aimless";
   int level_ = 1;
@@ -58,5 +60,7 @@ private:
   int intelligence_ = 0;
   int speed_ = 0;
 };
+
+
 
 #endif

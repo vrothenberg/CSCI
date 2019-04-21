@@ -4,7 +4,6 @@
 #include "Battle.h"
 #include "CinReader.h"
 
-
 Game::Game() {
   srand((unsigned)time(0));
   gameOver_ = false;
@@ -80,7 +79,7 @@ void Game::HUD(Player p) {
   cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl;
 }
 
-void Game::Foyer() {
+void Game::Foyer(Player p) {
   //Room 1
   //Loot, Armor, Weapon
 
@@ -117,7 +116,7 @@ void Game::Foyer() {
         inRoom = false;
         break;
       case 'L':
-        LookAround();
+        LookAround(p);
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -126,7 +125,7 @@ void Game::Foyer() {
   }
 }
 
-void Game::SunRoom() {
+void Game::SunRoom(Player p) {
   //Room 2
   //Loot, Armor
 
@@ -167,7 +166,7 @@ void Game::SunRoom() {
   }
 }
 
-void Game::Office() {
+void Game::Office(Player p) {
   //Room 3
   //Loot, Armor, Weapon
   CinReader read;
@@ -206,9 +205,10 @@ void Game::Office() {
   }
 }
 
-void Game::Hall() {
+void Game::Hall(Player p) {
   //Room 4
   //Enemy, Loot
+  //Enemy newEnemy;
   CinReader read;
   string readCharString = "nNwWeEsS";
   bool inRoom = true;
@@ -265,7 +265,7 @@ void Game::Hall() {
   }
 }
 
-void Game::Garden() {
+void Game::Garden(Player p) {
   //Room 5
   //Enemy, Loot, Weapon
 
@@ -317,7 +317,7 @@ void Game::Garden() {
   }
 }
 
-void Game::Library() {
+void Game::Library(Player p) {
   //Room 6
   //Enemy, Loot, Weapon
   bool inRoom = true;
@@ -355,7 +355,7 @@ void Game::Library() {
   }
 }
 
-void Game::Basement() {
+void Game::Basement(Player p) {
   //Room 7
   //Enemy, Loot, Weapon
 
@@ -409,7 +409,7 @@ void Game::Basement() {
   }
 }
 
-void Game::Cave() {
+void Game::Cave(Player p) {
   //Room 8
   //Enemy, Loot
 
@@ -449,7 +449,7 @@ void Game::Cave() {
   }
 }
 
-void Game::Utility() {
+void Game::Utility(Player p) {
   //Room 9
   //Enemy, Loot, Armor, Weapon
 
@@ -482,7 +482,7 @@ void Game::Utility() {
   }
 }
 
-void Game::Tomb() {
+void Game::Tomb(Player p) {
   //Room 10
   //Boss
 
@@ -515,7 +515,7 @@ void Game::Tomb() {
   }
 }
 
-void Game::LookAround() {
+void Game::LookAround(Player p) {
   int i = (rand()%6) + 1;
   cout << "You look around and find... \n";
   switch (i) {

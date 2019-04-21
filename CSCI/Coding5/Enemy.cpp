@@ -1,75 +1,16 @@
 #include "Enemy.h"
+#include "Player.h"
 
 //Constructors
-Enemy::Enemy();
+Enemy::Enemy() {
+  cout << "Adoy!\n";
+}
+
 Enemy::Enemy(int room, int difficulty) {
-  newGame.roomEnemyArray_[room][difficulty];
-}
-
-//Accessor Functions
-string Enemy::GetRole() {
-  return role_;
-}
-int Enemy::GetLevel() {
-  return level_;
-}
-int Enemy::GetExp() {
-  return experience_;
-}
-int Enemy::GetWealth() {
-  return wealth_;
-}
-int Enemy::GetHealth() {
-  return health_;
-}
-int Enemy::GetAttack() {
-  return attack_;
-}
-int Enemy::GetArmor() {
-  return armor_;
-}
-int Enemy::GetDexterity() {
-  return dexterity_;
-}
-int Enemy::GetIntelligence() {
-  return intelligence_;
-}
-int Enemy::GetSpeed() {
-  return speed_;
-}
-
-//Mutator Functions
-void Enemy::Creation() {
-
-}
-void Enemy::SetAttributes(string role, int level, int experience, int health,
-  int attack, int armor, int dexterity, int intelligence, int speed) {
-
-  }
-void Enemy::SetRole(string role) {
-  role_ = role;
-}
-void Enemy::SetLevel(int level) {
-  level_ = level;
-}
-void Enemy::SetExp(int exp) {
-  experience_ = exp;
-}
-void Enemy::SetHealth(int health) {
-  health_ = health;
-}
-void Enemy::SetAttack(int attack) {
-  attack_ = attack;
-}
-void Enemy::SetArmor(int armor) {
-  armor_ = armor;
-}
-void Enemy::SetDexterity(int dexterity) {
-  dexterity_ = dexterity;
-}
-void Enemy::SetIntelligence(int intelligence) {
-  intelligence_ = intelligence;
-}
-void Enemy::SetSpeed(int speed) {
-  speed_ = speed;
+  /*
+  cout << EnemyTypes.Squatter.name;
+  cout << EnemyTypes.Squatter.taunts[0];
+  */
+  //SetAttributes()
+  cout << "Hullo\n";
 }
