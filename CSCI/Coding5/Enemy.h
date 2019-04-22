@@ -3,27 +3,24 @@
 #define ROTHENBERG_ENEMY_H
 
 #include <iostream>
-#include "Player.h"
-using std::cout;
-using std::endl;
-using std::cerr;
-using std::string;
+#include "Character.h"
 
-/*
-struct EnemyTypes {
-  struct Squatter {
-    string name = "Salty Squatter";
-    string taunts[3] = {"Get outta here!\n", "This is my house now!\n", "I want hamborger!\n"};
-    int attributes[8] = {1, 10, 10, 1, 1, 1, 1, 1};
-   };
+struct EnemyType {
+  string name = "Salty Squatter";
+  string taunts[3] = {"Get outta here!\n", "This is my house now!\n", "I want hamborger!\n"};
+  int attributes[8] = {1, 10, 10, 1, 1, 1, 1, 1};
 };
-*/
 
-class Enemy : public Player {
+class Enemy : public Character {
 public:
   //Constructors
   Enemy();
   Enemy(int room, int difficulty);
+
+  //Static variable
+
+  static EnemyType Enemies[8];
+
 
 private:
   //Default Enemy member variable values

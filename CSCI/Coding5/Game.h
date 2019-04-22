@@ -2,11 +2,13 @@
 #ifndef ROTHENBERG_GAME_H
 #define ROTHENBERG_GAME_H
 
-#include <iostream>
 #include <ctime>
 #include "CinReader.h"
+#include "Character.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Battle.h"
+#include "System.h"
 
 using std::cout;
 using std::endl;
@@ -20,6 +22,7 @@ public:
 
 private:
   //Global variables
+  time_t time_ = time(0);
 
   bool gameOver_ = false;
   int roomNumber_ = 1;
@@ -29,8 +32,7 @@ private:
 
   //Helper Functions
   void LoadRoom(Player p);
-  void Tick();
-  void ClearScreen();
+  void Tick(Player p);
   void HUD(Player p);
 
   //Room Functions

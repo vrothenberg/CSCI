@@ -2,8 +2,9 @@
 #ifndef ROTHENBERG_PLAYER_H
 #define ROTHENBERG_PLAYER_H
 
-#include <iostream>
+#include "Character.h"
 #include "CinReader.h"
+#include "System.h"
 using std::cout;
 using std::endl;
 using std::cerr;
@@ -11,54 +12,29 @@ using std::string;
 
 
 
-class Player {
+class Player : public Character {
 public:
   //Constructors
   Player();
-  Player(string name);
 
   //Accessor Functions
   string GetName();
-  string GetRole();
-  int GetLevel();
-  int GetExp();
-  int GetWealth();
-  int GetHealth();
-  int GetAttack();
-  int GetArmor();
-  int GetDexterity();
-  int GetIntelligence();
-  int GetSpeed();
+  string GetRoomMessage();
+  int GetRoomVisits(int roomNumber);
+
 
   //Mutator Functions
   void SetName();
   void SetName(string name);
-  void Creation();
-  void SetAttributes(string role, int level, int experience, int health,
-    int attack, int armor, int dexterity, int intelligence, int speed);
-  void SetRole(string role);
-  void SetLevel(int level);
-  void SetExp(int exp);
-  void SetHealth(int health);
-  void SetAttack(int attack);
-  void SetArmor(int armor);
-  void SetDexterity(int dexterity);
-  void SetIntelligence(int intelligence);
-  void SetSpeed(int speed);
+  void SetRoomMessage(string message);
+  void IncrementRoomVisits(int roomNumber);
 
 private:
   //Default Player member variable values
   string name_ = "Nameless";
-  string role_ = "Aimless";
-  int level_ = 1;
-  int experience_ = 0;
-  int wealth_ = 0;
-  int health_ = 0;
-  int attack_ = 0;
-  int armor_ = 0;
-  int dexterity_ = 0;
-  int intelligence_ = 0;
-  int speed_ = 0;
+  int visits_[10] = {0,0,0,0,0,0,0,0,0,0};
+  string roomMessage_;
+
 };
 
 
