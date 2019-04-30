@@ -5,7 +5,10 @@
 
 //Atom Gpp Compiler
 //C++ compiler command line options:
-//CinReader.cpp Character.cpp Player.cpp Enemy.cpp Game.cpp System.cpp
+
+// ********************************************************************
+// CinReader.cpp Character.cpp Player.cpp Enemy.cpp Game.cpp System.cpp
+// ********************************************************************
 
 /*
 const int array[][] ROOM_ENEMY_ARRAY = {

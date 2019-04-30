@@ -1,0 +1,49 @@
+Vince Rothenberg
+
+1)
+a: p1: int*
+   p2: int*
+   p3: int
+
+b: p1: int*
+   p2: int*
+   p3: int
+
+c: p1: int*
+   p2: int*
+   p3: int*
+
+d: p1: int**
+   p2: int**
+   p3: int**
+
+e: p1: int*
+   p2: int**
+   p3: int**
+
+
+2)
+a:
+int* p = new int;
+b:
+delete p;
+
+3)
+a:
+int *p = new int[size];
+b:
+delete[] p;
+
+4)
+a:
+int **multiArray = new int*[rows];
+for (int i = 0; i < rows; i++) {
+  multiArray[i] = new int[cols];
+}
+b:
+for (int i = 0; i < rows; i++) {
+  delete[] multiArray[i];
+}
+delete[] multiArray;
+
+5) UPLOAD YOUR COMPLETED STUDENT.CPP
