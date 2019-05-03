@@ -16,6 +16,8 @@ class Battle {
 public:
   Battle();
   Battle(Player p, Enemy e);
+  int EnemyAttack(Enemy& e, Player& p, bool block);
+  int PlayerAttack(Player& p, Enemy& e, bool block);
 
 private:
   int round_ = 0;

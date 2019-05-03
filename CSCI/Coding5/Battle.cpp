@@ -27,36 +27,48 @@ Battle::Battle(Player p, Enemy e) {
     ClearScreen();
     int damageToEnemy = 0;
     int damageToPlayer = 0;
-    int enemyArmorBoost = 0;
     switch(c) {
       case 'W':
         cout << "You attack!\n";
         if (enemyAction == 0) {
           //Enemy blocks
-          cout << e.role_ << " blocks!\n";
-          enemyArmorBoost = (rand() % 3) + 1;
-          damageToEnemy = max((p.GetAttack() + (rand() % 3)) - (e.GetArmor() + rand() % 3)) , 1);
-          e.SetHealth(e.GetHealth() - damageToEnemy);
+          //cout << e.GetRole() << " blocks!\n";
+          //damageToEnemy = max(((p.GetAttack() + (rand() % 3)) - (e.GetArmor() + rand() % 3)) , 1);
+          //e.SetHealth(e.GetHealth() - damageToEnemy);
+          damageToEnemy = PlayerAttack(p, e, true);
         } else {
           //Enemy attacks
-          damageToEnemy = max((p.GetAttack() + (rand() % 3)) - e.GetArmor() , 1);
-          e.SetHealth(e.GetHealth() - damageToEnemy);
-          cout << e.role_ << " attacks!\n";
-          damageToPlayer = max((e.GetAttack() + (rand() % 3)) - p.GetArmor() , 1);
-          p.SetHealth(p.GetHealth() - damageToPlayer);
+
+          //damageToEnemy = max((p.GetAttack() + (rand() % 3)) - e.GetArmor() , 1);
+          //e.SetHealth(e.GetHealth() - damageToEnemy);
+          damageToEnemy = PlayerAttack(p, e, false);
+          if (e.GetHealth() > 0) {
+            //Enemy survives player attack
+
+            //cout << e.GetRole() << " attacks!\n";
+            //damageToPlayer = max((e.GetAttack() + (rand() % 3)) - p.GetArmor() , 1);
+            //p.SetHealth(p.GetHealth() - damageToPlayer);
+            damageToPlayer = EnemyAttack(e, p, false);
+          }
         }
 
-        cout << damage << " damage!\n\n";
-
-
         cout << "You inflicted " << damageToEnemy << " damage!\n";
-        cout << "Enemy health: " << e.GetHealth() << endl;
-        if
-
+        //cout << "Enemy health: " << e.GetHealth() << endl;
 
         break;
       case 'B':
         cout << "You block!\n";
+        if (enemyAction == 0) {
+          //Enemy blocks
+          cout << e.GetRole() << " blocks!\n";
+        } else {
+          //Enemy attacks
+          //cout << e.GetRole() << " attacks!\n";
+          //damageToPlayer = max((e.GetAttack() + (rand() % 3)) - (p.GetArmor() + (rand() % 3)), 1);
+          //p.SetHealth(p.GetHealth() - damageToPlayer);
+          EnemyAttack(e, p, true);
+          cout << "You suffered " << damageToPlayer << " damage!\n";
+        }
 
         break;
       case 'R':
@@ -78,5 +90,31 @@ Battle::Battle(Player p, Enemy e) {
     cout << "Game over!\n";
     //gameOver_ = true;
   }
+
+}
+
+int Battle::EnemyAttack(Enemy& e, Player& p, bool block) {
+  cout << e.GetRole() << " attacks!\n";
+  int armorModifier = 0;
+  if (block) {
+    armorModifier = rand() % 3;
+    cout << p.GetName() << " blocks!\n";
+  }
+  int damageToPlayer = max( (e.GetAttack() + (rand() % 3)) - (p.GetArmor() + armorModifier), 1);
+  p.SetHealth(p.GetHealth() - damageToPlayer);
+
+  return damageToPlayer;
+
+}
+
+int Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
+  int armorModifier = 0;
+  if (block) {
+    armorModifier = rand() % 3;
+    cout << e.GetRole() << " blocks!\n";
+  }
+  int damageToEnemy = max( ( p.GetAttack() + (rand() % 3) ) - (e.GetArmor() + armorModifier) , 1);
+  e.SetHealth(e.GetHealth() - damageToEnemy);
+  return damageToEnemy;
 
 }

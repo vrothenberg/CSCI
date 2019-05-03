@@ -1,8 +1,0 @@
-Battle.cpp: In constructor 'Battle::Battle(Player, Enemy)':
-Battle.cpp:61:5: error: 'gameOver_' was not declared in this scope
-     gameOver_ = true;
-     ^~~~~~~~~
-Battle.cpp:61:5: note: suggested alternative: 'battleOver'
-     gameOver_ = true;
-     ^~~~~~~~~
-     battleOver
