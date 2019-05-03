@@ -481,10 +481,17 @@ void Game::LookAround(Player p) {
   cout << "You look around and find... \n";
   switch (i) {
     case 1:
-      cout << "A thing!\n";
+      cout << "Treasure!\n";
+      p.SetWealth(p.GetWealth() + 10 * (rand()%5 + 1));
       break;
     case 2:
-      cout << "A hidden secret!\n";
+      //cout << "A hidden secret!\n";
+      if (!basementKey_) {
+        cout << "You found a key!\n";
+      } else {
+        cout << "Treasure!\n";
+        p.SetWealth(p.GetWealth() + 10 * (rand()%5 + 1));
+      }
       break;
     case 3:
       cout << "A weapon!";
@@ -497,6 +504,7 @@ void Game::LookAround(Player p) {
       break;
     case 6:
       cout << "An enemy approaches!\n";
+      //Enemy newEnemy(roomNumber_, rand()%3 + 1);
       break;
     default:
       cerr << "Invalid random number generation.\n";

@@ -8,7 +8,18 @@
 struct EnemyType {
   string name = "Salty Squatter";
   string taunts[3] = {"Get outta here!\n", "This is my house now!\n", "I want hamborger!\n"};
-  int attributes[8] = {1, 10, 10, 1, 1, 1, 1, 1};
+  int attr[8] = {1, 10, 10, 1, 1, 1, 1, 1};
+};
+
+const int ROOM_ENEMY_ARRAY[7][3] = {
+  //roomEnemyArray_[roomNumber_ - 4] = roomEnemies[]
+  {0,1,3}, //Hall
+  {1,2,2}, //Garden
+  {0,1,3}, //Library
+  {3,4,6}, //Basement
+  {2,3,5}, //Cave
+  {4,6,6}, //Utility
+  {6,6,7}, //Tomb
 };
 
 class Enemy : public Character {
@@ -17,6 +28,7 @@ public:
   Enemy();
   Enemy(int room, int difficulty);
 
+
   //Static variable
 
   static EnemyType Enemies[8];
@@ -24,17 +36,17 @@ public:
 
 private:
   //Default Enemy member variable values
-  string role_ = "Squatter";
-  string taunts_[3] = {"Words!\n", "Taunt!\n", "Yelling!\n"};
-  int level_ = 1;
-  int experience_ = 10;
-  int wealth_ = 10;
-  int health_ = 10;
-  int attack_ = 1;
-  int armor_ = 1;
-  int dexterity_ = 1;
-  int intelligence_ = 1;
-  int speed_ = 1;
+  string role_;
+  string taunts_[3];
+  int level_;
+  int experience_;
+  int wealth_;
+  int health_;
+  int attack_;
+  int armor_;
+  int dexterity_;
+  int intelligence_;
+  int speed_;
 };
 
 #endif

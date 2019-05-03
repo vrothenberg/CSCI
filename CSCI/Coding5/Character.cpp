@@ -57,9 +57,15 @@ void Character::SetExp(int exp) {
   if (exp >= 0) experience_ = exp;
   else cerr << "Invalid experience!\n";
 }
+void Character::SetWealth(int wealth) {
+  if (wealth >= 0) wealth_ = wealth;
+  else cerr << "Invalid wealth!\n";
+}
 void Character::SetHealth(int health) {
-  if (health >= 0) health_ = health;
-  else cerr << "Invalid health!\n";
+  health_ = health;
+  if (health_ <= 0) {
+    cout << "The " << role_ << " has been defeated!\n";
+  }
 }
 void Character::SetAttack(int attack) {
   if (attack > 0) attack_ = attack;

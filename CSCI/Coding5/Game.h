@@ -30,6 +30,8 @@ private:
   bool caveDiscovered_ = false;
   bool basementKey_ = false;
 
+
+
   //Helper Functions
   void LoadRoom(Player p);
   void Tick(Player p);

@@ -35,6 +35,7 @@ class Character {
   void SetRole(string role);
   void SetLevel(int level);
   void SetExp(int exp);
+  void SetWealth(int wealth);
   void SetHealth(int health);
   void SetAttack(int attack);
   void SetArmor(int armor);

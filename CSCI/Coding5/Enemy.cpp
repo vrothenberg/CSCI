@@ -8,10 +8,20 @@ Enemy::Enemy() {
 
 Enemy::Enemy(int room, int difficulty) {
   cout << "Enemy Difficulty: " << difficulty << " Room: " << room << endl;
+  int enemyIndex = ROOM_ENEMY_ARRAY[room][difficulty];
+  EnemyType eTemplate = Enemies[enemyIndex];
+  SetAttributes(eTemplate.name, eTemplate.attr[0], eTemplate.attr[1], eTemplate.attr[2],
+    eTemplate.attr[3], eTemplate.attr[4], eTemplate.attr[5], eTemplate.attr[6], eTemplate.attr[7]);
+  for (int i = 0; i < 3; i++) {
+    taunts_[i] = eTemplate.taunts[i];
+  }
 
-  cout << Enemies[0].name << ": " << Enemies[0].taunts[0] << endl;
+
+  cout << role_ << ": " << taunts_[rand()%3] << endl;
 
 }
+
+
 
 EnemyType Enemy::Enemies[8] = {
   {
