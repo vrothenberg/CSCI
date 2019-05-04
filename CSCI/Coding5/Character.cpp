@@ -2,7 +2,8 @@
 
 //Constructors
 Character::Character() {
-  cout << "Character initialized.\n";
+  time_ = time(0);
+
 }
 
 //Accessor Functions

@@ -13,17 +13,8 @@
 
 // Game.cpp Player.cpp Enemy.cpp Battle.cpp CinReader.cpp System.cpp Character.cpp
 
-
-
-
-
 int main() {
-  cout << "Launched.\n";
-
-  //cout << ROOM_ENEMY_ARRAY[6][2];
-
   Player p;
-
   Enemy e(2,2);
   ClearScreen();
 

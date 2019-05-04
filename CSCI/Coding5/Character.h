@@ -3,6 +3,7 @@
 #define ROTHENBERG_CHARACTER_H
 
 #include "System.h"
+#include <ctime>
 
 using std::cout;
 using std::endl;
@@ -55,6 +56,7 @@ private:
   int dexterity_ = 0;
   int intelligence_ = 0;
   int speed_ = 0;
+  time_t time_;
 
 };
 
