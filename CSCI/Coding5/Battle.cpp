@@ -1,13 +1,20 @@
 #include "Battle.h"
 
-Battle::Battle() {
-  cout << "Default battle\n";
+Battle::Battle(Player& p, int room) {
+  Enemy newEnemy(room, rand()%3);
+  AddMessage("The battle has begun!");
+  BattleLoop(p, newEnemy);
+
 }
 
-Battle::Battle(Player p, Enemy e) {
-  CinReader read;
-  string messages = "";
+Battle::Battle(Player& p, Enemy& e) {
   AddMessage("The battle has begun!");
+  BattleLoop(p, e);
+}
+
+void Battle::BattleLoop(Player& p, Enemy& e) {
+  ClearScreen();
+  CinReader read;
   while (!battleOver && p.GetHealth() > 0 && e.GetHealth() > 0) {
     round_++;
     cout << "Round: " << round_ << endl;
@@ -63,14 +70,12 @@ Battle::Battle(Player p, Enemy e) {
   }
 
   if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
-    cout << "Victory!\n";
+    p.AddMessage("The " + e.GetRole() + " has been defeated!\nYou are victorious!");
     p.SetWealth(p.GetWealth() + e.GetWealth());
     p.SetExp(p.GetExp() + e.GetExp());
   } else if (p.GetHealth() <= 0) {
-    cout << "Game over!\n";
-    //gameOver_ = true;
+    p.AddMessage("Game over!");
   }
-
 }
 
 int Battle::EnemyAttack(Enemy& e, Player& p, bool block) {
@@ -104,12 +109,8 @@ void Battle::AddMessage(string s) {
   messages_ += s + "\n";
 }
 
-string Battle::GetMessages() {
-  string temp = messages_;
-  messages_ = "";
-  return temp;
-}
-
 void Battle::PrintMessages() {
-  cout << GetMessages();
+  string output = messages_;
+  messages_ = "";
+  cout << output;
 }

@@ -20,20 +20,27 @@ public:
   //Accessor Functions
   string GetName();
   string GetRoomMessage();
+  int GetRoomVisits();
   int GetRoomVisits(int roomNumber);
+  int GetRoomNumber();
+  void PrintMessages();
 
 
   //Mutator Functions
   void SetName();
   void SetName(string name);
   void SetRoomMessage(string message);
-  void IncrementRoomVisits(int roomNumber);
+  void IncrementRoomVisits();
+  void SetRoomNumber(int roomNumber);
+  void AddMessage(string s);
 
 private:
   //Default Player member variable values
   string name_ = "Nameless";
   int visits_[10] = {0,0,0,0,0,0,0,0,0,0};
   string roomMessage_;
+  int roomNumber_ = 1;
+  string messages_;
 
 };
 

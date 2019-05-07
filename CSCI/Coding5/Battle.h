@@ -14,12 +14,12 @@ using std::string;
 
 class Battle {
 public:
-  Battle();
-  Battle(Player p, Enemy e);
+  Battle(Player& p, int room);
+  Battle(Player& p, Enemy& e);
+  void BattleLoop(Player& p, Enemy& e);
   int EnemyAttack(Enemy& e, Player& p, bool block);
   int PlayerAttack(Player& p, Enemy& e, bool block);
   void AddMessage(string s);
-  string GetMessages();
   void PrintMessages();
 
 

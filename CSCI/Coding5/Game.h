@@ -25,7 +25,6 @@ private:
   time_t time_ = time(0);
 
   bool gameOver_ = false;
-  int roomNumber_ = 1;
   int gameTicks_ = 0;
   bool caveDiscovered_ = false;
   bool basementKey_ = false;
@@ -33,24 +32,26 @@ private:
 
 
   //Helper Functions
-  void LoadRoom(Player p);
-  void Tick(Player p);
-  void HUD(Player p);
+  void LoadRoom(Player& p);
+  void Tick(Player& p);
+  void HUD(Player& p);
 
   //Room Functions
-  void Foyer(Player p);
-  void SunRoom(Player p);
-  void Office(Player p);
-  void Hall(Player p);
-  void Garden(Player p);
-  void Library(Player p);
-  void Basement(Player p);
-  void Cave(Player p);
-  void Utility(Player p);
-  void Tomb(Player p);
+  void Foyer(Player& p);
+  void SunRoom(Player& p);
+  void Office(Player& p);
+  void Hall(Player& p);
+  void Garden(Player& p);
+  void Library(Player& p);
+  void Basement(Player& p);
+  void Cave(Player& p);
+  void Utility(Player& p);
+  void Tomb(Player& p);
 
   //Puzzle
-  void LookAround(Player p);
+  void LookAround(Player& p);
+
+
 
 };
 

@@ -3,9 +3,8 @@
 Game::Game() {
   srand((unsigned)time(0));
   gameOver_ = false;
-  roomNumber_ = 1;
   ClearScreen();
-  cout << "Welcome to the game!" << endl;
+  cout << "Welcome to A Spooky Domicile!\n\n";
 }
 
 void Game::Start() {
@@ -15,9 +14,13 @@ void Game::Start() {
   }
 }
 
-void Game::LoadRoom(Player p) {
+//Helper Functions
 
-  switch(roomNumber_) {
+void Game::LoadRoom(Player& p) {
+  int num = p.GetRoomNumber();
+  cout << "LoadRoomNumber: " << num << endl;
+
+  switch(p.GetRoomNumber()) {
     case 1:
       Foyer(p);
       break;
@@ -54,22 +57,24 @@ void Game::LoadRoom(Player p) {
   }
 }
 
-void Game::Tick(Player p) {
-  p.IncrementRoomVisits(roomNumber_);
+void Game::Tick(Player& p) {
+  p.IncrementRoomVisits();
   HUD(newPlayer_);
   gameTicks_++;
 }
 
 
-void Game::HUD(Player p) {
+void Game::HUD(Player& p) {
   //stringf padding
-  cout << p.GetRoomMessage();
-  cout << "Tick: " << gameTicks_ << " Room visits: " << p.GetRoomVisits(roomNumber_) << endl;
-  cout << p.GetName() << " the level " << p.GetLevel() << " " << p.GetRole() << endl;
+  cout << "Tick: " << gameTicks_ << " Room visits: " << p.GetRoomVisits() << endl;
+  cout << p.GetName() << " the Level " << p.GetLevel() << " " << p.GetRole() << endl;
   cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl << endl;
+  p.PrintMessages();
 }
 
-void Game::Foyer(Player p) {
+//Room Functions
+
+void Game::Foyer(Player& p) {
   //Room 1
   //Loot, Armor, Weapon
 
@@ -91,15 +96,15 @@ void Game::Foyer(Player p) {
     ClearScreen();
     switch (c) {
       case 'W':
-        roomNumber_ = 2;
+        p.SetRoomNumber(2);
         inRoom = false;
         break;
       case 'E':
-        roomNumber_ = 3;
+        p.SetRoomNumber(3);
         inRoom = false;
         break;
       case 'S':
-        roomNumber_ = 4;
+        p.SetRoomNumber(4);
         inRoom = false;
         break;
       case 'L':
@@ -112,7 +117,7 @@ void Game::Foyer(Player p) {
   }
 }
 
-void Game::SunRoom(Player p) {
+void Game::SunRoom(Player& p) {
   //Room 2
   //Loot, Armor
 
@@ -124,7 +129,7 @@ void Game::SunRoom(Player p) {
     cout << "You bask in the light of the Sun Room.\n"
     << "You feel your health regaining.\n\n"
     << "To the east is the Foyer.\n"
-    << "To the south a door leads down a verdant, meandering path.\n"
+    << "To the south a door leads down a verdant, meandering path.\n\n"
     << "Enter your action: \n"
     << "(E)ast\n"
     << "(S)outh\n"
@@ -133,11 +138,11 @@ void Game::SunRoom(Player p) {
     ClearScreen();
     switch (c) {
       case 'E':
-        roomNumber_ = 1;
+        p.SetRoomNumber(1);
         inRoom = false;
         break;
       case 'S':
-        roomNumber_ = 5;
+        p.SetRoomNumber(5);
         inRoom = false;
         break;
       case 'L':
@@ -150,7 +155,7 @@ void Game::SunRoom(Player p) {
   }
 }
 
-void Game::Office(Player p) {
+void Game::Office(Player& p) {
   //Room 3
   //Loot, Armor, Weapon
   CinReader read;
@@ -160,7 +165,7 @@ void Game::Office(Player p) {
     Tick(p);
     cout << "You enter a well furnished Office.\n\n"
     << "To the west is the Foyer.\n"
-    << "To the south is the Library.\n"
+    << "To the south is the Library.\n\n"
     << "Enter your action: \n"
     << "(W)est\n"
     << "(S)outh\n"
@@ -169,11 +174,11 @@ void Game::Office(Player p) {
     ClearScreen();
     switch (c) {
       case 'W':
-        roomNumber_ = 1;
+        p.SetRoomNumber(1);
         inRoom = false;
         break;
       case 'S':
-        roomNumber_ = 6;
+        p.SetRoomNumber(6);
         inRoom = false;
         break;
       case 'L':
@@ -186,24 +191,32 @@ void Game::Office(Player p) {
   }
 }
 
-void Game::Hall(Player p) {
+void Game::Hall(Player& p) {
   //Room 4
-  int modifier = 6;
-  int roll = rand() % modifier;
+  int modifier = 2 + p.GetRoomVisits(4);
+
   //Enemy, Loot
   //Enemy newEnemy;
   CinReader read;
-  string readCharString = "nNwWeEsS";
+  string readCharString = "nNwWeEsSlL";
   bool inRoom = true;
   while (inRoom) {
     Tick(p);
-    cout << "You walk down the dimly lit Hall.\n\n"
+    int roll = rand() % modifier;
+    if (roll==0) {
+      Battle(p, 4);
+      p.IncrementRoomVisits();
+      modifier = 2 + p.GetRoomVisits();
+    }
+
+    cout << "You stand in a dimly lit Hall.\n"
+    << "Your least favorite art hangs on the walls.\n\n"
     << "To the north is the Foyer.\n"
     << "To the west is the Garden.\n"
     << "To the east is the Library.\n";
     if (basementKey_) cout << "To the south is the basement.\n";
     else cout << "To the south is a locked door.\n";
-    cout << "Enter your action: \n"
+    cout << "\nEnter your action: \n"
     << "(N)orth\n"
     << "(W)est\n"
     << "(E)ast\n"
@@ -214,27 +227,26 @@ void Game::Hall(Player p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        roomNumber_ = 1;
+        p.SetRoomNumber(1);
         inRoom = false;
         break;
       case 'W':
-        roomNumber_ = 5;
+        p.SetRoomNumber(5);
         inRoom = false;
         break;
       case 'E':
-        roomNumber_ = 6;
+        p.SetRoomNumber(6);
         inRoom = false;
         break;
       case 'S':
         if (basementKey_) {
-          roomNumber_ = 7;
+          p.SetRoomNumber(7);
           inRoom = false;
         } else {
-          p.SetRoomMessage("The door won't open.");
+          p.AddMessage("The door won't open.");
         }
         break;
       case 'L':
-        cout << "You look around.\n";
         LookAround(p);
         break;
       default:
@@ -244,7 +256,7 @@ void Game::Hall(Player p) {
   }
 }
 
-void Game::Garden(Player p) {
+void Game::Garden(Player& p) {
   //Room 5
   //Enemy, Loot, Weapon
 
@@ -259,7 +271,7 @@ void Game::Garden(Player p) {
     if(caveDiscovered_) {
       cout << "To the south is a Cave.\n";
     }
-    cout << "Enter your action: \n"
+    cout << "\nEnter your action: \n"
     << "(N)orth\n"
     << "(E)ast\n";
     if(caveDiscovered_) {
@@ -270,17 +282,17 @@ void Game::Garden(Player p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        roomNumber_ = 2;
+        p.SetRoomNumber(2);
         inRoom = false;
       case 'E':
-        roomNumber_ = 4;
+        p.SetRoomNumber(4);
         inRoom = false;
         break;
       case 'S':
         if (caveDiscovered_) {
-          roomNumber_ = 8;
+          p.SetRoomNumber(8);
           inRoom = false;
-        } else p.SetRoomMessage("The thicket repels you.\n");
+        } else p.AddMessage("The thicket repels you.");
         break;
       case 'L':
         LookAround(p);
@@ -292,7 +304,7 @@ void Game::Garden(Player p) {
   }
 }
 
-void Game::Library(Player p) {
+void Game::Library(Player& p) {
   //Room 6
   //Enemy, Loot, Weapon
   bool inRoom = true;
@@ -302,7 +314,7 @@ void Game::Library(Player p) {
     Tick(p);
     cout << "You stand in a dusty library.  Books tower above.\n\n"
     << "To the north is the Office.\n"
-    << "To the west is the Hall.\n"
+    << "To the west is the Hall.\n\n"
     << "Enter your action: \n"
     << "(N)orth\n"
     << "(W)est\n"
@@ -311,10 +323,10 @@ void Game::Library(Player p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        roomNumber_ = 3;
+        p.SetRoomNumber(3);
         inRoom = false;
       case 'W':
-        roomNumber_ = 4;
+        p.SetRoomNumber(4);
         inRoom = false;
         break;
       case 'L':
@@ -327,7 +339,7 @@ void Game::Library(Player p) {
   }
 }
 
-void Game::Basement(Player p) {
+void Game::Basement(Player& p) {
   //Room 7
   //Enemy, Loot, Weapon
 
@@ -341,7 +353,7 @@ void Game::Basement(Player p) {
     << "To the north is a stairway to the Hall.\n"
     << "To the west a faint light glimmers from the rocks.\n"
     << "To the east is a maintenace door marked 'Utility'.\n"
-    << "To the south is a stone doorway.  It's engraved with glowing symbols.\n"
+    << "To the south is a stone doorway.  It's engraved with glowing symbols.\n\n"
     << "Enter your action: \n"
     << "(N)orth\n"
     << "(W)est\n"
@@ -352,19 +364,19 @@ void Game::Basement(Player p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        roomNumber_ = 4;
+        p.SetRoomNumber(4);
         inRoom = false;
       case 'W':
-        roomNumber_ = 8;
+        p.SetRoomNumber(8);
         inRoom = false;
         break;
       case 'E':
-        roomNumber_ = 9;
+        p.SetRoomNumber(9);
         inRoom = false;
         break;
       case 'S':
-        p.SetRoomMessage("The tomb opens!  You fall into its depths.\n");
-        roomNumber_ = 10;
+        p.AddMessage("The tomb opens!  You fall into its depths.");
+        p.SetRoomNumber(10);
         inRoom = false;
         break;
       case 'L':
@@ -377,7 +389,7 @@ void Game::Basement(Player p) {
   }
 }
 
-void Game::Cave(Player p) {
+void Game::Cave(Player& p) {
   //Room 8
   //Enemy, Loot
 
@@ -388,7 +400,7 @@ void Game::Cave(Player p) {
     Tick(p);
     cout << "You hunch down in a small, dark cave.\n\n"
     << "To the north sunlight breaches the crevices.\n"
-    << "To the east a cavern opens.\n"
+    << "To the east a cavern opens.\n\n"
     << "Enter your action: \n"
     << "(N)orth\n"
     << "(E)ast\n"
@@ -398,10 +410,10 @@ void Game::Cave(Player p) {
     switch (c) {
       case 'N':
         caveDiscovered_ = true;
-        roomNumber_ = 5;
+        p.SetRoomNumber(5);
         inRoom = false;
       case 'E':
-        roomNumber_ = 7;
+        p.SetRoomNumber(7);
         inRoom = false;
         break;
       case 'L':
@@ -414,7 +426,7 @@ void Game::Cave(Player p) {
   }
 }
 
-void Game::Utility(Player p) {
+void Game::Utility(Player& p) {
   //Room 9
   //Enemy, Loot, Armor, Weapon
 
@@ -424,7 +436,7 @@ void Game::Utility(Player p) {
   while (inRoom) {
     Tick(p);
     cout << "You stand in a well-stocked utility room.\n\n"
-    << "To the west is the maintenance door.\n"
+    << "To the west is the maintenance door.\n\n"
     << "Enter your action: \n"
     << "(W)est\n"
     << "(L)ook around\n";
@@ -432,7 +444,7 @@ void Game::Utility(Player p) {
     ClearScreen();
     switch (c) {
       case 'W':
-        roomNumber_ = 7;
+        p.SetRoomNumber(7);
         inRoom = false;
         break;
       case 'L':
@@ -445,7 +457,7 @@ void Game::Utility(Player p) {
   }
 }
 
-void Game::Tomb(Player p) {
+void Game::Tomb(Player& p) {
   //Room 10
   //Boss
 
@@ -455,7 +467,7 @@ void Game::Tomb(Player p) {
   while (inRoom) {
     Tick(p);
     cout << "You stand before an ominous tomb.\n\n"
-    << "To the north is the basement.\n"
+    << "To the north is the basement.\n\n"
     << "Enter your action: \n"
     << "(N)orth\n"
     << "(L)ook around\n";
@@ -463,7 +475,7 @@ void Game::Tomb(Player p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        roomNumber_ = 7;
+        p.SetRoomNumber(7);
         inRoom = false;
         break;
       case 'L':
@@ -476,39 +488,41 @@ void Game::Tomb(Player p) {
   }
 }
 
-void Game::LookAround(Player p) {
+void Game::LookAround(Player& p) {
   int i = (rand()%6) + 1;
-  cout << "You look around and find... \n";
+  p.AddMessage("You look around and find...");
   switch (i) {
     case 1:
-      cout << "Treasure!\n";
+      p.AddMessage("Treasure!");
       p.SetWealth(p.GetWealth() + 10 * (rand()%5 + 1));
       break;
     case 2:
       //cout << "A hidden secret!\n";
       if (!basementKey_) {
-        cout << "You found a key!\n";
+        p.AddMessage("You found a key!");
+        basementKey_ = true;
       } else {
-        cout << "Treasure!\n";
+        p.AddMessage("Treasure!");
         p.SetWealth(p.GetWealth() + 10 * (rand()%5 + 1));
       }
       break;
     case 3:
-      cout << "A weapon!";
+      p.AddMessage("A weapon!");
       break;
     case 4:
-      cout << "A piece of armor!";
+      p.AddMessage("A piece of armor!");
       break;
     case 5:
-      cout << "A mysterious force acts!\n";
+      p.AddMessage("A mysterious force acts!\n");
       break;
     case 6:
-      cout << "An enemy approaches!\n";
+      p.AddMessage("An enemy approaches!\n");
       //Enemy newEnemy(roomNumber_, rand()%3 + 1);
+      Battle(p, p.GetRoomNumber());
       break;
     default:
       cerr << "Invalid random number generation.\n";
       break;
   }
-  cout << "You roll a " << i << endl;
+  //cout << "You roll a " << i << endl;
 }

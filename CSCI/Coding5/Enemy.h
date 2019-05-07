@@ -25,14 +25,9 @@ const int ROOM_ENEMY_ARRAY[7][3] = {
 class Enemy : public Character {
 public:
   //Constructors
-  Enemy();
   Enemy(int room, int difficulty);
-
-
   //Static variable
-
   static EnemyType Enemies[8];
-
 
 private:
   //Default Enemy member variable values

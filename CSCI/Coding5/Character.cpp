@@ -64,9 +64,6 @@ void Character::SetWealth(int wealth) {
 }
 void Character::SetHealth(int health) {
   health_ = health;
-  if (health_ <= 0) {
-    cout << "The " << role_ << " has been defeated!\n";
-  }
 }
 void Character::SetAttack(int attack) {
   if (attack > 0) attack_ = attack;
