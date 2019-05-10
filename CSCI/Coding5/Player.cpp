@@ -2,6 +2,11 @@
 
 //Constructors
 Player::Player() {
+  roomNumber_ = 1;
+}
+
+
+void Player::Initialize() {
   SetName();
   cout << "Choose your role: \n"
   << "(R) Repo man - Strong and determined. \n"

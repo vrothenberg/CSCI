@@ -3,21 +3,25 @@
 Game::Game() {
   srand((unsigned)time(0));
   gameOver_ = false;
-  ClearScreen();
-  cout << "Welcome to A Spooky Domicile!\n\n";
 }
 
 void Game::Start() {
   ClearScreen();
+  cout << "Welcome to A Spooky Domicile!\n\n";
+  HighScores();
+  newPlayer_.Initialize();
   while(!gameOver_) {
     LoadRoom(newPlayer_);
   }
+  UpdateHighScores();
 }
 
 //Helper Functions
 
 void Game::LoadRoom(Player& p) {
+  ClearScreen();
   int num = p.GetRoomNumber();
+  p.IncrementRoomVisits();
   cout << "LoadRoomNumber: " << num << endl;
 
   switch(p.GetRoomNumber()) {
@@ -58,7 +62,6 @@ void Game::LoadRoom(Player& p) {
 }
 
 void Game::Tick(Player& p) {
-  p.IncrementRoomVisits();
   HUD(newPlayer_);
   gameTicks_++;
 }
@@ -70,6 +73,20 @@ void Game::HUD(Player& p) {
   cout << p.GetName() << " the Level " << p.GetLevel() << " " << p.GetRole() << endl;
   cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl << endl;
   p.PrintMessages();
+}
+
+//Creates vector of scores from highscores.txt file
+void Game::HighScores() {
+  scores_ = CreateVector("highscores.txt");
+  OutputScores(scores_);
+  cout << endl;
+}
+
+//Inserts new ranked score
+void Game::UpdateHighScores() {
+  vector<string> newScore{newPlayer_.GetName(), to_string(newPlayer_.GetWealth())};
+  scores_ = UpdateVector(scores_, newScore);
+  SaveToFile(scores_, "highscores.txt");
 }
 
 //Room Functions
@@ -204,9 +221,11 @@ void Game::Hall(Player& p) {
     Tick(p);
     int roll = rand() % modifier;
     if (roll==0) {
-      Battle(p, 4);
+      Battle b(p, 4);
+      b.AddMessage("You walk down the hall and encounter an enemy!");
+
       p.IncrementRoomVisits();
-      modifier = 2 + p.GetRoomVisits();
+      modifier = 2 + p.GetRoomVisits(4);
     }
 
     cout << "You stand in a dimly lit Hall.\n"
@@ -516,9 +535,10 @@ void Game::LookAround(Player& p) {
       p.AddMessage("A mysterious force acts!\n");
       break;
     case 6:
-      p.AddMessage("An enemy approaches!\n");
-      //Enemy newEnemy(roomNumber_, rand()%3 + 1);
-      Battle(p, p.GetRoomNumber());
+      {
+        Battle lookBattle(p, p.GetRoomNumber());
+        lookBattle.AddMessage("An enemy approaches!\n");
+      }
       break;
     default:
       cerr << "Invalid random number generation.\n";

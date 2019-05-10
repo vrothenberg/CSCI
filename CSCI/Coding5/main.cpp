@@ -27,6 +27,8 @@ int main() {
 
   Game newGame;
   newGame.Start();
+
+
   cout << "Game over!\n";
 
   return 0;

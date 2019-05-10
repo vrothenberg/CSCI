@@ -28,6 +28,7 @@ private:
   int gameTicks_ = 0;
   bool caveDiscovered_ = false;
   bool basementKey_ = false;
+  vector<vector<string>> scores_;
 
 
 
@@ -35,6 +36,8 @@ private:
   void LoadRoom(Player& p);
   void Tick(Player& p);
   void HUD(Player& p);
+  void HighScores();
+  void UpdateHighScores();
 
   //Room Functions
   void Foyer(Player& p);

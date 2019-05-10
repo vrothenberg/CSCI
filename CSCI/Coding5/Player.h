@@ -16,6 +16,7 @@ class Player : public Character {
 public:
   //Constructors
   Player();
+  void Initialize();
 
   //Accessor Functions
   string GetName();
@@ -24,6 +25,7 @@ public:
   int GetRoomVisits(int roomNumber);
   int GetRoomNumber();
   void PrintMessages();
+  
 
 
   //Mutator Functions
@@ -36,7 +38,7 @@ public:
 
 private:
   //Default Player member variable values
-  string name_ = "Nameless";
+  string name_;
   int visits_[10] = {0,0,0,0,0,0,0,0,0,0};
   string roomMessage_;
   int roomNumber_ = 1;
