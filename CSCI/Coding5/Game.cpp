@@ -1,10 +1,13 @@
 #include "Game.h"
 
+//Constructor
 Game::Game() {
   srand((unsigned)time(0));
   gameOver_ = false;
 }
 
+//Runs primary game loop
+//Prints out high scores
 void Game::Start() {
   ClearScreen();
   cout << "Welcome to A Spooky Domicile!\n\n";
@@ -17,7 +20,7 @@ void Game::Start() {
 }
 
 //Helper Functions
-
+//Loads room from player class attributes
 void Game::LoadRoom(Player& p) {
   ClearScreen();
   int num = p.GetRoomNumber();
@@ -61,12 +64,13 @@ void Game::LoadRoom(Player& p) {
   }
 }
 
+//Increments number of cycles in game displays current information
 void Game::Tick(Player& p) {
-  HUD(newPlayer_);
   gameTicks_++;
+  HUD(newPlayer_);
 }
 
-
+//Displays current information
 void Game::HUD(Player& p) {
   //stringf padding
   cout << "Tick: " << gameTicks_ << " Room visits: " << p.GetRoomVisits() << endl;
@@ -91,6 +95,8 @@ void Game::UpdateHighScores() {
 
 //Room Functions
 
+//Room 1
+//Starting room
 void Game::Foyer(Player& p) {
   //Room 1
   //Loot, Armor, Weapon
@@ -134,8 +140,9 @@ void Game::Foyer(Player& p) {
   }
 }
 
+//Room 2
 void Game::SunRoom(Player& p) {
-  //Room 2
+
   //Loot, Armor
 
   bool inRoom = true;
@@ -507,8 +514,9 @@ void Game::Tomb(Player& p) {
   }
 }
 
-void Game::LookAround(Player& p) {
-  int i = (rand()%6) + 1;
+void Game::LookAround(Player& p, int divisor) {
+  int divisor = 6;
+  int i = (rand()%divisor) + 1;
   p.AddMessage("You look around and find...");
   switch (i) {
     case 1:

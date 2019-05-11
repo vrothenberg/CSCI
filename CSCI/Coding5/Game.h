@@ -52,7 +52,7 @@ private:
   void Tomb(Player& p);
 
   //Puzzle
-  void LookAround(Player& p);
+  void LookAround(Player& p, int divisor = 6);
 
 
 
