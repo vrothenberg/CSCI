@@ -1,4 +1,0 @@
-Game.cpp: In member function 'void Game::LookAround(Player&, int)':
-Game.cpp:518:7: error: declaration of 'int divisor' shadows a parameter
-   int divisor = 6;
-       ^~~~~~~

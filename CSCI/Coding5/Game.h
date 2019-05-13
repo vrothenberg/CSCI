@@ -14,21 +14,48 @@ using std::cout;
 using std::endl;
 using std::cerr;
 
+struct Weapon {
+  int room_;
+  int attackModifier_;
+  string name_;
+};
+
+struct Armor {
+  int room_;
+  int armorModifier_;
+  string name_;
+};
+
 class Game {
 public:
   Game();
   void Start();
   Player newPlayer_;
+  typedef map<int, Weapon> WeaponMap;
+  static WeaponMap weapons_;
+  typedef map<int, Armor> ArmorMap;
+  static ArmorMap armors_; 
 
 private:
   //Global variables
   time_t time_ = time(0);
-
   bool gameOver_ = false;
   int gameTicks_ = 0;
+  vector<vector<string>> scores_;
+
+  //Location flags
   bool caveDiscovered_ = false;
   bool basementKey_ = false;
-  vector<vector<string>> scores_;
+
+  //Item flags
+  bool foyerWeapon_ = false;
+  bool foyerArmor_ = false;
+  bool sunRoomArmor_ = false;
+  bool officeWeapon_ = false;
+  bool gardenWeapon_ = false;
+  bool libraryWeapon_ = false;
+  bool utilityWeapon_ = false;
+
 
 
 
@@ -52,8 +79,7 @@ private:
   void Tomb(Player& p);
 
   //Puzzle
-  void LookAround(Player& p, int divisor = 6);
-
+  void LookAround(Player& p);
 
 
 };

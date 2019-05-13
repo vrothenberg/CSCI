@@ -23,7 +23,7 @@ EnemyType Enemy::Enemies[8] = {
   },
   {
     "Rude Realtor",
-    {"Buy this house!\n", "I've got tiki torches in the back.\n", "This fixer-upper has great potential.\n"},
+    {"Buy this house!\n", "I've got tiki torches in the garage.\n", "This fixer-upper has great potential.\n"},
     {2, 20, 15, 2, 2, 1, 1, 2}
   },
   {
@@ -47,13 +47,13 @@ EnemyType Enemy::Enemies[8] = {
     {6, 60, 30, 5, 4, 3, 3, 4}
   },
   {
-    "Methy Mechanic",
+    "Meth'd Out Mechanic",
     {"This Place Is Brimming With ENERGY!\n", "Frick Off!\n", "I'm gonna wrench you!\n"},
     {8, 80, 40, 8, 8, 5, 4, 4}
   },
   {
-    "Big Guy ... For You",
-    {"The Fire Rises.\n", "It doesn't matter who we are.\n", "I'm crashing this house - with no survivors!\n"},
+    "Big Guy 4U",
+    {"The Fire Rises.\n", "It doesn't matter who we are. What matters is our plan.\n", "I'm crashing this house - with no survivors!\n"},
     {9, 99, 99, 9, 9, 5, 5, 5}
   }
 };

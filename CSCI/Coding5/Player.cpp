@@ -36,6 +36,12 @@ void Player::Initialize() {
       cerr << "Invalid role.\n";
       break;
   }
+  if(p.GetName() == "Luke") {
+    p.SetRole("Based " + p.GetRole());
+    p.SetHealth(p.GetHealth() + 10);
+    p.SetAttack(p.GetAttack() + 3);
+    p.SetArmor(p.GetArmor() + 3);
+  }
 }
 
 //Accessor Functions
@@ -62,7 +68,26 @@ int Player::GetRoomNumber() {
 void Player::PrintMessages() {
   string output = messages_;
   messages_ = "";
-  cout << output;
+  cout << output << endl;
+}
+
+int Player::GetAttackModifier() {
+  return attackModifier_;
+}
+
+int Player::GetArmorModifier() {
+  return armorModifier_;
+}
+
+int Player::GetHealthModifier() {
+  return healthModifier_;
+}
+
+string Player::GetWeaponName() {
+  return weaponName_;
+}
+string Player::GetArmorName() {
+  return armorName_;
 }
 
 //Mutator Functions
@@ -98,4 +123,24 @@ void Player::SetRoomNumber(int roomNumber) {
 
 void Player::AddMessage(string s) {
   messages_ += s + "\n";
+}
+
+void Player::SetAttackModifier(int attackModifier) {
+  attackModifier_ = attackModifier;
+}
+
+void Player::SetArmorModifier(int armorModifier) {
+  armorModifier_ = armorModifier;
+}
+
+void Player::SetHealthModifier(int healthModifier) {
+  healthModifier_ = healthModifier;
+}
+
+void Player::SetWeaponName(string weaponName) {
+  weaponName_ = weaponName;
+}
+
+void Player::SetArmorName(string armorName) {
+  armorName_ = armorName;
 }
