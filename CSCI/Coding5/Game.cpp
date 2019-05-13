@@ -1,5 +1,8 @@
 #include "Game.h"
 
+
+
+
 //Constructor
 Game::Game() {
   srand((unsigned)time(0));
@@ -20,6 +23,7 @@ void Game::Start() {
 }
 
 //Helper Functions
+
 //Loads room from player class attributes
 void Game::LoadRoom(Player& p) {
   ClearScreen();
@@ -96,10 +100,8 @@ void Game::UpdateHighScores() {
 //Room Functions
 
 //Room 1
-//Starting room
+//Armor, Weapon
 void Game::Foyer(Player& p) {
-  //Room 1
-  //Loot, Armor, Weapon
 
   bool inRoom = true;
   CinReader read;
@@ -141,9 +143,8 @@ void Game::Foyer(Player& p) {
 }
 
 //Room 2
+//Armor
 void Game::SunRoom(Player& p) {
-
-  //Loot, Armor
 
   bool inRoom = true;
   CinReader read;
@@ -179,9 +180,9 @@ void Game::SunRoom(Player& p) {
   }
 }
 
+//Room 3
+//Armor, Weapon
 void Game::Office(Player& p) {
-  //Room 3
-  //Loot, Armor, Weapon
   CinReader read;
   bool inRoom = true;
   string readCharString = "eEsSlL";
@@ -215,12 +216,10 @@ void Game::Office(Player& p) {
   }
 }
 
+//Room 4
 void Game::Hall(Player& p) {
-  //Room 4
-  int modifier = 2 + p.GetRoomVisits(4);
 
-  //Enemy, Loot
-  //Enemy newEnemy;
+  int modifier = 2 + p.GetRoomVisits(4);
   CinReader read;
   string readCharString = "nNwWeEsSlL";
   bool inRoom = true;
@@ -282,9 +281,9 @@ void Game::Hall(Player& p) {
   }
 }
 
+//Room 5
+//Weapon
 void Game::Garden(Player& p) {
-  //Room 5
-  //Enemy, Loot, Weapon
 
   bool inRoom = true;
   CinReader read;
@@ -330,9 +329,10 @@ void Game::Garden(Player& p) {
   }
 }
 
+//Room 6
+//Weapon
 void Game::Library(Player& p) {
-  //Room 6
-  //Enemy, Loot, Weapon
+
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWlL";
@@ -365,9 +365,9 @@ void Game::Library(Player& p) {
   }
 }
 
+//Room 7
+//Armor, Weapon
 void Game::Basement(Player& p) {
-  //Room 7
-  //Enemy, Loot, Weapon
 
   bool inRoom = true;
   CinReader read;
@@ -415,9 +415,9 @@ void Game::Basement(Player& p) {
   }
 }
 
+//Room 8
 void Game::Cave(Player& p) {
-  //Room 8
-  //Enemy, Loot
+
 
   bool inRoom = true;
   CinReader read;
@@ -452,9 +452,10 @@ void Game::Cave(Player& p) {
   }
 }
 
+//Room 9
+//Armor, Weapon
 void Game::Utility(Player& p) {
-  //Room 9
-  //Enemy, Loot, Armor, Weapon
+
 
   bool inRoom = true;
   CinReader read;
@@ -483,9 +484,10 @@ void Game::Utility(Player& p) {
   }
 }
 
+//Room 10
+//Boss
 void Game::Tomb(Player& p) {
-  //Room 10
-  //Boss
+
 
   bool inRoom = true;
   CinReader read;
@@ -514,29 +516,72 @@ void Game::Tomb(Player& p) {
   }
 }
 
-void Game::LookAround(Player& p, int divisor) {
-  int divisor = 6;
+void Game::LookAround(Player& p) {
+  int divisor = 5;
+  if (p.GetRoomNumber() >= 4) divisor = 6;
+
   int i = (rand()%divisor) + 1;
   p.AddMessage("You look around and find...");
   switch (i) {
     case 1:
+      //Wealth
+      //Decreases in proportion to room visits
       p.AddMessage("Treasure!");
-      p.SetWealth(p.GetWealth() + 10 * (rand()%5 + 1));
+      p.SetWealth(p.GetWealth() + (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits()) );
       break;
     case 2:
-      //cout << "A hidden secret!\n";
+      //Hidden secret
       if (!basementKey_) {
         p.AddMessage("You found a key!");
         basementKey_ = true;
+      } else if(p.GetRoomNumber() == 5 && !caveDiscovered_) {
+        caveDiscovered_ = true;
+        p.AddMessage("You discovered a cave!");
       } else {
         p.AddMessage("Treasure!");
-        p.SetWealth(p.GetWealth() + 10 * (rand()%5 + 1));
+        p.SetWealth(p.GetWealth() + (10 * (rand()%p.GetRoomNumber() + 1)) / (p.GetRoomVisits()));
       }
       break;
     case 3:
+      //Weapon
       p.AddMessage("A weapon!");
+      if (p.GetRoomNumber() == 1 && !foyerWeapon_ && p.GetAttackModifier() < 1) {
+        foyerWeapon_ = true;
+        p.SetWeaponName("Umbrella");
+        p.SetAttackModifier(1);
+      } else if (p.GetRoomNumber() == 3 && !officeWeapon_ && p.GetAttackModifier() < 2) {
+        officeWeapon_ = true;
+        p.SetWeaponName("Red Stapler");
+        p.SetAttackModifier(2);
+      } else if (p.GetRoomNumber() == 5 && !gardenWeapon_ && p.GetAttackModifier() < 3) {
+        gardenWeapon_ = true;
+        p.SetWeaponName("Old Hoe");
+        p.SetAttackModifier(3);
+      } else if (p.GetRoomNumber() == 6 && !libraryWeapon_ && p.GetAttackModifier() < 4) {
+        libraryWeapon_ = true;
+        p.SetWeaponName("Bible");
+        p.SetAttackModifier(4);
+      } else if (p.GetRoomNumber() == 7 && !basementWeapon_ && p.GetAttackModifier() < 5) {
+        basementWeapon_ = true;
+        p.SetWeaponName("Pool Noodles");
+        p.SetAttackModifier(5);
+      } else if (p.GetRoomNumber() == 9 && !utilityWeapon_ && p.GetAttackModifier() < 6) {
+        utilityWeapon_ = true;
+        p.SetWeaponName("Jumper Cables");
+        p.SetAttackModifier(6);
+      } else {
+        p.AddMessage();
+      }
+
       break;
     case 4:
+      //Armor
+      if (p.GetRoomNumber() == 1 && !foyerArmor_) {
+        foyerArmor_ = true;
+        p.SetArmorModifier(1);
+      } else if (p.GetRoomNumber() == 2 && !sunRoomArmor_) {
+
+      }
       p.AddMessage("A piece of armor!");
       break;
     case 5:
@@ -552,5 +597,14 @@ void Game::LookAround(Player& p, int divisor) {
       cerr << "Invalid random number generation.\n";
       break;
   }
-  //cout << "You roll a " << i << endl;
+  p.IncrementRoomVisits();
 }
+
+Game::WeaponMap Game::weapons_ = {
+    { 1, Weapon w = {1, 1, "Umbrella"} },
+    { }
+};
+
+Game::ArmorMap Game::armors_ = {
+    { "x", 1 }
+};
