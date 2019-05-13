@@ -20,11 +20,11 @@ vector<string> Split(string str, char delimiter) {
   return internal;
 }
 
-vector< vector<string> > UpdateVector(vector< vector<string> > oldVector, vector<string> row) {
+vector<vector<string>> UpdateVector(vector< vector<string> > oldVector, vector<string> row) {
   //Returns new sorted vector of vectors (2 dimensional array)
   //Input old score vector of vectors, and new score vector
 
-  vector< vector<string> > newVector;
+  vector<vector<string>> newVector;
   bool pushed = false; //Check if row has been inserted
   for (int i = 0; i<oldVector.size(); i++) {
     //Iterate through high scores vector
@@ -39,7 +39,7 @@ vector< vector<string> > UpdateVector(vector< vector<string> > oldVector, vector
   return newVector;
 }
 
-vector< vector<string> > CreateVector(std::string file) {
+vector<vector<string>> CreateVector(std::string file) {
   vector<vector<string>> fileVector;
   ifstream fin(file);
   if (fin.fail()){
@@ -57,7 +57,7 @@ vector< vector<string> > CreateVector(std::string file) {
   return fileVector;
 }
 
-void SaveToFile(vector< vector<string>> inputVector, std::string file) {
+void SaveToFile(vector<vector<string>> inputVector, std::string file) {
   ofstream fout(file);
   for (int i = 0; inputVector.size(); i++) {
     fout << inputVector[i][0] << " " << inputVector[i][1] << endl;
@@ -66,11 +66,11 @@ void SaveToFile(vector< vector<string>> inputVector, std::string file) {
 }
 
 void OutputScores(vector<vector<string>> scores){
-  cout << "===== HIGH SCORES =====" << endl;
+  cout << "===== HIGH SCORES =====\n";
   for (int i = 0; i<scores.size(); i++) {
     string name = scores[i][0];
     int score = stoi(scores[i][1]);
     cout << "Player: " << name << " Score: " << score << endl;
   }
-  cout << "=======================" << endl;
+  cout << "=======================\n\n";
 }

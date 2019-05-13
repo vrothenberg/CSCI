@@ -83,7 +83,7 @@ void Game::HUD(Player& p) {
 void Game::HighScores() {
   scores_ = CreateVector("highscores.txt");
   OutputScores(scores_);
-  cout << endl;
+
 }
 
 //Inserts new ranked score
