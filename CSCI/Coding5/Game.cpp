@@ -79,7 +79,9 @@ void Game::HUD(Player& p) {
   //stringf padding
   cout << "Tick: " << gameTicks_ << " Room visits: " << p.GetRoomVisits() << endl;
   cout << p.GetName() << " the Level " << p.GetLevel() << " " << p.GetRole() << endl;
-  cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl << endl;
+  cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl;
+  cout << "Attack: " << p.GetAttack() << " Defense: " << p.GetArmor() << endl;
+  cout << "Weapon: " << p.GetWeaponName() << " Armor: " << p.GetArmorName() << endl << endl;
   p.PrintMessages();
 }
 
@@ -544,45 +546,38 @@ void Game::LookAround(Player& p) {
       break;
     case 3:
       //Weapon
-      p.AddMessage("A weapon!");
-      if (p.GetRoomNumber() == 1 && !foyerWeapon_ && p.GetAttackModifier() < 1) {
-        foyerWeapon_ = true;
-        p.SetWeaponName("Umbrella");
-        p.SetAttackModifier(1);
-      } else if (p.GetRoomNumber() == 3 && !officeWeapon_ && p.GetAttackModifier() < 2) {
-        officeWeapon_ = true;
-        p.SetWeaponName("Red Stapler");
-        p.SetAttackModifier(2);
-      } else if (p.GetRoomNumber() == 5 && !gardenWeapon_ && p.GetAttackModifier() < 3) {
-        gardenWeapon_ = true;
-        p.SetWeaponName("Old Hoe");
-        p.SetAttackModifier(3);
-      } else if (p.GetRoomNumber() == 6 && !libraryWeapon_ && p.GetAttackModifier() < 4) {
-        libraryWeapon_ = true;
-        p.SetWeaponName("Bible");
-        p.SetAttackModifier(4);
-      } else if (p.GetRoomNumber() == 7 && !basementWeapon_ && p.GetAttackModifier() < 5) {
-        basementWeapon_ = true;
-        p.SetWeaponName("Pool Noodles");
-        p.SetAttackModifier(5);
-      } else if (p.GetRoomNumber() == 9 && !utilityWeapon_ && p.GetAttackModifier() < 6) {
-        utilityWeapon_ = true;
-        p.SetWeaponName("Jumper Cables");
-        p.SetAttackModifier(6);
+      if (weapons_.find(p.GetRoomNumber()) != weapons_.end()) {
+        Weapon weapon = weapons_[p.GetRoomNumber()];
+        if (weapon.attackModifier_ > p.GetAttackModifier()) {
+          p.SetAttackModifier(weapon.attackModifier_);
+          p.SetWeaponName(weapon.name_);
+          p.AddMessage("A weapon!");
+          p.AddMessage("You now wield the " + weapon.name_);
+        } else {
+          p.AddMessage("Lousy junk.");
+        }
+
       } else {
-        p.AddMessage();
+        p.AddMessage("Nothing.");
       }
 
       break;
     case 4:
       //Armor
-      if (p.GetRoomNumber() == 1 && !foyerArmor_) {
-        foyerArmor_ = true;
-        p.SetArmorModifier(1);
-      } else if (p.GetRoomNumber() == 2 && !sunRoomArmor_) {
+      if (armors_.find(p.GetRoomNumber()) != armors_.end()) {
+        Armor armor = armors_[p.GetRoomNumber()];
+        if (armor.armorModifier_ > p.GetArmorModifier()) {
+          p.SetArmorModifier(armor.armorModifier_);
+          p.SetArmorName(armor.name_);
+          p.AddMessage("A piece of armor!");
+          p.AddMessage("You now wear the " + armor.name_);
+        } else {
+          p.AddMessage("Lousy junk");
+        }
 
+      } else {
+        p.AddMessage("Nothing");
       }
-      p.AddMessage("A piece of armor!");
       break;
     case 5:
       p.AddMessage("A mysterious force acts!\n");
@@ -600,11 +595,32 @@ void Game::LookAround(Player& p) {
   p.IncrementRoomVisits();
 }
 
+Weapon w1 = {1, 1, "Umbrella"};
+Weapon w2 = {3, 2, "Red Stapler"};
+Weapon w3 = {5, 3, "Old Hoe"};
+Weapon w4 = {6, 4, "Bible"};
+Weapon w5 = {7, 5, "Pool Noodles"};
+Weapon w6 = {9, 6, "Jumper Cables"};
+
+Armor a1 = {1, 1, "Raincoat"}; //Foyer
+Armor a2 = {2, 2, "Tanning Goggles"}; //Sunroom
+Armor a3 = {3, 3, "Snazzy Polo"}; //Office
+Armor a4 = {7, 4, "'Alternative' Leather Garb"}; //Basement
+Armor a5 = {9, 5, "Welding Mask"}; //Utility
+
 Game::WeaponMap Game::weapons_ = {
-    { 1, Weapon w = {1, 1, "Umbrella"} },
-    { }
+    { 1, w1 },
+    { 3, w2 },
+    { 5, w3 },
+    { 6, w4 },
+    { 7, w5 },
+    { 9, w6 }
 };
 
 Game::ArmorMap Game::armors_ = {
-    { "x", 1 }
+    { 1, a1 },
+    { 2, a2 },
+    { 3, a3 },
+    { 7, a4 },
+    { 9, a5 }
 };

@@ -25,7 +25,9 @@ public:
   int GetRoomVisits(int roomNumber);
   int GetRoomNumber();
   void PrintMessages();
+  int GetAttack();
   int GetAttackModifier();
+  int GetArmor();
   int GetArmorModifier();
   int GetHealthModifier();
   string GetWeaponName();

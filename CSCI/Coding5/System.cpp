@@ -36,7 +36,7 @@ vector<vector<string>> UpdateVector(vector< vector<string> > oldVector, vector<s
     }
     newVector.push_back(oldVector[i]);
   }
-  if (newVector.size()>10) newVector.erase(vec.end() - 1);
+  if (newVector.size()>10) newVector.erase(newVector.end() - 1);
   return newVector;
 }
 

@@ -36,11 +36,11 @@ void Player::Initialize() {
       cerr << "Invalid role.\n";
       break;
   }
-  if(p.GetName() == "Luke") {
-    p.SetRole("Based " + p.GetRole());
-    p.SetHealth(p.GetHealth() + 10);
-    p.SetAttack(p.GetAttack() + 3);
-    p.SetArmor(p.GetArmor() + 3);
+  if(GetName() == "Luke") {
+    SetRole("The Based " + GetRole());
+    SetHealth(GetHealth() + 10);
+    SetAttack(GetAttack() + 3);
+    SetArmor(GetArmor() + 3);
   }
 }
 
@@ -71,8 +71,16 @@ void Player::PrintMessages() {
   cout << output << endl;
 }
 
+int Player::GetAttack() {
+  return Character::GetAttack() + GetAttackModifier();
+}
+
 int Player::GetAttackModifier() {
   return attackModifier_;
+}
+
+int Player::GetArmor() {
+  return Character::GetArmor() + GetArmorModifier();
 }
 
 int Player::GetArmorModifier() {
@@ -105,7 +113,8 @@ void Player::SetName() {
 
 void Player::SetName(string name) {
   if (name.length() > 0 && name.length() < 20) name_ = name;
-  else cerr << "Invalid name.\n";
+  else name_ = "Nameless";
+  ClearScreen();
 }
 
 void Player::IncrementRoomVisits() {

@@ -3,6 +3,7 @@
 #define ROTHENBERG_GAME_H
 
 #include <ctime>
+#include <map>
 #include "CinReader.h"
 #include "Character.h"
 #include "Player.h"
@@ -13,6 +14,7 @@
 using std::cout;
 using std::endl;
 using std::cerr;
+using std::map;
 
 struct Weapon {
   int room_;
@@ -34,7 +36,7 @@ public:
   typedef map<int, Weapon> WeaponMap;
   static WeaponMap weapons_;
   typedef map<int, Armor> ArmorMap;
-  static ArmorMap armors_; 
+  static ArmorMap armors_;
 
 private:
   //Global variables
@@ -48,16 +50,8 @@ private:
   bool basementKey_ = false;
 
   //Item flags
-  bool foyerWeapon_ = false;
-  bool foyerArmor_ = false;
-  bool sunRoomArmor_ = false;
-  bool officeWeapon_ = false;
-  bool gardenWeapon_ = false;
-  bool libraryWeapon_ = false;
-  bool utilityWeapon_ = false;
-
-
-
+  int roomWeapons[6] = {0,0,0,0,0,0};
+  int roomArmors[5] = {0,0,0,0,0};
 
   //Helper Functions
   void LoadRoom(Player& p);
