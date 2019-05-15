@@ -32,7 +32,7 @@ class Game {
 public:
   Game();
   void Start();
-  Player newPlayer_;
+  Player player_;
   typedef map<int, Weapon> WeaponMap;
   static WeaponMap weapons_;
   typedef map<int, Armor> ArmorMap;
@@ -59,6 +59,7 @@ private:
   void HUD(Player& p);
   void HighScores();
   void UpdateHighScores();
+  void GameOver();
 
   //Room Functions
   void Foyer(Player& p);

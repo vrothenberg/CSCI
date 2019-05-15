@@ -44,7 +44,7 @@ vector<vector<string>> UpdateVector(vector< vector<string> > oldVector, vector<s
 vector<vector<string>> CreateVector(std::string file) {
   vector<vector<string>> fileVector;
   ifstream fin(file);
-  if (fin.fail()){
+  if (fin.fail()) {
     cerr << "Failed to open file";
     return fileVector;
   }

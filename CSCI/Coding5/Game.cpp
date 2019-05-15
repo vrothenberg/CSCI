@@ -15,16 +15,16 @@ void Game::Start() {
   ClearScreen();
   cout << "Welcome to A Spooky Domicile!\n\n";
   HighScores();
-  newPlayer_.Initialize();
+  player_.Initialize();
   while(!gameOver_) {
-    LoadRoom(newPlayer_);
+    LoadRoom(player_);
   }
-  UpdateHighScores();
+  GameOver();
 }
 
 //Helper Functions
 
-//Loads room from player class attributes
+//Loads room function from player class roomNumber_
 void Game::LoadRoom(Player& p) {
   ClearScreen();
   int num = p.GetRoomNumber();
@@ -68,10 +68,11 @@ void Game::LoadRoom(Player& p) {
   }
 }
 
-//Increments number of cycles in game displays current information
+//Increments number of cycles in game
+//Calls HUD to display current information
 void Game::Tick(Player& p) {
   gameTicks_++;
-  HUD(newPlayer_);
+  HUD(player_);
 }
 
 //Displays current information
@@ -96,9 +97,14 @@ void Game::HighScores() {
 
 //Inserts new ranked score
 void Game::UpdateHighScores() {
-  vector<string> newScore{newPlayer_.GetName(), to_string(newPlayer_.GetWealth())};
+  vector<string> newScore{player_.GetName(), to_string(player_.GetWealth())};
   scores_ = UpdateVector(scores_, newScore);
   SaveToFile(scores_, "highscores.txt");
+}
+
+void Game::GameOver() {
+  UpdateHighScores();
+
 }
 
 //Room Functions
@@ -526,14 +532,20 @@ void Game::LookAround(Player& p) {
   int treasure = (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits());
 
   int i = (rand()%divisor) + 1;
-  p.AddMessage("You look around and find...");
+  string message;
+  p.AddMessage("You look around...");
   switch (i) {
     case 1:
       //Wealth
       //Decreases in proportion to room visits
-      p.AddMessage("Treasure!");
-      p.AddMessage(treasure + " wealth gained.");
-      p.SetWealth(p.GetWealth() + treasure );
+      if (treasure > 1) {
+        p.AddMessage("Treasure!");
+        p.AddMessage(treasure + " wealth gained.");
+        p.SetWealth(p.GetWealth() + treasure );
+      } else {
+        p.AddMessage("Nothing interesting.");
+      }
+
       break;
     case 2:
       //Hidden secret
@@ -543,11 +555,14 @@ void Game::LookAround(Player& p) {
       } else if(p.GetRoomNumber() == 5 && !caveDiscovered_) {
         caveDiscovered_ = true;
         p.AddMessage("You discovered a cave!");
-      } else {
+      } else if(treasure > 1) {
         p.AddMessage("Treasure!");
-        p.AddMessage(treasure + " wealth gained.");
+        message = treasure + " wealth gained.";
+        p.AddMessage(message);
         //int treasure = (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits());
         p.SetWealth(p.GetWealth() + treasure );
+      } else {
+        p.AddMessage("Nothing interesting.");
       }
       break;
     case 3:
@@ -558,7 +573,8 @@ void Game::LookAround(Player& p) {
           p.SetAttackModifier(weapon.attackModifier_);
           p.SetWeaponName(weapon.name_);
           p.AddMessage("A weapon!");
-          p.AddMessage("You now wield the " + weapon.name_);
+          message = "You now wield the " + weapon.name_;
+          p.AddMessage(message);
         } else {
           p.AddMessage("Lousy junk.");
         }
@@ -576,11 +592,11 @@ void Game::LookAround(Player& p) {
           p.SetArmorModifier(armor.armorModifier_);
           p.SetArmorName(armor.name_);
           p.AddMessage("A piece of armor!");
-          p.AddMessage("You now wear the " + armor.name_);
+          message = "You now wear the " + armor.name_;
+          p.AddMessage(message);
         } else {
           p.AddMessage("Lousy junk");
         }
-
       } else {
         p.AddMessage("Nothing");
       }
