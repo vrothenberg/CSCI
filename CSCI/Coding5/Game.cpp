@@ -17,7 +17,7 @@ void Game::Start() {
   HighScores();
   player_.Initialize();
   while(!gameOver_) {
-    LoadRoom(player_);
+    LoadRoom();
   }
   GameOver();
 }
@@ -25,42 +25,42 @@ void Game::Start() {
 //Helper Functions
 
 //Loads room function from player class roomNumber_
-void Game::LoadRoom(Player& p) {
+void Game::LoadRoom() {
   ClearScreen();
-  int num = p.GetRoomNumber();
-  p.IncrementRoomVisits();
+  int num = player_.GetRoomNumber();
+  player_.IncrementRoomVisits();
   cout << "LoadRoomNumber: " << num << endl;
 
-  switch(p.GetRoomNumber()) {
+  switch(player_.GetRoomNumber()) {
     case 1:
-      Foyer(p);
+      Foyer();
       break;
     case 2:
-      SunRoom(p);
+      SunRoom();
       break;
     case 3:
-      Office(p);
+      Office();
       break;
     case 4:
-      Hall(p);
+      Hall();
       break;
     case 5:
-      Garden(p);
+      Garden();
       break;
     case 6:
-      Library(p);
+      Library();
       break;
     case 7:
-      Basement(p);
+      Basement();
       break;
     case 8:
-      Cave(p);
+      Cave();
       break;
     case 9:
-      Utility(p);
+      Utility();
       break;
     case 10:
-      Tomb(p);
+      Tomb();
       break;
     default:
       cerr << "Invalid room number.\n";
@@ -70,22 +70,22 @@ void Game::LoadRoom(Player& p) {
 
 //Increments number of cycles in game
 //Calls HUD to display current information
-void Game::Tick(Player& p) {
+void Game::Tick() {
   gameTicks_++;
-  HUD(player_);
+  HUD();
 }
 
 //Displays current information
-void Game::HUD(Player& p) {
+void Game::HUD() {
   //stringf padding
-  cout << "Tick: " << gameTicks_ << " Room visits: " << p.GetRoomVisits() << endl;
-  cout << p.GetName() << " the Level " << p.GetLevel() << " " << p.GetRole() << endl;
-  //cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl;
-  printf("Health : %3d Wealth  : %3d \n", p.GetHealth(), p.GetWealth());
-  //cout << "Attack: " << p.GetAttack() << " Defense: " << p.GetArmor() << endl;
-  printf("Attack : %3d Defense : %3d \n", p.GetAttack(), p.GetArmor());
-  cout << "Weapon: " << p.GetWeaponName() << " Armor: " << p.GetArmorName() << endl << endl;
-  p.PrintMessages();
+  cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
+  cout << player_.GetName() << " the Level " << player_.GetLevel() << " " << player_.GetRole() << endl;
+  //cout << "Health: " << player_.GetHealth() << " Wealth: " << player_.GetWealth() << endl;
+  printf("Health : %3d Wealth  : %3d \n", player_.GetHealth(), player_.GetWealth());
+  //cout << "Attack: " << player_.GetAttack() << " Defense: " << player_.GetArmor() << endl;
+  printf("Attack : %3d Defense : %3d \n", player_.GetAttack(), player_.GetArmor());
+  cout << "Weapon: " << player_.GetWeaponName() << " Armor: " << player_.GetArmorName() << endl << endl;
+  player_.PrintMessages();
 }
 
 //Creates vector of scores from highscores.txt file
@@ -107,17 +107,30 @@ void Game::GameOver() {
 
 }
 
+void Game::BattleRoll() {
+  int modifier = 2 + player_.GetRoomVisits();
+  //HENLO
+  int roll = rand() % modifier;
+  if (roll==0) {
+    Battle b(player_, 4);
+    b.AddMessage("You walk down the hall and encounter an enemy!");
+
+    player_.IncrementRoomVisits();
+    modifier = 2 + player_.GetRoomVisits(4);
+  }
+}
+
 //Room Functions
 
 //Room 1
 //Armor, Weapon
-void Game::Foyer(Player& p) {
+void Game::Foyer() {
 
   bool inRoom = true;
   CinReader read;
   string readCharString = "wWeEsSlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You stand in the Foyer.\n\n"
     << "To the west the sun flows through a large glass door.\n"
     << "To the east is an old mahogany door.\n"
@@ -131,19 +144,19 @@ void Game::Foyer(Player& p) {
     ClearScreen();
     switch (c) {
       case 'W':
-        p.SetRoomNumber(2);
+        player_.SetRoomNumber(2);
         inRoom = false;
         break;
       case 'E':
-        p.SetRoomNumber(3);
+        player_.SetRoomNumber(3);
         inRoom = false;
         break;
       case 'S':
-        p.SetRoomNumber(4);
+        player_.SetRoomNumber(4);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -154,13 +167,13 @@ void Game::Foyer(Player& p) {
 
 //Room 2
 //Armor
-void Game::SunRoom(Player& p) {
+void Game::SunRoom() {
 
   bool inRoom = true;
   CinReader read;
   string readCharString = "eEsSlL";
   while(inRoom) {
-    Tick(p);
+    Tick();
     cout << "You bask in the light of the Sun Room.\n"
     << "You feel your health regaining.\n\n"
     << "To the east is the Foyer.\n"
@@ -173,15 +186,15 @@ void Game::SunRoom(Player& p) {
     ClearScreen();
     switch (c) {
       case 'E':
-        p.SetRoomNumber(1);
+        player_.SetRoomNumber(1);
         inRoom = false;
         break;
       case 'S':
-        p.SetRoomNumber(5);
+        player_.SetRoomNumber(5);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -192,12 +205,12 @@ void Game::SunRoom(Player& p) {
 
 //Room 3
 //Armor, Weapon
-void Game::Office(Player& p) {
+void Game::Office() {
   CinReader read;
   bool inRoom = true;
   string readCharString = "eEsSlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You enter a well furnished Office.\n\n"
     << "To the west is the Foyer.\n"
     << "To the south is the Library.\n\n"
@@ -209,15 +222,15 @@ void Game::Office(Player& p) {
     ClearScreen();
     switch (c) {
       case 'W':
-        p.SetRoomNumber(1);
+        player_.SetRoomNumber(1);
         inRoom = false;
         break;
       case 'S':
-        p.SetRoomNumber(6);
+        player_.SetRoomNumber(6);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -227,21 +240,21 @@ void Game::Office(Player& p) {
 }
 
 //Room 4
-void Game::Hall(Player& p) {
+void Game::Hall() {
 
-  int modifier = 2 + p.GetRoomVisits(4);
+  int modifier = 2 + player_.GetRoomVisits(4);
   CinReader read;
   string readCharString = "nNwWeEsSlL";
   bool inRoom = true;
   while (inRoom) {
-    Tick(p);
+    Tick();
     int roll = rand() % modifier;
     if (roll==0) {
-      Battle b(p, 4);
+      Battle b(player_, 4);
       b.AddMessage("You walk down the hall and encounter an enemy!");
 
-      p.IncrementRoomVisits();
-      modifier = 2 + p.GetRoomVisits(4);
+      player_.IncrementRoomVisits();
+      modifier = 2 + player_.GetRoomVisits(4);
     }
 
     cout << "You stand in a dimly lit Hall.\n"
@@ -262,27 +275,27 @@ void Game::Hall(Player& p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        p.SetRoomNumber(1);
+        player_.SetRoomNumber(1);
         inRoom = false;
         break;
       case 'W':
-        p.SetRoomNumber(5);
+        player_.SetRoomNumber(5);
         inRoom = false;
         break;
       case 'E':
-        p.SetRoomNumber(6);
+        player_.SetRoomNumber(6);
         inRoom = false;
         break;
       case 'S':
         if (basementKey_) {
-          p.SetRoomNumber(7);
+          player_.SetRoomNumber(7);
           inRoom = false;
         } else {
-          p.AddMessage("The door won't open.");
+          player_.AddMessage("The door won't open.");
         }
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -293,13 +306,13 @@ void Game::Hall(Player& p) {
 
 //Room 5
 //Weapon
-void Game::Garden(Player& p) {
+void Game::Garden() {
 
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNeEsSlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You stand in an overgrown garden.\n\n"
     << "To the north is the Sun Room.\n"
     << "To the east is the Hall.\n";
@@ -317,20 +330,20 @@ void Game::Garden(Player& p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        p.SetRoomNumber(2);
+        player_.SetRoomNumber(2);
         inRoom = false;
       case 'E':
-        p.SetRoomNumber(4);
+        player_.SetRoomNumber(4);
         inRoom = false;
         break;
       case 'S':
         if (caveDiscovered_) {
-          p.SetRoomNumber(8);
+          player_.SetRoomNumber(8);
           inRoom = false;
-        } else p.AddMessage("The thicket repels you.");
+        } else player_.AddMessage("The thicket repels you.");
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -341,13 +354,13 @@ void Game::Garden(Player& p) {
 
 //Room 6
 //Weapon
-void Game::Library(Player& p) {
+void Game::Library() {
 
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You stand in a dusty library.  Books tower above.\n\n"
     << "To the north is the Office.\n"
     << "To the west is the Hall.\n\n"
@@ -359,14 +372,14 @@ void Game::Library(Player& p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        p.SetRoomNumber(3);
+        player_.SetRoomNumber(3);
         inRoom = false;
       case 'W':
-        p.SetRoomNumber(4);
+        player_.SetRoomNumber(4);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -377,13 +390,13 @@ void Game::Library(Player& p) {
 
 //Room 7
 //Armor, Weapon
-void Game::Basement(Player& p) {
+void Game::Basement() {
 
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWeEsSlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You stand in a cold basement. To your side is a cavern.\n"
     << "A single bare lightbulb hangs above.\n\n"
     << "To the north is a stairway to the Hall.\n"
@@ -400,23 +413,23 @@ void Game::Basement(Player& p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        p.SetRoomNumber(4);
+        player_.SetRoomNumber(4);
         inRoom = false;
       case 'W':
-        p.SetRoomNumber(8);
+        player_.SetRoomNumber(8);
         inRoom = false;
         break;
       case 'E':
-        p.SetRoomNumber(9);
+        player_.SetRoomNumber(9);
         inRoom = false;
         break;
       case 'S':
-        p.AddMessage("The tomb opens!  You fall into its depths.");
-        p.SetRoomNumber(10);
+        player_.AddMessage("The tomb opens!  You fall into its depths.");
+        player_.SetRoomNumber(10);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -426,14 +439,14 @@ void Game::Basement(Player& p) {
 }
 
 //Room 8
-void Game::Cave(Player& p) {
+void Game::Cave() {
 
 
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNeElL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You hunch down in a small, dark cave.\n\n"
     << "To the north sunlight breaches the crevices.\n"
     << "To the east a cavern opens.\n\n"
@@ -446,14 +459,14 @@ void Game::Cave(Player& p) {
     switch (c) {
       case 'N':
         caveDiscovered_ = true;
-        p.SetRoomNumber(5);
+        player_.SetRoomNumber(5);
         inRoom = false;
       case 'E':
-        p.SetRoomNumber(7);
+        player_.SetRoomNumber(7);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -464,14 +477,14 @@ void Game::Cave(Player& p) {
 
 //Room 9
 //Armor, Weapon
-void Game::Utility(Player& p) {
+void Game::Utility() {
 
 
   bool inRoom = true;
   CinReader read;
   string roomCharString = "wWlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You stand in a well-stocked utility room.\n\n"
     << "To the west is the maintenance door.\n\n"
     << "Enter your action: \n"
@@ -481,11 +494,11 @@ void Game::Utility(Player& p) {
     ClearScreen();
     switch (c) {
       case 'W':
-        p.SetRoomNumber(7);
+        player_.SetRoomNumber(7);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -496,14 +509,14 @@ void Game::Utility(Player& p) {
 
 //Room 10
 //Boss
-void Game::Tomb(Player& p) {
+void Game::Tomb() {
 
 
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNlL";
   while (inRoom) {
-    Tick(p);
+    Tick();
     cout << "You stand before an ominous tomb.\n\n"
     << "To the north is the basement.\n\n"
     << "Enter your action: \n"
@@ -513,11 +526,11 @@ void Game::Tomb(Player& p) {
     ClearScreen();
     switch (c) {
       case 'N':
-        p.SetRoomNumber(7);
+        player_.SetRoomNumber(7);
         inRoom = false;
         break;
       case 'L':
-        LookAround(p);
+        LookAround();
         break;
       default:
         cerr << "Invalid action taken.\n";
@@ -526,94 +539,95 @@ void Game::Tomb(Player& p) {
   }
 }
 
-void Game::LookAround(Player& p) {
+void Game::LookAround() {
   int divisor = 5;
-  if (p.GetRoomNumber() >= 4) divisor = 6;
-  int treasure = (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits());
+  if (player_.GetRoomNumber() >= 4) divisor = 6;
+  int treasure = (10 * (rand()%player_.GetRoomNumber() + 1))/(player_.GetRoomVisits());
 
   int i = (rand()%divisor) + 1;
   string message;
-  p.AddMessage("You look around...");
+  player_.AddMessage("You look around...");
   switch (i) {
     case 1:
       //Wealth
       //Decreases in proportion to room visits
       if (treasure > 1) {
-        p.AddMessage("Treasure!");
-        p.AddMessage(treasure + " wealth gained.");
-        p.SetWealth(p.GetWealth() + treasure );
+        player_.AddMessage("Treasure!");
+        message = to_string(treasure) + " wealth gained.";
+        player_.AddMessage(message);
+        player_.SetWealth(player_.GetWealth() + treasure );
       } else {
-        p.AddMessage("Nothing interesting.");
+        player_.AddMessage("Nothing interesting.");
       }
 
       break;
     case 2:
       //Hidden secret
       if (!basementKey_) {
-        p.AddMessage("You found a key!");
+        player_.AddMessage("You found a key!");
         basementKey_ = true;
-      } else if(p.GetRoomNumber() == 5 && !caveDiscovered_) {
+      } else if(player_.GetRoomNumber() == 5 && !caveDiscovered_) {
         caveDiscovered_ = true;
-        p.AddMessage("You discovered a cave!");
+        player_.AddMessage("You discovered a cave!");
       } else if(treasure > 1) {
-        p.AddMessage("Treasure!");
-        message = treasure + " wealth gained.";
-        p.AddMessage(message);
-        //int treasure = (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits());
-        p.SetWealth(p.GetWealth() + treasure );
+        player_.AddMessage("Treasure!");
+        message = to_string(treasure) + " wealth gained.";
+        player_.AddMessage(message);
+        //int treasure = (10 * (rand()%player_.GetRoomNumber() + 1))/(player_.GetRoomVisits());
+        player_.SetWealth(player_.GetWealth() + treasure );
       } else {
-        p.AddMessage("Nothing interesting.");
+        player_.AddMessage("Nothing interesting.");
       }
       break;
     case 3:
       //Weapon
-      if (weapons_.find(p.GetRoomNumber()) != weapons_.end()) {
-        Weapon weapon = weapons_[p.GetRoomNumber()];
-        if (weapon.attackModifier_ > p.GetAttackModifier()) {
-          p.SetAttackModifier(weapon.attackModifier_);
-          p.SetWeaponName(weapon.name_);
-          p.AddMessage("A weapon!");
+      if (weapons_.find(player_.GetRoomNumber()) != weapons_.end()) {
+        Weapon weapon = weapons_[player_.GetRoomNumber()];
+        if (weapon.attackModifier_ > player_.GetAttackModifier()) {
+          player_.SetAttackModifier(weapon.attackModifier_);
+          player_.SetWeaponName(weapon.name_);
+          player_.AddMessage("A weapon!");
           message = "You now wield the " + weapon.name_;
-          p.AddMessage(message);
+          player_.AddMessage(message);
         } else {
-          p.AddMessage("Lousy junk.");
+          player_.AddMessage("Lousy junk.");
         }
 
       } else {
-        p.AddMessage("Nothing.");
+        player_.AddMessage("Nothing.");
       }
 
       break;
     case 4:
       //Armor
-      if (armors_.find(p.GetRoomNumber()) != armors_.end()) {
-        Armor armor = armors_[p.GetRoomNumber()];
-        if (armor.armorModifier_ > p.GetArmorModifier()) {
-          p.SetArmorModifier(armor.armorModifier_);
-          p.SetArmorName(armor.name_);
-          p.AddMessage("A piece of armor!");
+      if (armors_.find(player_.GetRoomNumber()) != armors_.end()) {
+        Armor armor = armors_[player_.GetRoomNumber()];
+        if (armor.armorModifier_ > player_.GetArmorModifier()) {
+          player_.SetArmorModifier(armor.armorModifier_);
+          player_.SetArmorName(armor.name_);
+          player_.AddMessage("A piece of armor!");
           message = "You now wear the " + armor.name_;
-          p.AddMessage(message);
+          player_.AddMessage(message);
         } else {
-          p.AddMessage("Lousy junk");
+          player_.AddMessage("Lousy junk");
         }
       } else {
-        p.AddMessage("Nothing");
+        player_.AddMessage("Nothing");
       }
       break;
     case 5:
-      p.AddMessage("A mysterious force acts!\n");
-      if (p.GetHealth() < p.GetMaxHealth()) {
-        p.SetHealth(p.GetMaxHealth());
-        p.AddMessage("Your health rejuvenates.\n");
+      player_.AddMessage("A mysterious force acts!\n");
+      if (player_.GetHealth() < player_.GetMaxHealth()) {
+        player_.SetHealth(player_.GetMaxHealth());
+        player_.AddMessage("Your health rejuvenates.\n");
       } else {
-        p.AddMessage("Yet it remains a mystery.");
+        player_.AddMessage("Yet it remains a mystery.");
       }
 
       break;
     case 6:
       {
-        Battle lookBattle(p, p.GetRoomNumber());
+        Battle lookBattle(player_, player_.GetRoomNumber());
         lookBattle.AddMessage("An enemy approaches!\n");
       }
       break;
@@ -621,7 +635,7 @@ void Game::LookAround(Player& p) {
       cerr << "Invalid random number generation.\n";
       break;
   }
-  p.IncrementRoomVisits();
+  player_.IncrementRoomVisits();
 }
 
 Weapon w1 = {1, 1, "Umbrella"};

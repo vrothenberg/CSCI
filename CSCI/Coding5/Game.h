@@ -54,27 +54,28 @@ private:
   int roomArmors[5] = {0,0,0,0,0};
 
   //Helper Functions
-  void LoadRoom(Player& p);
-  void Tick(Player& p);
-  void HUD(Player& p);
+  void LoadRoom();
+  void Tick();
+  void HUD();
   void HighScores();
   void UpdateHighScores();
   void GameOver();
+  void BattleRoll();
 
   //Room Functions
-  void Foyer(Player& p);
-  void SunRoom(Player& p);
-  void Office(Player& p);
-  void Hall(Player& p);
-  void Garden(Player& p);
-  void Library(Player& p);
-  void Basement(Player& p);
-  void Cave(Player& p);
-  void Utility(Player& p);
-  void Tomb(Player& p);
+  void Foyer();
+  void SunRoom();
+  void Office();
+  void Hall();
+  void Garden();
+  void Library();
+  void Basement();
+  void Cave();
+  void Utility();
+  void Tomb();
 
   //Puzzle
-  void LookAround(Player& p);
+  void LookAround();
 
 
 };
