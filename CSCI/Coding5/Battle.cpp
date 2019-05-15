@@ -24,49 +24,62 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
     << "Level " << e.GetLevel() << " " << e.GetRole() << endl
     << "Health: " << e.GetHealth() << endl << endl;
     PrintMessages();
+    string readCharString = "wWbBrR";
     cout << "\nEnter your action: \n"
-    << "(W) Weapon\n"
-    << "(B) Block\n"
+    << "(W) Weapon\n";
+    if (p.GetIntelligence() > 3) {
+      cout << "(S) Sophistry\n";
+      readCharString += "sS";
+    }
+    if (p.GetDexterity() > 3) {
+      cout << "(D) Deflect\n";
+    }
+    cout << "(B) Block\n"
     << "(R) Run\n";
-    char c = toupper(read.readChar("wWbBrR"));
+
+    char c = toupper(read.readChar(readCharString));
     //Enemy action
     int enemyAction = rand() % 2;
+    int playerAction = 0;
+    int playerDeflect = 0;
     ClearScreen();
     int damageToEnemy = 0;
     int damageToPlayer = 0;
     switch(c) {
       case 'W':
+        //Weapon
         AddMessage("You attack!");
-        if (enemyAction == 0) {
-          //Enemy blocks
-          damageToEnemy = PlayerAttack(p, e, true);
-        } else {
-          //Enemy attacks
-          damageToEnemy = PlayerAttack(p, e, false);
-          if (e.GetHealth() > 0) {
-            //Enemy survives player attack
-            damageToPlayer = EnemyAttack(e, p, false);
-          }
-        }
+        PlayerAttack(p, e, enemyAction);
+        break;
+      case 'S':
+        //Sophistry
+        AddMessage("You use sophistry!");
+        Sophistry(p, e);
+        break;
+      case 'D':
+        //Deflect
+        AddMessage("You try to deflect.");
+        playerDeflect = 1;
         break;
       case 'B':
-        AddMessage("You block!");
-        if (enemyAction == 0) {
-          //Enemy blocks
-          cout << e.GetRole() << " blocks!\n";
-        } else {
-          //Enemy attacks
-          damageToPlayer = EnemyAttack(e, p, true);
-        }
+        //Block
+        AddMessage("You try to block.");
+        playerAction = 1;
         break;
       case 'R':
-        AddMessage("You run!");
-        battleOver = true;
+        if (p.GetSpeed() > e.GetSpeed()) {
+          AddMessage("You run!");
+          battleOver = true;
+        } else {
+          AddMessage("You can't outrun the "  + e.GetRole());
+        }
         break;
       default:
         cerr << "Invalid action.\n";
         break;
     }
+    if (enemyAction == 0 && e.GetHealth() > 0)
+      EnemyAttack(e, p, playerAction, playerDeflect);
   }
 
   if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
@@ -78,21 +91,41 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
   }
 }
 
-int Battle::EnemyAttack(Enemy& e, Player& p, bool block) {
+void Battle::EnemyAttack(Enemy& e, Player& p, bool block, bool deflect) {
   AddMessage(e.GetRole() + " attacks!");
   int armorModifier = 0;
   if (block) {
     armorModifier = rand() % 3;
     AddMessage(p.GetName() + " blocks!");
   }
+
   int damageToPlayer = max( (e.GetAttack() + (rand() % 3)) - (p.GetArmor() + armorModifier), 1);
-  p.SetHealth(p.GetHealth() - damageToPlayer);
-  string message = "You suffered " + to_string(damageToPlayer) + " damage!";
+  int dexDiff = p.GetDexterity() - e.GetDexterity();
+  bool deflectSucceeds = false;
+  if (deflect) {
+    if (p.GetDexterity() > e.GetDexterity()) {
+      int chance = rand() % dexDiff;
+      if (chance > 0) deflectSucceeds = true;
+    }
+  }
+  string message;
+  if (deflectSucceeds)  {
+    AddMessage("You successfully deflect!");
+    int damageToEnemy = max(( ( (e.GetAttack() + (rand() % 3)) * (dexDiff / p.GetDexterity()) ) - e.GetArmor() ), 1);
+    message = "You deflect " + to_string(damageToEnemy) + " damage!";
+    e.SetHealth(e.GetHealth() - damageToEnemy);
+  } else {
+    AddMessage("You fail to deflect!");
+    message = "You suffer " + to_string(damageToPlayer) + " damage!";
+    p.SetHealth(p.GetHealth() - damageToPlayer);
+  }
+
+
   AddMessage(message);
-  return damageToPlayer;
+  //return damageToPlayer;
 }
 
-int Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
+void Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
   int armorModifier = 0;
   if (block) {
     armorModifier = rand() % 3;
@@ -102,9 +135,29 @@ int Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
   e.SetHealth(e.GetHealth() - damageToEnemy);
   string message = "You inflicted " + to_string(damageToEnemy) + " damage upon the " + e.GetRole();
   AddMessage(message);
-  return damageToEnemy;
+  //return damageToEnemy;
 }
 
+void Battle::Sophistry(Player& p, Enemy& e) {
+  if (p.GetIntelligence() > e.GetIntelligence()) {
+    p.AddMessage("Your intellect deterritorializes the totality of the enemy's interiority!");
+    p.AddMessage(e.GetRole() + " hurt itself in its confusion!");
+    e.SetHealth(e.GetHealth() - (p.GetIntelligence() - e.GetIntelligence()));
+  } else {
+    p.AddMessage("The post-modern dialectic deconstructs your paradigm!");
+    p.AddMessage("You hurt yourself out of confusion!");
+    p.SetHealth(p.GetHealth() - (e.GetIntelligence() - p.GetIntelligence()));
+  }
+
+}
+/*
+void Battle::Deflect(Player& p, Enemy& e) {
+  if (p.GetDexterity() > e.GetDexterity()) {
+
+  }
+
+}
+*/
 void Battle::AddMessage(string s) {
   messages_ += s + "\n";
 }

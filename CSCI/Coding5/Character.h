@@ -24,6 +24,7 @@ class Character {
   int GetExp();
   int GetWealth();
   int GetHealth();
+  int GetMaxHealth();
   int GetAttack();
   int GetArmor();
   int GetDexterity();
@@ -38,6 +39,7 @@ class Character {
   void SetExp(int exp);
   void SetWealth(int wealth);
   void SetHealth(int health);
+  void SetMaxHealth(int maxHealth);
   void SetAttack(int attack);
   void SetArmor(int armor);
   void SetDexterity(int dexterity);
@@ -51,6 +53,7 @@ private:
   int experience_ = 0;
   int wealth_ = 0;
   int health_ = 0;
+  int maxHealth_ = 0;
   int attack_ = 0;
   int armor_ = 0;
   int dexterity_ = 0;

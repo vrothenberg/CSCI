@@ -16,6 +16,7 @@ using std::vector;
 using std::ifstream;
 using std::ofstream;
 using std::stringstream;
+using std::to_string;
 
 void ClearScreen();
 

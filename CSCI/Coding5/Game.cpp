@@ -79,8 +79,10 @@ void Game::HUD(Player& p) {
   //stringf padding
   cout << "Tick: " << gameTicks_ << " Room visits: " << p.GetRoomVisits() << endl;
   cout << p.GetName() << " the Level " << p.GetLevel() << " " << p.GetRole() << endl;
-  cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl;
-  cout << "Attack: " << p.GetAttack() << " Defense: " << p.GetArmor() << endl;
+  //cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl;
+  printf("Health : %3d Wealth  : %3d \n", p.GetHealth(), p.GetWealth());
+  //cout << "Attack: " << p.GetAttack() << " Defense: " << p.GetArmor() << endl;
+  printf("Attack : %3d Defense : %3d \n", p.GetAttack(), p.GetArmor());
   cout << "Weapon: " << p.GetWeaponName() << " Armor: " << p.GetArmorName() << endl << endl;
   p.PrintMessages();
 }
@@ -521,6 +523,7 @@ void Game::Tomb(Player& p) {
 void Game::LookAround(Player& p) {
   int divisor = 5;
   if (p.GetRoomNumber() >= 4) divisor = 6;
+  int treasure = (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits());
 
   int i = (rand()%divisor) + 1;
   p.AddMessage("You look around and find...");
@@ -529,7 +532,8 @@ void Game::LookAround(Player& p) {
       //Wealth
       //Decreases in proportion to room visits
       p.AddMessage("Treasure!");
-      p.SetWealth(p.GetWealth() + (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits()) );
+      p.AddMessage(treasure + " wealth gained.");
+      p.SetWealth(p.GetWealth() + treasure );
       break;
     case 2:
       //Hidden secret
@@ -541,7 +545,9 @@ void Game::LookAround(Player& p) {
         p.AddMessage("You discovered a cave!");
       } else {
         p.AddMessage("Treasure!");
-        p.SetWealth(p.GetWealth() + (10 * (rand()%p.GetRoomNumber() + 1)) / (p.GetRoomVisits()));
+        p.AddMessage(treasure + " wealth gained.");
+        //int treasure = (10 * (rand()%p.GetRoomNumber() + 1))/(p.GetRoomVisits());
+        p.SetWealth(p.GetWealth() + treasure );
       }
       break;
     case 3:
@@ -581,6 +587,13 @@ void Game::LookAround(Player& p) {
       break;
     case 5:
       p.AddMessage("A mysterious force acts!\n");
+      if (p.GetHealth() < p.GetMaxHealth()) {
+        p.SetHealth(p.GetMaxHealth());
+        p.AddMessage("Your health rejuvenates.\n");
+      } else {
+        p.AddMessage("Yet it remains a mystery.");
+      }
+
       break;
     case 6:
       {

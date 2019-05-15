@@ -9,7 +9,7 @@ void ClearScreen() {
 #endif
 }
 
-
+//Splits a string by a delimiter character and returns a vector
 vector<string> Split(string str, char delimiter) {
   vector<string> internal;
   stringstream ss(str); // Turn the string into a stream.
@@ -20,10 +20,9 @@ vector<string> Split(string str, char delimiter) {
   return internal;
 }
 
+//Returns new sorted vector of vectors (2 dimensional array)
+//Input old score vector of vectors, and new score vector
 vector<vector<string>> UpdateVector(vector< vector<string> > oldVector, vector<string> row) {
-  //Returns new sorted vector of vectors (2 dimensional array)
-  //Input old score vector of vectors, and new score vector
-
   vector<vector<string>> newVector;
   bool pushed = false; //Check if row has been inserted
   for (int i = 0; i<oldVector.size(); i++) {
@@ -40,6 +39,8 @@ vector<vector<string>> UpdateVector(vector< vector<string> > oldVector, vector<s
   return newVector;
 }
 
+
+//Reads data from high scores file and returns 2 dimesional vector
 vector<vector<string>> CreateVector(std::string file) {
   vector<vector<string>> fileVector;
   ifstream fin(file);
@@ -67,11 +68,12 @@ void SaveToFile(vector<vector<string>> inputVector, std::string file) {
 }
 
 void OutputScores(vector<vector<string>> scores){
-  cout << "===== HIGH SCORES =====\n";
+  cout << "=============== HIGH SCORES ===============\n\n";
   for (int i = 0; i<scores.size(); i++) {
     string name = scores[i][0];
     int score = stoi(scores[i][1]);
-    cout << "Player: " << name << " Score: " << score << endl;
+    //cout << "Player: " << name << " Score: " << score << endl;
+    printf(" Player: %15s      Score: %5d \n", name.c_str(), score);
   }
-  cout << "=======================\n\n";
+  cout << "\n===========================================\n\n";
 }

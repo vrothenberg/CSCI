@@ -33,9 +33,6 @@ public:
   string GetWeaponName();
   string GetArmorName();
 
-
-
-
   //Mutator Functions
   void SetName();
   void SetName(string name);
@@ -49,6 +46,8 @@ public:
   void SetWeaponName(string weaponName);
   void SetArmorName(string armorName);
 
+  void Level();
+
 private:
   //Default Player member variable values
   string name_;
@@ -61,6 +60,7 @@ private:
   int healthModifier_ = 0;
   string weaponName_ = "Unarmed";
   string armorName_ = "Clothes";
+  int maxHealth_;
 
 };
 

@@ -39,6 +39,7 @@ void Player::Initialize() {
   if(GetName() == "Luke") {
     SetRole("The Based " + GetRole());
     SetHealth(GetHealth() + 10);
+    SetMaxHealth(GetHealth());
     SetAttack(GetAttack() + 3);
     SetArmor(GetArmor() + 3);
   }
@@ -98,21 +99,23 @@ string Player::GetArmorName() {
   return armorName_;
 }
 
+
 //Mutator Functions
 
 void Player::SetName() {
   cout << "Enter your player name: ";
   CinReader read;
   string name = read.readString();
-  while (name.length() < 1 || name.length() > 20) {
+  while (name.length() < 1 || name.length() > 15) {
     ClearScreen();
+    cout << "Name must be between 1 and 15 characters.\n";
     name = read.readString();
   }
   SetName(name);
 }
 
 void Player::SetName(string name) {
-  if (name.length() > 0 && name.length() < 20) name_ = name;
+  if (name.length() > 0 && name.length() < 15) name_ = name;
   else name_ = "Nameless";
   ClearScreen();
 }
@@ -152,4 +155,11 @@ void Player::SetWeaponName(string weaponName) {
 
 void Player::SetArmorName(string armorName) {
   armorName_ = armorName;
+}
+
+void Player::Level() {
+  int threshhold = GetLevel() * 10;
+  if (GetExp() > threshhold) {
+    //Level up!
+  }
 }

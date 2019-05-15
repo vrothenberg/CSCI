@@ -22,11 +22,23 @@ int Character::GetWealth() {
 int Character::GetHealth() {
   return health_;
 }
+int Character::GetMaxHealth() {
+  return maxHealth_;
+}
 int Character::GetAttack() {
   return attack_;
 }
 int Character::GetArmor() {
   return armor_;
+}
+int Character::GetDexterity() {
+  return dexterity_;
+}
+int Character::GetIntelligence() {
+  return intelligence_;
+}
+int Character::GetSpeed() {
+  return speed_;
 }
 
 //Mutator Functions
@@ -39,6 +51,7 @@ void Character::SetAttributes(string role, int level = 0, int experience = 0,
   SetLevel(level);
   SetExp(experience);
   SetHealth(health);
+  SetMaxHealth(health);
   SetAttack(attack);
   SetArmor(armor);
   SetDexterity(dexterity);
@@ -64,6 +77,10 @@ void Character::SetWealth(int wealth) {
 }
 void Character::SetHealth(int health) {
   health_ = health;
+}
+void Character::SetMaxHealth(int maxHealth) {
+  if (maxHealth < 0) maxHealth = 10;
+  maxHealth_ = maxHealth;
 }
 void Character::SetAttack(int attack) {
   if (attack > 0) attack_ = attack;
