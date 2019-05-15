@@ -2,7 +2,7 @@
 #include "Player.h"
 
 //Constructors
-
+//Creates enemy object using enemy template array, room number and difficulty level
 Enemy::Enemy(int room, int difficulty) {
   int enemyIndex = ROOM_ENEMY_ARRAY[room-4][difficulty];
   EnemyType eTemplate = Enemies[enemyIndex];
@@ -13,8 +13,7 @@ Enemy::Enemy(int room, int difficulty) {
   }
 }
 
-
-
+//Array of enemy templates
 EnemyType Enemy::Enemies[8] = {
   {
     "Salty Squatter",

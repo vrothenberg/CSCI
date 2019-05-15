@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "CinReader.h"
 #include "System.h"
+#include <cmath>
 using std::cout;
 using std::endl;
 using std::cerr;
@@ -45,8 +46,7 @@ public:
   void SetHealthModifier(int healthModifier);
   void SetWeaponName(string weaponName);
   void SetArmorName(string armorName);
-
-  void Level();
+  void AddExp(int exp);
 
 private:
   //Default Player member variable values

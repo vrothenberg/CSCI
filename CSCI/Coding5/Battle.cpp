@@ -12,6 +12,9 @@ Battle::Battle(Player& p, Enemy& e) {
   BattleLoop(p, e);
 }
 
+
+//Battle loop, halts if either player or enemy health drops to 0 or lower
+
 void Battle::BattleLoop(Player& p, Enemy& e) {
   ClearScreen();
   CinReader read;
@@ -85,7 +88,7 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
   if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
     p.AddMessage("The " + e.GetRole() + " has been defeated!\nYou are victorious!");
     p.SetWealth(p.GetWealth() + e.GetWealth());
-    p.SetExp(p.GetExp() + e.GetExp());
+    p.AddExp(e.GetExp());
   } else if (p.GetHealth() <= 0) {
     p.AddMessage("Game over!");
   }
@@ -150,14 +153,8 @@ void Battle::Sophistry(Player& p, Enemy& e) {
   }
 
 }
-/*
-void Battle::Deflect(Player& p, Enemy& e) {
-  if (p.GetDexterity() > e.GetDexterity()) {
 
-  }
-
-}
-*/
+//Queues messages for output below HUD 
 void Battle::AddMessage(string s) {
   messages_ += s + "\n";
 }

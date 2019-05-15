@@ -13,7 +13,7 @@ Game::Game() {
 //Prints out high scores
 void Game::Start() {
   ClearScreen();
-  cout << "Welcome to A Spooky Domicile!\n\n";
+  cout << "\n             A Spooky Domicile\n\n";
   HighScores();
   player_.Initialize();
   while(!gameOver_) {
@@ -81,10 +81,11 @@ void Game::HUD() {
   cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
   cout << player_.GetName() << " the Level " << player_.GetLevel() << " " << player_.GetRole() << endl;
   //cout << "Health: " << player_.GetHealth() << " Wealth: " << player_.GetWealth() << endl;
-  printf("Health : %3d Wealth  : %3d \n", player_.GetHealth(), player_.GetWealth());
+  printf("Health : %12d Wealth  : %d \n", player_.GetHealth(), player_.GetWealth());
   //cout << "Attack: " << player_.GetAttack() << " Defense: " << player_.GetArmor() << endl;
-  printf("Attack : %3d Defense : %3d \n", player_.GetAttack(), player_.GetArmor());
-  cout << "Weapon: " << player_.GetWeaponName() << " Armor: " << player_.GetArmorName() << endl << endl;
+  printf("Attack : %12d Defense : %d \n", player_.GetAttack(), player_.GetArmor());
+  //cout << "Weapon : " << player_.GetWeaponName() << " Armor : " << player_.GetArmorName() << endl << endl;
+  printf("Weapon : %12s Armor   : %s\n\n", player_.GetWeaponName().c_str(), player_.GetArmorName().c_str());
   player_.PrintMessages();
 }
 
@@ -172,6 +173,7 @@ void Game::SunRoom() {
   bool inRoom = true;
   CinReader read;
   string readCharString = "eEsSlL";
+  player_.SetHealth(player_.GetMaxHealth());
   while(inRoom) {
     Tick();
     cout << "You bask in the light of the Sun Room.\n"
@@ -211,7 +213,7 @@ void Game::Office() {
   string readCharString = "eEsSlL";
   while (inRoom) {
     Tick();
-    cout << "You enter a well furnished Office.\n\n"
+    cout << "You stand in a well furnished Office.\n\n"
     << "To the west is the Foyer.\n"
     << "To the south is the Library.\n\n"
     << "Enter your action: \n"
@@ -242,20 +244,12 @@ void Game::Office() {
 //Room 4
 void Game::Hall() {
 
-  int modifier = 2 + player_.GetRoomVisits(4);
   CinReader read;
   string readCharString = "nNwWeEsSlL";
   bool inRoom = true;
   while (inRoom) {
     Tick();
-    int roll = rand() % modifier;
-    if (roll==0) {
-      Battle b(player_, 4);
-      b.AddMessage("You walk down the hall and encounter an enemy!");
-
-      player_.IncrementRoomVisits();
-      modifier = 2 + player_.GetRoomVisits(4);
-    }
+    BattleRoll();
 
     cout << "You stand in a dimly lit Hall.\n"
     << "Your least favorite art hangs on the walls.\n\n"
@@ -313,6 +307,7 @@ void Game::Garden() {
   string roomCharString = "nNeEsSlL";
   while (inRoom) {
     Tick();
+    BattleRoll();
     cout << "You stand in an overgrown garden.\n\n"
     << "To the north is the Sun Room.\n"
     << "To the east is the Hall.\n";
@@ -361,6 +356,7 @@ void Game::Library() {
   string roomCharString = "nNwWlL";
   while (inRoom) {
     Tick();
+    BattleRoll();
     cout << "You stand in a dusty library.  Books tower above.\n\n"
     << "To the north is the Office.\n"
     << "To the west is the Hall.\n\n"
@@ -397,6 +393,7 @@ void Game::Basement() {
   string roomCharString = "nNwWeEsSlL";
   while (inRoom) {
     Tick();
+    BattleRoll();
     cout << "You stand in a cold basement. To your side is a cavern.\n"
     << "A single bare lightbulb hangs above.\n\n"
     << "To the north is a stairway to the Hall.\n"
@@ -447,6 +444,7 @@ void Game::Cave() {
   string roomCharString = "nNeElL";
   while (inRoom) {
     Tick();
+    BattleRoll();
     cout << "You hunch down in a small, dark cave.\n\n"
     << "To the north sunlight breaches the crevices.\n"
     << "To the east a cavern opens.\n\n"
@@ -485,6 +483,7 @@ void Game::Utility() {
   string roomCharString = "wWlL";
   while (inRoom) {
     Tick();
+    BattleRoll();
     cout << "You stand in a well-stocked utility room.\n\n"
     << "To the west is the maintenance door.\n\n"
     << "Enter your action: \n"
@@ -517,6 +516,7 @@ void Game::Tomb() {
   string roomCharString = "nNlL";
   while (inRoom) {
     Tick();
+    BattleRoll();
     cout << "You stand before an ominous tomb.\n\n"
     << "To the north is the basement.\n\n"
     << "Enter your action: \n"
@@ -639,17 +639,17 @@ void Game::LookAround() {
 }
 
 Weapon w1 = {1, 1, "Umbrella"};
-Weapon w2 = {3, 2, "Red Stapler"};
+Weapon w2 = {3, 2, "Abacus"};
 Weapon w3 = {5, 3, "Old Hoe"};
-Weapon w4 = {6, 4, "Bible"};
-Weapon w5 = {7, 5, "Pool Noodles"};
-Weapon w6 = {9, 6, "Jumper Cables"};
+Weapon w4 = {6, 4, "Thesaurus"};
+Weapon w5 = {7, 5, "Thwacker"};
+Weapon w6 = {9, 6, "Rusty Spoon"};
 
 Armor a1 = {1, 1, "Raincoat"}; //Foyer
-Armor a2 = {2, 2, "Tanning Goggles"}; //Sunroom
-Armor a3 = {3, 3, "Snazzy Polo"}; //Office
-Armor a4 = {7, 4, "'Alternative' Leather Garb"}; //Basement
-Armor a5 = {9, 5, "Welding Mask"}; //Utility
+Armor a2 = {2, 2, "Sombrero"}; //Sunroom
+Armor a3 = {3, 3, "Birkenstocks"}; //Office
+Armor a4 = {7, 4, "McAfee AV"}; //Basement
+Armor a5 = {9, 5, "Hopes and Prayers"}; //Utility
 
 Game::WeaponMap Game::weapons_ = {
     { 1, w1 },

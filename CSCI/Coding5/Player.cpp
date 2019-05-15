@@ -37,7 +37,8 @@ void Player::Initialize() {
       break;
   }
   if(GetName() == "Luke") {
-    SetRole("The Based " + GetRole());
+    SetName("Based Luke");
+    SetRole("Overpowered " + GetRole());
     SetHealth(GetHealth() + 10);
     SetMaxHealth(GetHealth());
     SetAttack(GetAttack() + 3);
@@ -157,9 +158,13 @@ void Player::SetArmorName(string armorName) {
   armorName_ = armorName;
 }
 
-void Player::Level() {
-  int threshhold = GetLevel() * 10;
+void Player::AddExp(int exp) {
+  if (exp >= 0) SetExp(GetExp() + exp);
+  int threshhold = 10 * pow(2, GetLevel());
   if (GetExp() > threshhold) {
-    //Level up!
+    SetLevel(GetLevel() + 1);
+    SetMaxHealth(GetMaxHealth() + 5);
+    SetAttack(GetAttack() + 1);
+    SetArmor(GetArmor() + 1);
   }
 }
