@@ -16,7 +16,7 @@ void Game::Start() {
   cout << "\n             A Spooky Domicile\n\n";
   HighScores();
   player_.Initialize();
-  while(!gameOver_) {
+  while(!player_.GetGameOver()) {
     LoadRoom();
   }
   GameOver();
@@ -29,7 +29,7 @@ void Game::LoadRoom() {
   ClearScreen();
   int num = player_.GetRoomNumber();
   player_.IncrementRoomVisits();
-  cout << "LoadRoomNumber: " << num << endl;
+  //cout << "LoadRoomNumber: " << num << endl;
 
   switch(player_.GetRoomNumber()) {
     case 1:
@@ -78,7 +78,7 @@ void Game::Tick() {
 //Displays current information
 void Game::HUD() {
   //stringf padding
-  cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
+  //cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
   cout << player_.GetName() << " the Level " << player_.GetLevel() << " " << player_.GetRole() << endl;
   //cout << "Health: " << player_.GetHealth() << " Wealth: " << player_.GetWealth() << endl;
   printf("Health : %12d Wealth  : %d \n", player_.GetHealth(), player_.GetWealth());
@@ -105,6 +105,7 @@ void Game::UpdateHighScores() {
 
 void Game::GameOver() {
   UpdateHighScores();
+  cout << "Game over!\n";
 
 }
 

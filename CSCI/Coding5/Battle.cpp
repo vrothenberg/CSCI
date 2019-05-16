@@ -36,6 +36,7 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
     }
     if (p.GetDexterity() > 3) {
       cout << "(D) Deflect\n";
+      readCharString += "dD";
     }
     cout << "(B) Block\n"
     << "(R) Run\n";
@@ -89,12 +90,16 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
     p.AddMessage("The " + e.GetRole() + " has been defeated!\nYou are victorious!");
     p.SetWealth(p.GetWealth() + e.GetWealth());
     p.AddExp(e.GetExp());
+    battleOver = true;
   } else if (p.GetHealth() <= 0) {
     p.AddMessage("Game over!");
+    battleOver = true;
+    p.SetGameOver(true);
   }
 }
 
 void Battle::EnemyAttack(Enemy& e, Player& p, bool block, bool deflect) {
+  string message;
   AddMessage(e.GetRole() + " attacks!");
   int armorModifier = 0;
   if (block) {
@@ -104,28 +109,27 @@ void Battle::EnemyAttack(Enemy& e, Player& p, bool block, bool deflect) {
 
   int damageToPlayer = max( (e.GetAttack() + (rand() % 3)) - (p.GetArmor() + armorModifier), 1);
   int dexDiff = p.GetDexterity() - e.GetDexterity();
-  bool deflectSucceeds = false;
   if (deflect) {
-    if (p.GetDexterity() > e.GetDexterity()) {
-      int chance = rand() % dexDiff;
-      if (chance > 0) deflectSucceeds = true;
+    if (p.GetDexterity() > e.GetDexterity() && (rand() % dexDiff) > 0) {
+      AddMessage("You successfully deflect!");
+      int damageToEnemy = max(( ( (e.GetAttack() + (rand() % 3)) * (dexDiff / p.GetDexterity()) ) - e.GetArmor() ), 1);
+      message = "You deflect " + to_string(damageToEnemy) + " damage!";
+      e.SetHealth(e.GetHealth() - damageToEnemy);
+    } else {
+      AddMessage("You fail to deflect!");
+      message = "You suffer " + to_string(damageToPlayer) + " damage!";
+      p.SetHealth(p.GetHealth() - damageToPlayer);
     }
-  }
-  string message;
-  if (deflectSucceeds)  {
-    AddMessage("You successfully deflect!");
-    int damageToEnemy = max(( ( (e.GetAttack() + (rand() % 3)) * (dexDiff / p.GetDexterity()) ) - e.GetArmor() ), 1);
-    message = "You deflect " + to_string(damageToEnemy) + " damage!";
-    e.SetHealth(e.GetHealth() - damageToEnemy);
+    AddMessage(message);
+
+
+  //return damageToPlayer;
   } else {
-    AddMessage("You fail to deflect!");
     message = "You suffer " + to_string(damageToPlayer) + " damage!";
     p.SetHealth(p.GetHealth() - damageToPlayer);
+    AddMessage(message);
+
   }
-
-
-  AddMessage(message);
-  //return damageToPlayer;
 }
 
 void Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
@@ -154,7 +158,7 @@ void Battle::Sophistry(Player& p, Enemy& e) {
 
 }
 
-//Queues messages for output below HUD 
+//Queues messages for output below HUD
 void Battle::AddMessage(string s) {
   messages_ += s + "\n";
 }

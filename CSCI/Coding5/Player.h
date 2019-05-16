@@ -33,6 +33,7 @@ public:
   int GetHealthModifier();
   string GetWeaponName();
   string GetArmorName();
+  bool GetGameOver();
 
   //Mutator Functions
   void SetName();
@@ -47,6 +48,9 @@ public:
   void SetWeaponName(string weaponName);
   void SetArmorName(string armorName);
   void AddExp(int exp);
+  void SetGameOver(bool status);
+
+
 
 private:
   //Default Player member variable values
@@ -61,6 +65,7 @@ private:
   string weaponName_ = "Unarmed";
   string armorName_ = "Clothes";
   int maxHealth_;
+  bool gameOver_ = false;
 
 };
 

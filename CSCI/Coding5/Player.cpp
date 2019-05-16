@@ -100,6 +100,10 @@ string Player::GetArmorName() {
   return armorName_;
 }
 
+bool Player::GetGameOver() {
+  return gameOver_;
+}
+
 
 //Mutator Functions
 
@@ -167,4 +171,8 @@ void Player::AddExp(int exp) {
     SetAttack(GetAttack() + 1);
     SetArmor(GetArmor() + 1);
   }
+}
+
+void Player::SetGameOver(bool status) {
+  gameOver_ = status;
 }
