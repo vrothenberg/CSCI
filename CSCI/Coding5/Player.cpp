@@ -5,7 +5,8 @@ Player::Player() {
   roomNumber_ = 1;
 }
 
-
+//Prompts user to configure their player name and role
+//If user is especially awesome it will add bonus stats
 void Player::Initialize() {
   SetName();
   cout << "Choose your role: \n"
@@ -47,26 +48,28 @@ void Player::Initialize() {
 }
 
 //Accessor Functions
+
+//Returns player name
 string Player::GetName() {
   return name_;
 }
 
-string Player::GetRoomMessage() {
-  return roomMessage_;
-}
-
+//Returns number of visits of current room using visits_ array
 int Player::GetRoomVisits() {
   return visits_[roomNumber_-1];
 }
 
+//Returns number of visits of specific room argument using visits_ array
 int Player::GetRoomVisits(int roomNumber) {
   return visits_[roomNumber-1];
 }
 
+//Returns current room number
 int Player::GetRoomNumber() {
   return roomNumber_;
 };
 
+//Outputs enqueued messages for HUD 
 void Player::PrintMessages() {
   string output = messages_;
   messages_ = "";

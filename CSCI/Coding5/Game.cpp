@@ -103,15 +103,17 @@ void Game::UpdateHighScores() {
   SaveToFile(scores_, "highscores.txt");
 }
 
+//Game over function, stores score in high scores.
 void Game::GameOver() {
   UpdateHighScores();
   cout << "Game over!\n";
 
 }
 
+//Chance of a battle when entering room
+//Chance inversely proportion to room visits
 void Game::BattleRoll() {
   int modifier = 2 + player_.GetRoomVisits();
-  //HENLO
   int roll = rand() % modifier;
   if (roll==0) {
     Battle b(player_, 4);
@@ -540,9 +542,12 @@ void Game::Tomb() {
   }
 }
 
+//Provides player a chance of finding wealth, items, or an enemy
 void Game::LookAround() {
   int divisor = 5;
+  //Room numbers 4 or more have enemies, last modulo case triggers battle
   if (player_.GetRoomNumber() >= 4) divisor = 6;
+  //Wealth based on room number divided by number of times player has visited room
   int treasure = (10 * (rand()%player_.GetRoomNumber() + 1))/(player_.GetRoomVisits());
 
   int i = (rand()%divisor) + 1;
@@ -574,7 +579,6 @@ void Game::LookAround() {
         player_.AddMessage("Treasure!");
         message = to_string(treasure) + " wealth gained.";
         player_.AddMessage(message);
-        //int treasure = (10 * (rand()%player_.GetRoomNumber() + 1))/(player_.GetRoomVisits());
         player_.SetWealth(player_.GetWealth() + treasure );
       } else {
         player_.AddMessage("Nothing interesting.");
@@ -617,6 +621,7 @@ void Game::LookAround() {
       }
       break;
     case 5:
+      //Health regain
       player_.AddMessage("A mysterious force acts!\n");
       if (player_.GetHealth() < player_.GetMaxHealth()) {
         player_.SetHealth(player_.GetMaxHealth());
@@ -627,6 +632,7 @@ void Game::LookAround() {
 
       break;
     case 6:
+      //Random battle
       {
         Battle lookBattle(player_, player_.GetRoomNumber());
         lookBattle.AddMessage("An enemy approaches!\n");
@@ -639,6 +645,8 @@ void Game::LookAround() {
   player_.IncrementRoomVisits();
 }
 
+//Weapon structs
+
 Weapon w1 = {1, 1, "Umbrella"};
 Weapon w2 = {3, 2, "Abacus"};
 Weapon w3 = {5, 3, "Old Hoe"};
@@ -646,11 +654,15 @@ Weapon w4 = {6, 4, "Thesaurus"};
 Weapon w5 = {7, 5, "Thwacker"};
 Weapon w6 = {9, 6, "Rusty Spoon"};
 
+//Armor structs
+
 Armor a1 = {1, 1, "Raincoat"}; //Foyer
 Armor a2 = {2, 2, "Sombrero"}; //Sunroom
 Armor a3 = {3, 3, "Birkenstocks"}; //Office
 Armor a4 = {7, 4, "McAfee AV"}; //Basement
 Armor a5 = {9, 5, "Hopes and Prayers"}; //Utility
+
+//Map of weapons for efficient lookup by room number
 
 Game::WeaponMap Game::weapons_ = {
     { 1, w1 },
@@ -660,6 +672,8 @@ Game::WeaponMap Game::weapons_ = {
     { 7, w5 },
     { 9, w6 }
 };
+
+//Map of armors for efficient lookup by room number
 
 Game::ArmorMap Game::armors_ = {
     { 1, a1 },

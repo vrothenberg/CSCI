@@ -59,6 +59,7 @@ vector<vector<string>> CreateVector(std::string file) {
   return fileVector;
 }
 
+//Writes multidimensional vector to file
 void SaveToFile(vector<vector<string>> inputVector, std::string file) {
   ofstream fout(file);
   for (int i = 0; inputVector.size(); i++) {
@@ -67,6 +68,7 @@ void SaveToFile(vector<vector<string>> inputVector, std::string file) {
   fout.close();
 }
 
+//Prints player and score values from multidimensional vector
 void OutputScores(vector<vector<string>> scores){
   cout << "=============== HIGH SCORES ===============\n\n";
   for (int i = 0; i<scores.size(); i++) {

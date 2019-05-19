@@ -82,33 +82,34 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
         cerr << "Invalid action.\n";
         break;
     }
-    if (enemyAction == 0 && e.GetHealth() > 0)
+    if (enemyAction == 0 && e.GetHealth() > 0) {
       EnemyAttack(e, p, playerAction, playerDeflect);
+    } else {
+      AddMessage("Enemy blocks.");
+    }
+
   }
 
   if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
     p.AddMessage("The " + e.GetRole() + " has been defeated!\nYou are victorious!");
     p.SetWealth(p.GetWealth() + e.GetWealth());
     p.AddExp(e.GetExp());
-    battleOver = true;
   } else if (p.GetHealth() <= 0) {
     p.AddMessage("Game over!");
-    battleOver = true;
-    p.SetGameOver(true);
   }
 }
 
 void Battle::EnemyAttack(Enemy& e, Player& p, bool block, bool deflect) {
-  string message;
   AddMessage(e.GetRole() + " attacks!");
   int armorModifier = 0;
   if (block) {
     armorModifier = rand() % 3;
     AddMessage(p.GetName() + " blocks!");
   }
-
+  string message;
   int damageToPlayer = max( (e.GetAttack() + (rand() % 3)) - (p.GetArmor() + armorModifier), 1);
   int dexDiff = p.GetDexterity() - e.GetDexterity();
+  bool deflectSucceeds = false;
   if (deflect) {
     if (p.GetDexterity() > e.GetDexterity() && (rand() % dexDiff) > 0) {
       AddMessage("You successfully deflect!");
@@ -121,9 +122,6 @@ void Battle::EnemyAttack(Enemy& e, Player& p, bool block, bool deflect) {
       p.SetHealth(p.GetHealth() - damageToPlayer);
     }
     AddMessage(message);
-
-
-  //return damageToPlayer;
   } else {
     message = "You suffer " + to_string(damageToPlayer) + " damage!";
     p.SetHealth(p.GetHealth() - damageToPlayer);

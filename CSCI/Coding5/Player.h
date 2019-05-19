@@ -21,7 +21,6 @@ public:
 
   //Accessor Functions
   string GetName();
-  string GetRoomMessage();
   int GetRoomVisits();
   int GetRoomVisits(int roomNumber);
   int GetRoomNumber();

@@ -1,6 +1,6 @@
 /*
  * Name          : Vince Rothenberg
- * Description   : Final Review 
+ * Description   : Final Review
  */
 
 #include <cctype>
