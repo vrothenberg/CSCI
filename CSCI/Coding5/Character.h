@@ -10,15 +10,15 @@ using std::endl;
 using std::cerr;
 using std::string;
 
-
+//Character base class, Player and Enemy classes inherit from Character
 class Character {
 
   public:
-  //Constructors
+  //Constructor
   Character();
+
   //Accessor Functions
-
-
+  //Return private member variables
   string GetRole();
   int GetLevel();
   int GetExp();
@@ -32,8 +32,11 @@ class Character {
   int GetSpeed();
 
   //Mutator Functions
+  //Sets multiple member variables on character initialization
   void SetAttributes(string role, int level, int experience, int health,
     int attack, int armor, int dexterity, int intelligence, int speed);
+
+  //Set private member variables
   void SetRole(string role);
   void SetLevel(int level);
   void SetExp(int exp);

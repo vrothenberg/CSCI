@@ -17,9 +17,12 @@ class Player : public Character {
 public:
   //Constructors
   Player();
+
+  //Initialize function prompts user to set name
   void Initialize();
 
   //Accessor Functions
+  //Returns player name
   string GetName();
   int GetRoomVisits();
   int GetRoomVisits(int roomNumber);
@@ -37,7 +40,6 @@ public:
   //Mutator Functions
   void SetName();
   void SetName(string name);
-  void SetRoomMessage(string message);
   void IncrementRoomVisits();
   void SetRoomNumber(int roomNumber);
   void AddMessage(string s);

@@ -8,7 +8,9 @@ Player::Player() {
 //Prompts user to configure their player name and role
 //If user is especially awesome it will add bonus stats
 void Player::Initialize() {
+  //Calls set name function to prompt user
   SetName();
+  //Outputs roles to choose from
   cout << "Choose your role: \n"
   << "(R) Repo man - Strong and determined. \n"
   << "(H) Hazmat - Armored and resilient. \n"
@@ -17,6 +19,7 @@ void Player::Initialize() {
   << "(T) Teenager - Curious and fast. \n";
   CinReader read;
   char c = toupper(read.readChar("sShHdDrRtT"));
+  //Switch statement to initialize player role and attributes
   switch (c) {
     case 'S':
       SetAttributes("Scientist", 1, 0, 15, 3, 2, 3, 4, 3);
@@ -37,6 +40,7 @@ void Player::Initialize() {
       cerr << "Invalid role.\n";
       break;
   }
+  //Conditional statement for comparatively awesome users
   if(GetName() == "Luke") {
     SetName("Based Luke");
     SetRole("Overpowered " + GetRole());
@@ -76,40 +80,49 @@ void Player::PrintMessages() {
   cout << output << endl;
 }
 
+//Returns player base attack and attack modifier value
 int Player::GetAttack() {
   return Character::GetAttack() + GetAttackModifier();
 }
 
+//Returns player attack modifier from weapon
 int Player::GetAttackModifier() {
   return attackModifier_;
 }
 
+//Returns player base defense and defense modifier from armor
 int Player::GetArmor() {
   return Character::GetArmor() + GetArmorModifier();
 }
 
+//Returns player defense modifier from armor
 int Player::GetArmorModifier() {
   return armorModifier_;
 }
 
+//Returns player health modifier
 int Player::GetHealthModifier() {
   return healthModifier_;
 }
 
+//Returns weapon name string
 string Player::GetWeaponName() {
   return weaponName_;
 }
+
+//Returns armor name string
 string Player::GetArmorName() {
   return armorName_;
 }
 
+//Returns game over flag
 bool Player::GetGameOver() {
   return gameOver_;
 }
 
 
 //Mutator Functions
-
+//Prompts user for name, must be between 1 and 14 characters long
 void Player::SetName() {
   cout << "Enter your player name: ";
   CinReader read;
@@ -122,21 +135,21 @@ void Player::SetName() {
   SetName(name);
 }
 
+//Overloaded setname function for supplied string
+//Defaults to "Nameless" for invalid name lengths
 void Player::SetName(string name) {
   if (name.length() > 0 && name.length() < 15) name_ = name;
   else name_ = "Nameless";
   ClearScreen();
 }
 
+//Increments visits for current room number
+//Used for determining likelihood of finding wealth or an enemy
 void Player::IncrementRoomVisits() {
   visits_[roomNumber_-1]++;
 }
 
-void Player::SetRoomMessage(string message) {
-  cout << "SET!\n";
-  roomMessage_ = message;
-}
-
+//Sets current room number
 void Player::SetRoomNumber(int roomNumber) {
   if(roomNumber > 0 && roomNumber <= 10) roomNumber_ = roomNumber;
 }

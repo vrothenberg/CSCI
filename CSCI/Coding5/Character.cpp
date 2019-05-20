@@ -1,12 +1,13 @@
 #include "Character.h"
 
-//Constructors
+//Constructor
 Character::Character() {
   time_ = time(0);
 
 }
 
 //Accessor Functions
+//Return private member variables
 string Character::GetRole() {
   return role_;
 }
@@ -19,9 +20,11 @@ int Character::GetExp() {
 int Character::GetWealth() {
   return wealth_;
 }
+//Current health, i.e. after damage inflicted
 int Character::GetHealth() {
   return health_;
 }
+//Total possible health based on level and role
 int Character::GetMaxHealth() {
   return maxHealth_;
 }
@@ -42,7 +45,7 @@ int Character::GetSpeed() {
 }
 
 //Mutator Functions
-
+//Sets multiple member variables on character initialization
 void Character::SetAttributes(string role, int level = 0, int experience = 0,
   int health = 0, int attack = 0, int armor = 0, int dexterity = 0,
   int intelligence = 0, int speed = 0) {
