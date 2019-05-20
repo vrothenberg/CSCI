@@ -69,7 +69,7 @@ int Player::GetRoomNumber() {
   return roomNumber_;
 };
 
-//Outputs enqueued messages for HUD 
+//Outputs enqueued messages for HUD
 void Player::PrintMessages() {
   string output = messages_;
   messages_ = "";
@@ -173,6 +173,9 @@ void Player::AddExp(int exp) {
     SetMaxHealth(GetMaxHealth() + 5);
     SetAttack(GetAttack() + 1);
     SetArmor(GetArmor() + 1);
+    SetIntelligence(GetIntelligence() + 1);
+    SetDexterity(GetDexterity() + 1);
+    SetSpeed(GetSpeed() + 1);
   }
 }
 

@@ -28,12 +28,12 @@ EnemyType Enemy::Enemies[8] = {
   {
     "Rude Realtor",
     {"Buy this house!\n", "I've got tiki torches in the garage.\n", "This fixer-upper has great potential.\n"},
-    {2, 20, 15, 2, 2, 1, 1, 2, 20}
+    {2, 20, 20, 2, 2, 1, 1, 2, 20}
   },
   {
     "Sneaky Snake",
     {"Hiss!\n", "Sss...\n", "I'm a snake!\n"},
-    {3, 30, 10, 3, 1, 3, 1, 3, 0}
+    {3, 30, 20, 5, 1, 3, 1, 3, 0}
   },
   {
     "Avaricious Anarchist",

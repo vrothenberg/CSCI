@@ -60,7 +60,7 @@ private:
   void HighScores();
   void UpdateHighScores();
   void GameOver();
-  void BattleRoll();
+  void BattleRoll(int chance);
 
   //Room Functions
   void Foyer();

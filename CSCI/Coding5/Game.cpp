@@ -19,7 +19,6 @@ void Game::Start() {
   while(!player_.GetGameOver()) {
     LoadRoom();
   }
-
   GameOver();
 }
 
@@ -79,7 +78,7 @@ void Game::Tick() {
 //Displays current information
 void Game::HUD() {
   //stringf padding
-  //cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
+  cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
   cout << player_.GetName() << " the Level " << player_.GetLevel() << " " << player_.GetRole() << endl;
   //cout << "Health: " << player_.GetHealth() << " Wealth: " << player_.GetWealth() << endl;
   printf("Health : %12d Wealth  : %d \n", player_.GetHealth(), player_.GetWealth());
@@ -92,7 +91,7 @@ void Game::HUD() {
 
 //Creates vector of scores from highscores.txt file
 void Game::HighScores() {
-  scores_ = CreateVector("highscores.txt");
+  scores_ = CreateVector("HighScores.txt");
   OutputScores(scores_);
 
 }
@@ -101,26 +100,28 @@ void Game::HighScores() {
 void Game::UpdateHighScores() {
   vector<string> newScore{player_.GetName(), to_string(player_.GetWealth())};
   scores_ = UpdateVector(scores_, newScore);
-  SaveToFile(scores_, "highscores.txt");
+  SaveToFile(scores_, "HighScores.txt");
 }
 
 //Game over function, stores score in high scores.
 void Game::GameOver() {
   player_.PrintMessages();
   UpdateHighScores();
+  HighScores();
+  int x;
+  cout << "Thanks for playing!\n";
+  cin >> x;
 }
 
 //Chance of a battle when entering room
 //Chance inversely proportion to room visits
-void Game::BattleRoll() {
+void Game::BattleRoll(int chance) {
   int modifier = 2 + player_.GetRoomVisits();
   int roll = rand() % modifier;
-  if (roll==0) {
+  if (roll < chance) {
+    player_.AddMessage("An enemy emerges from the shadows!\n");
     Battle b(player_, player_.GetRoomNumber());
-    b.AddMessage("You encounter an enemy!");
-
     player_.IncrementRoomVisits();
-    modifier = 2 + player_.GetRoomVisits();
   }
 }
 
@@ -133,7 +134,7 @@ void Game::Foyer() {
   bool inRoom = true;
   CinReader read;
   string readCharString = "wWeEsSlL";
-  while (inRoom) {
+  while (inRoom && !player_.GetGameOver()) {
     Tick();
     cout << "You stand in the Foyer.\n\n"
     << "To the west the sun flows through a large glass door.\n"
@@ -177,7 +178,7 @@ void Game::SunRoom() {
   CinReader read;
   string readCharString = "eEsSlL";
   player_.SetHealth(player_.GetMaxHealth());
-  while(inRoom) {
+  while(inRoom && !player_.GetGameOver()) {
     Tick();
     cout << "You bask in the light of the Sun Room.\n"
     << "You feel your health regaining.\n\n"
@@ -213,8 +214,8 @@ void Game::SunRoom() {
 void Game::Office() {
   CinReader read;
   bool inRoom = true;
-  string readCharString = "eEsSlL";
-  while (inRoom) {
+  string readCharString = "wWsSlL";
+  while (inRoom && !player_.GetGameOver()) {
     Tick();
     cout << "You stand in a well furnished Office.\n\n"
     << "To the west is the Foyer.\n"
@@ -250,8 +251,8 @@ void Game::Hall() {
   CinReader read;
   string readCharString = "nNwWeEsSlL";
   bool inRoom = true;
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(4);
     Tick();
 
 
@@ -309,8 +310,8 @@ void Game::Garden() {
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNeEsSlL";
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(4);
     Tick();
 
     cout << "You stand in an overgrown garden.\n\n"
@@ -332,6 +333,7 @@ void Game::Garden() {
       case 'N':
         player_.SetRoomNumber(2);
         inRoom = false;
+        break;
       case 'E':
         player_.SetRoomNumber(4);
         inRoom = false;
@@ -359,8 +361,8 @@ void Game::Library() {
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWlL";
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(4);
     Tick();
 
     cout << "You stand in a dusty library.  Books tower above.\n\n"
@@ -376,6 +378,7 @@ void Game::Library() {
       case 'N':
         player_.SetRoomNumber(3);
         inRoom = false;
+        break;
       case 'W':
         player_.SetRoomNumber(4);
         inRoom = false;
@@ -397,8 +400,8 @@ void Game::Basement() {
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNwWeEsSlL";
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(7);
     Tick();
 
     cout << "You stand in a cold basement. To your side is a cavern.\n"
@@ -419,6 +422,7 @@ void Game::Basement() {
       case 'N':
         player_.SetRoomNumber(4);
         inRoom = false;
+        break;
       case 'W':
         player_.SetRoomNumber(8);
         inRoom = false;
@@ -449,8 +453,8 @@ void Game::Cave() {
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNeElL";
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(6);
     Tick();
 
     cout << "You hunch down in a small, dark cave.\n\n"
@@ -467,6 +471,7 @@ void Game::Cave() {
         caveDiscovered_ = true;
         player_.SetRoomNumber(5);
         inRoom = false;
+        break;
       case 'E':
         player_.SetRoomNumber(7);
         inRoom = false;
@@ -489,8 +494,8 @@ void Game::Utility() {
   bool inRoom = true;
   CinReader read;
   string roomCharString = "wWlL";
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(8);
     Tick();
 
     cout << "You stand in a well-stocked utility room.\n\n"
@@ -523,8 +528,8 @@ void Game::Tomb() {
   bool inRoom = true;
   CinReader read;
   string roomCharString = "nNlL";
-  while (inRoom) {
-    BattleRoll();
+  while (inRoom && !player_.GetGameOver()) {
+    BattleRoll(9);
     Tick();
 
     cout << "You stand before an ominous tomb.\n\n"
@@ -632,16 +637,15 @@ void Game::LookAround() {
       player_.AddMessage("A mysterious force acts!");
       if (player_.GetHealth() < player_.GetMaxHealth()) {
         player_.SetHealth(player_.GetMaxHealth());
-        player_.AddMessage("Your health rejuvenates.\n");
+        player_.AddMessage("Your health rejuvenates.");
       } else {
         player_.AddMessage("Yet it remains a mystery.");
       }
-
       break;
     case 6:
       //Random battle
       {
-        player_.AddMessage("An enemy approaches!\n");
+        player_.AddMessage("You find an enemy!\n");
         Battle lookBattle(player_, player_.GetRoomNumber());
       }
       break;

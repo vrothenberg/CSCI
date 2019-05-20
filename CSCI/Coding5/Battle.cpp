@@ -17,19 +17,21 @@ Battle::Battle(Player& p, Enemy& e) {
 //Battle loop, halts if either player or enemy health drops to 0 or lower
 
 void Battle::BattleLoop(Player& p, Enemy& e) {
-  ClearScreen();
   CinReader read;
+
+  ClearScreen();
+
   AddMessage("An enemy approaches!\n");
   AddMessage(e.GetRole() + " : " + e.GetTaunt());
   while (!battleOver) {
     round_++;
     cout << "Round: " << round_ << endl << endl
-    << "==============================\n\n"
+    << "================================\n\n"
     << p.GetName() << " the level " << p.GetLevel() << " " << p.GetRole() << endl;
     printf("Health : %12d Wealth  : %d \n", p.GetHealth(), p.GetWealth());
     printf("Attack : %12d Defense : %d \n", p.GetAttack(), p.GetArmor());
     printf("Weapon : %12s Armor   : %s\n\n", p.GetWeaponName().c_str(), p.GetArmorName().c_str());
-    cout << "=========== VERSUS ===========\n\n"
+    cout << "============ VERSUS ============\n\n"
     << "Level " << e.GetLevel() << " " << e.GetRole() << endl;
     printf("Health : %12d Wealth  : %d \n", e.GetHealth(), e.GetWealth());
     printf("Attack : %12d Defense : %d \n\n", e.GetAttack(), e.GetArmor());
@@ -96,7 +98,7 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
 
     if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
 
-      p.AddMessage("The " + e.GetRole() + " has been defeated!\n");
+      p.AddMessage("The " + e.GetRole() + " has been defeated!");
       p.SetWealth(p.GetWealth() + e.GetWealth());
       p.AddMessage("You gain " + to_string(e.GetWealth()) + " wealth.");
       p.AddExp(e.GetExp());
@@ -159,12 +161,13 @@ void Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
 
 void Battle::Sophistry(Player& p, Enemy& e) {
   if (p.GetIntelligence() > e.GetIntelligence()) {
-    p.AddMessage("Your intellect deterritorializes the totality of the enemy's interiority!");
-    p.AddMessage(e.GetRole() + " hurt itself in its confusion!");
-    e.SetHealth(e.GetHealth() - (p.GetIntelligence() - e.GetIntelligence()));
+    AddMessage("Your intellect deterritorializes the totality of the enemy's interiority!");
+    int damage = p.GetIntelligence() - e.GetIntelligence();
+    AddMessage(e.GetRole() + " inflicted " + to_string(damage) + " damage to itself in its confusion!");
+    e.SetHealth(e.GetHealth() - damage);
   } else {
-    p.AddMessage("The post-modern dialectic deconstructs your paradigm!");
-    p.AddMessage("You hurt yourself out of confusion!");
+    AddMessage("The post-modern dialectic deconstructs your paradigm!");
+    AddMessage("You hurt yourself out of confusion!");
     p.SetHealth(p.GetHealth() - (e.GetIntelligence() - p.GetIntelligence()));
   }
 

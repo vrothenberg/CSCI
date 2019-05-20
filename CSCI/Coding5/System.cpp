@@ -75,7 +75,7 @@ void OutputScores(vector<vector<string>> scores){
     string name = scores[i][0];
     int score = stoi(scores[i][1]);
     //cout << "Player: " << name << " Score: " << score << endl;
-    printf(" Player: %15s      Score: %5d \n", name.c_str(), score);
+    printf(" Player: %15s    Score: %7d \n", name.c_str(), score);
   }
   cout << "\n===========================================\n\n";
 }
