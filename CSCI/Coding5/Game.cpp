@@ -26,7 +26,6 @@ void Game::LoadRoom() {
   ClearScreen();
   int num = player_.GetRoomNumber();
   player_.IncrementRoomVisits();
-  //cout << "LoadRoomNumber: " << num << endl;
 
   switch(player_.GetRoomNumber()) {
     case 1:
@@ -98,11 +97,12 @@ void Game::UpdateHighScores() {
 
 //Game over function, stores score in high scores.
 void Game::GameOver() {
+  string x;
   player_.PrintMessages();
   UpdateHighScores();
   HighScores();
+  cout << "Your score : " << to_string(player_.GetWealth()) << endl;
   //Pause console to prevent abrupt shutdown
-  int x;
   cout << "Thanks for playing!\n";
   cin >> x;
 }
@@ -289,6 +289,7 @@ void Game::Hall() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(4);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();
@@ -359,6 +360,7 @@ void Game::Garden() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(4);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();
@@ -424,6 +426,7 @@ void Game::Library() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(4);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();
@@ -475,6 +478,7 @@ void Game::Basement() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(7);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();
@@ -539,6 +543,7 @@ void Game::Cave() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(6);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();
@@ -591,6 +596,7 @@ void Game::Utility() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(8);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();
@@ -636,6 +642,7 @@ void Game::Tomb() {
   while (inRoom && !player_.GetGameOver()) {
     //Chance of battle while in room
     BattleRoll(9);
+    if (player_.GetGameOver()) break;
 
     //Increments gameTicks_, room visits, and displays HUD
     Tick();

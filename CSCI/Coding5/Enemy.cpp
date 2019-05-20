@@ -14,6 +14,7 @@ Enemy::Enemy(int room, int difficulty) {
   }
 }
 
+//Returns 1 of 3 enemy taunts 
 string Enemy::GetTaunt() {
   return taunts_[rand()%3];
 }

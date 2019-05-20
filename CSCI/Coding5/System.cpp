@@ -35,6 +35,7 @@ vector<vector<string>> UpdateVector(vector< vector<string> > oldVector, vector<s
     }
     newVector.push_back(oldVector[i]);
   }
+  //Only keeps track of top 10, erases lowest score if full
   if (newVector.size()>10) newVector.erase(newVector.end() - 1);
   return newVector;
 }
@@ -62,13 +63,13 @@ vector<vector<string>> CreateVector(std::string file) {
 //Writes multidimensional vector to file
 void SaveToFile(vector<vector<string>> inputVector, std::string file) {
   ofstream fout(file);
-  for (int i = 0; inputVector.size(); i++) {
+  for (int i = 0; i < inputVector.size(); i++) {
     fout << inputVector[i][0] << " " << inputVector[i][1] << endl;
   }
   fout.close();
 }
 
-//Prints player and score values from multidimensional vector
+//Prints top 10 player and score values from multidimensional vector
 void OutputScores(vector<vector<string>> scores){
   cout << "=============== HIGH SCORES ===============\n\n";
   for (int i = 0; i<scores.size(); i++) {

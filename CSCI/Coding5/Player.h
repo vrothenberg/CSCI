@@ -22,33 +22,78 @@ public:
   void Initialize();
 
   //Accessor Functions
+
   //Returns player name
   string GetName();
+
+  //Returns current room visits
   int GetRoomVisits();
+
+  //Returns specific room visits
   int GetRoomVisits(int roomNumber);
+
+  //Returns current room number
   int GetRoomNumber();
+
+  //Outputs enqueued messages
   void PrintMessages();
+
+  //Returns base character attack stat plus weapon attack value
   int GetAttack();
+
+  //Returns weapon attack value
   int GetAttackModifier();
+
+  //Returns base character defense value plus armor defense value
   int GetArmor();
+
+  //Returns armor defense value
   int GetArmorModifier();
-  int GetHealthModifier();
+
+  //Returns weapon name string
   string GetWeaponName();
+
+  //Returns armor name string
   string GetArmorName();
+
+  //Returns game over flag
   bool GetGameOver();
 
+
   //Mutator Functions
+
+  //Prompts user to set a name between 0 and 16 characters long
   void SetName();
+
+  //Function overload for provided name argument
   void SetName(string name);
+
+  //Increments current room visits by 1
   void IncrementRoomVisits();
+
+  //Sets current room number
   void SetRoomNumber(int roomNumber);
+
+  //Enqueues message to be displayed under HUD
   void AddMessage(string s);
+
+  //Sets weapon attack modifier member variable
   void SetAttackModifier(int attackModifier);
+
+  //Sets armor defense modifier member variable
   void SetArmorModifier(int armorModifier);
-  void SetHealthModifier(int healthModifier);
+
+  //Sets weapon name member variable
   void SetWeaponName(string weaponName);
+
+  //Sets armor name member variable
   void SetArmorName(string armorName);
+
+  //Adds experience to cumulative experience_ member variable
+  //Levels up based on exponential equation
   void AddExp(int exp);
+
+  //Sets gameOver_ flag member variable
   void SetGameOver(bool status);
 
 

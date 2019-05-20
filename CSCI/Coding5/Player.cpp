@@ -71,7 +71,7 @@ int Player::GetRoomVisits(int roomNumber) {
 //Returns current room number
 int Player::GetRoomNumber() {
   return roomNumber_;
-};
+}
 
 //Outputs enqueued messages for HUD
 void Player::PrintMessages() {
@@ -98,11 +98,6 @@ int Player::GetArmor() {
 //Returns armor defense value
 int Player::GetArmorModifier() {
   return armorModifier_;
-}
-
-//Returns health modifier
-int Player::GetHealthModifier() {
-  return healthModifier_;
 }
 
 //Returns weapon name string
@@ -166,11 +161,6 @@ void Player::SetAttackModifier(int attackModifier) {
 //Sets armor modifier member variable
 void Player::SetArmorModifier(int armorModifier) {
   armorModifier_ = armorModifier;
-}
-
-//Sets health modifier member variable
-void Player::SetHealthModifier(int healthModifier) {
-  healthModifier_ = healthModifier;
 }
 
 //Sets weapon name member variable
