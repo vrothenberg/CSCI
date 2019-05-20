@@ -1,14 +1,15 @@
 #include "Battle.h"
 
+//Battle Constructor
+//Creates 1 of 3 possible enemies based on room number
+//Calls BattleLoop for primary combat logic
 Battle::Battle(Player& p, int room) {
   Enemy newEnemy(room, rand()%3);
-  AddMessage("The battle has begun!");
   BattleLoop(p, newEnemy);
-
 }
 
+//Starts a battle using given player and enemy objects
 Battle::Battle(Player& p, Enemy& e) {
-  AddMessage("The battle has begun!");
   BattleLoop(p, e);
 }
 
@@ -18,14 +19,21 @@ Battle::Battle(Player& p, Enemy& e) {
 void Battle::BattleLoop(Player& p, Enemy& e) {
   ClearScreen();
   CinReader read;
-  while (!battleOver && p.GetHealth() > 0 && e.GetHealth() > 0) {
+  AddMessage("An enemy approaches!\n");
+  AddMessage(e.GetRole() + " : " + e.GetTaunt());
+  while (!battleOver) {
     round_++;
-    cout << "Round: " << round_ << endl;
-    cout << p.GetName() << " the level " << p.GetLevel() << " " << p.GetRole() << endl;
-    cout << "Health: " << p.GetHealth() << " Wealth: " << p.GetWealth() << endl << endl;
-    cout << "======== VERSUS ===========\n"
-    << "Level " << e.GetLevel() << " " << e.GetRole() << endl
-    << "Health: " << e.GetHealth() << endl << endl;
+    cout << "Round: " << round_ << endl << endl
+    << "==============================\n\n"
+    << p.GetName() << " the level " << p.GetLevel() << " " << p.GetRole() << endl;
+    printf("Health : %12d Wealth  : %d \n", p.GetHealth(), p.GetWealth());
+    printf("Attack : %12d Defense : %d \n", p.GetAttack(), p.GetArmor());
+    printf("Weapon : %12s Armor   : %s\n\n", p.GetWeaponName().c_str(), p.GetArmorName().c_str());
+    cout << "=========== VERSUS ===========\n\n"
+    << "Level " << e.GetLevel() << " " << e.GetRole() << endl;
+    printf("Health : %12d Wealth  : %d \n", e.GetHealth(), e.GetWealth());
+    printf("Attack : %12d Defense : %d \n\n", e.GetAttack(), e.GetArmor());
+
     PrintMessages();
     string readCharString = "wWbBrR";
     cout << "\nEnter your action: \n"
@@ -43,7 +51,7 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
 
     char c = toupper(read.readChar(readCharString));
     //Enemy action
-    int enemyAction = rand() % 2;
+    int enemyAction = rand() % 3;
     int playerAction = 0;
     int playerDeflect = 0;
     ClearScreen();
@@ -51,22 +59,22 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
     int damageToPlayer = 0;
     switch(c) {
       case 'W':
-        //Weapon
+        //Weapon attack
         AddMessage("You attack!");
         PlayerAttack(p, e, enemyAction);
         break;
       case 'S':
-        //Sophistry
+        //Sophistry attack, uses intelligence stat
         AddMessage("You use sophistry!");
         Sophistry(p, e);
         break;
       case 'D':
-        //Deflect
+        //Deflect move, uses dexterity stat
         AddMessage("You try to deflect.");
         playerDeflect = 1;
         break;
       case 'B':
-        //Block
+        //Block, raises defense
         AddMessage("You try to block.");
         playerAction = 1;
         break;
@@ -82,20 +90,26 @@ void Battle::BattleLoop(Player& p, Enemy& e) {
         cerr << "Invalid action.\n";
         break;
     }
-    if (enemyAction == 0 && e.GetHealth() > 0) {
+    if (enemyAction > 0 && e.GetHealth() > 0) {
       EnemyAttack(e, p, playerAction, playerDeflect);
-    } else {
-      AddMessage("Enemy blocks.");
     }
 
-  }
+    if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
 
-  if (p.GetHealth() > 0 && e.GetHealth() <= 0) {
-    p.AddMessage("The " + e.GetRole() + " has been defeated!\nYou are victorious!");
-    p.SetWealth(p.GetWealth() + e.GetWealth());
-    p.AddExp(e.GetExp());
-  } else if (p.GetHealth() <= 0) {
-    p.AddMessage("Game over!");
+      p.AddMessage("The " + e.GetRole() + " has been defeated!\n");
+      p.SetWealth(p.GetWealth() + e.GetWealth());
+      p.AddMessage("You gain " + to_string(e.GetWealth()) + " wealth.");
+      p.AddExp(e.GetExp());
+      if (e.GetRole() == "Big Guy 4U") {
+        p.AddMessage("You win A Spooky Domicile!");
+        p.SetGameOver(true);
+      }
+      battleOver = true;
+    } else if (p.GetHealth() <= 0) {
+      p.AddMessage("Game over!");
+      p.SetGameOver(true);
+      battleOver = true;
+    }
   }
 }
 
@@ -132,7 +146,7 @@ void Battle::EnemyAttack(Enemy& e, Player& p, bool block, bool deflect) {
 
 void Battle::PlayerAttack(Player& p, Enemy& e, bool block) {
   int armorModifier = 0;
-  if (block) {
+  if (!block) {
     armorModifier = rand() % 3;
     AddMessage(e.GetRole() + " blocks!");
   }

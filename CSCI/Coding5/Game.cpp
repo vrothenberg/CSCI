@@ -19,6 +19,7 @@ void Game::Start() {
   while(!player_.GetGameOver()) {
     LoadRoom();
   }
+
   GameOver();
 }
 
@@ -105,9 +106,8 @@ void Game::UpdateHighScores() {
 
 //Game over function, stores score in high scores.
 void Game::GameOver() {
+  player_.PrintMessages();
   UpdateHighScores();
-  cout << "Game over!\n";
-
 }
 
 //Chance of a battle when entering room
@@ -116,11 +116,11 @@ void Game::BattleRoll() {
   int modifier = 2 + player_.GetRoomVisits();
   int roll = rand() % modifier;
   if (roll==0) {
-    Battle b(player_, 4);
-    b.AddMessage("You walk down the hall and encounter an enemy!");
+    Battle b(player_, player_.GetRoomNumber());
+    b.AddMessage("You encounter an enemy!");
 
     player_.IncrementRoomVisits();
-    modifier = 2 + player_.GetRoomVisits(4);
+    modifier = 2 + player_.GetRoomVisits();
   }
 }
 
@@ -251,8 +251,9 @@ void Game::Hall() {
   string readCharString = "nNwWeEsSlL";
   bool inRoom = true;
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
 
     cout << "You stand in a dimly lit Hall.\n"
     << "Your least favorite art hangs on the walls.\n\n"
@@ -309,8 +310,9 @@ void Game::Garden() {
   CinReader read;
   string roomCharString = "nNeEsSlL";
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
     cout << "You stand in an overgrown garden.\n\n"
     << "To the north is the Sun Room.\n"
     << "To the east is the Hall.\n";
@@ -358,8 +360,9 @@ void Game::Library() {
   CinReader read;
   string roomCharString = "nNwWlL";
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
     cout << "You stand in a dusty library.  Books tower above.\n\n"
     << "To the north is the Office.\n"
     << "To the west is the Hall.\n\n"
@@ -395,8 +398,9 @@ void Game::Basement() {
   CinReader read;
   string roomCharString = "nNwWeEsSlL";
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
     cout << "You stand in a cold basement. To your side is a cavern.\n"
     << "A single bare lightbulb hangs above.\n\n"
     << "To the north is a stairway to the Hall.\n"
@@ -446,8 +450,9 @@ void Game::Cave() {
   CinReader read;
   string roomCharString = "nNeElL";
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
     cout << "You hunch down in a small, dark cave.\n\n"
     << "To the north sunlight breaches the crevices.\n"
     << "To the east a cavern opens.\n\n"
@@ -485,8 +490,9 @@ void Game::Utility() {
   CinReader read;
   string roomCharString = "wWlL";
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
     cout << "You stand in a well-stocked utility room.\n\n"
     << "To the west is the maintenance door.\n\n"
     << "Enter your action: \n"
@@ -518,8 +524,9 @@ void Game::Tomb() {
   CinReader read;
   string roomCharString = "nNlL";
   while (inRoom) {
-    Tick();
     BattleRoll();
+    Tick();
+
     cout << "You stand before an ominous tomb.\n\n"
     << "To the north is the basement.\n\n"
     << "Enter your action: \n"
@@ -599,7 +606,7 @@ void Game::LookAround() {
         }
 
       } else {
-        player_.AddMessage("Nothing.");
+        player_.AddMessage("Nothing interesting.");
       }
 
       break;
@@ -614,15 +621,15 @@ void Game::LookAround() {
           message = "You now wear the " + armor.name_;
           player_.AddMessage(message);
         } else {
-          player_.AddMessage("Lousy junk");
+          player_.AddMessage("Lousy junk.");
         }
       } else {
-        player_.AddMessage("Nothing");
+        player_.AddMessage("Nothing interesting.");
       }
       break;
     case 5:
       //Health regain
-      player_.AddMessage("A mysterious force acts!\n");
+      player_.AddMessage("A mysterious force acts!");
       if (player_.GetHealth() < player_.GetMaxHealth()) {
         player_.SetHealth(player_.GetMaxHealth());
         player_.AddMessage("Your health rejuvenates.\n");
@@ -634,8 +641,8 @@ void Game::LookAround() {
     case 6:
       //Random battle
       {
+        player_.AddMessage("An enemy approaches!\n");
         Battle lookBattle(player_, player_.GetRoomNumber());
-        lookBattle.AddMessage("An enemy approaches!\n");
       }
       break;
     default:
