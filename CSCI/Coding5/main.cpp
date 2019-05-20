@@ -1,3 +1,7 @@
+//NAME: Vince Rothenberg
+//TITLE: A Spooky Domicile
+//Final Project CSCI20
+
 #include <iostream>
 #include "Player.h"
 #include "Enemy.h"

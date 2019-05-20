@@ -21,7 +21,6 @@ public:
   void EnemyAttack(Enemy& e, Player& p, bool block, bool deflect);
   void PlayerAttack(Player& p, Enemy& e, bool block);
   void Sophistry(Player& p, Enemy& e);
-  //void Deflect(Player& p, Enemy& e);
   void AddMessage(string s);
   void PrintMessages();
 

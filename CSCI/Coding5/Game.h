@@ -39,7 +39,7 @@ public:
   static ArmorMap armors_;
 
 private:
-  //Global variables
+  //Seed for rand()
   time_t time_ = time(0);
   bool gameOver_ = false;
   int gameTicks_ = 0;
@@ -60,7 +60,7 @@ private:
   void HighScores();
   void UpdateHighScores();
   void GameOver();
-  void BattleRoll(int chance);
+  void BattleRoll(int danger);
 
   //Room Functions
   void Foyer();

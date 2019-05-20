@@ -5,12 +5,10 @@ Player::Player() {
   roomNumber_ = 1;
 }
 
-//Prompts user to configure their player name and role
-//If user is especially awesome it will add bonus stats
+//Player initialization function, sets name, role and stats
 void Player::Initialize() {
-  //Calls set name function to prompt user
+  //Prompts user to configure their player name and role
   SetName();
-  //Outputs roles to choose from
   cout << "Choose your role: \n"
   << "(R) Repo man - Strong and determined. \n"
   << "(H) Hazmat - Armored and resilient. \n"
@@ -19,7 +17,6 @@ void Player::Initialize() {
   << "(T) Teenager - Curious and fast. \n";
   CinReader read;
   char c = toupper(read.readChar("sShHdDrRtT"));
-  //Switch statement to initialize player role and attributes
   switch (c) {
     case 'S':
       SetAttributes("Scientist", 1, 0, 15, 3, 2, 3, 4, 3);
@@ -40,7 +37,7 @@ void Player::Initialize() {
       cerr << "Invalid role.\n";
       break;
   }
-  //Conditional statement for comparatively awesome users
+  //Conditional statement for comparatively awesome players
   if(GetName() == "Luke") {
     SetName("Based Luke");
     SetRole("Overpowered " + GetRole());
@@ -48,6 +45,9 @@ void Player::Initialize() {
     SetMaxHealth(GetHealth());
     SetAttack(GetAttack() + 3);
     SetArmor(GetArmor() + 3);
+    SetIntelligence(GetIntelligence() + 3);
+    SetDexterity(GetDexterity() + 3);
+    SetSpeed(GetSpeed() + 3);
   }
 }
 
@@ -80,27 +80,27 @@ void Player::PrintMessages() {
   cout << output << endl;
 }
 
-//Returns player base attack and attack modifier value
+//Returns base character attack stat plus weapon attack value
 int Player::GetAttack() {
   return Character::GetAttack() + GetAttackModifier();
 }
 
-//Returns player attack modifier from weapon
+//Returns weapon attack value
 int Player::GetAttackModifier() {
   return attackModifier_;
 }
 
-//Returns player base defense and defense modifier from armor
+//Returns base character armor value plus armor defense value
 int Player::GetArmor() {
   return Character::GetArmor() + GetArmorModifier();
 }
 
-//Returns player defense modifier from armor
+//Returns armor defense value
 int Player::GetArmorModifier() {
   return armorModifier_;
 }
 
-//Returns player health modifier
+//Returns health modifier
 int Player::GetHealthModifier() {
   return healthModifier_;
 }
@@ -122,7 +122,8 @@ bool Player::GetGameOver() {
 
 
 //Mutator Functions
-//Prompts user for name, must be between 1 and 14 characters long
+
+//Prompts user to set a name between 1 and 15 characters long
 void Player::SetName() {
   cout << "Enter your player name: ";
   CinReader read;
@@ -135,16 +136,14 @@ void Player::SetName() {
   SetName(name);
 }
 
-//Overloaded setname function for supplied string
-//Defaults to "Nameless" for invalid name lengths
+//Function overload for provided name argument
 void Player::SetName(string name) {
   if (name.length() > 0 && name.length() < 15) name_ = name;
   else name_ = "Nameless";
   ClearScreen();
 }
 
-//Increments visits for current room number
-//Used for determining likelihood of finding wealth or an enemy
+//Increments current room visits by 1
 void Player::IncrementRoomVisits() {
   visits_[roomNumber_-1]++;
 }
@@ -154,30 +153,38 @@ void Player::SetRoomNumber(int roomNumber) {
   if(roomNumber > 0 && roomNumber <= 10) roomNumber_ = roomNumber;
 }
 
+//Enqueues message to be displayed under HUD
 void Player::AddMessage(string s) {
   messages_ += s + "\n";
 }
 
+//Sets attack modifier member variable
 void Player::SetAttackModifier(int attackModifier) {
   attackModifier_ = attackModifier;
 }
 
+//Sets armor modifier member variable
 void Player::SetArmorModifier(int armorModifier) {
   armorModifier_ = armorModifier;
 }
 
+//Sets health modifier member variable
 void Player::SetHealthModifier(int healthModifier) {
   healthModifier_ = healthModifier;
 }
 
+//Sets weapon name member variable
 void Player::SetWeaponName(string weaponName) {
   weaponName_ = weaponName;
 }
 
+//Sets armor name member variable
 void Player::SetArmorName(string armorName) {
   armorName_ = armorName;
 }
 
+//Adds experience to cumulative member variable
+//Levels up based on exponential equation
 void Player::AddExp(int exp) {
   if (exp >= 0) SetExp(GetExp() + exp);
   int threshhold = 10 * pow(2, GetLevel());
@@ -192,6 +199,7 @@ void Player::AddExp(int exp) {
   }
 }
 
+//Set gameOver_ flag member variable
 void Player::SetGameOver(bool status) {
   gameOver_ = status;
 }

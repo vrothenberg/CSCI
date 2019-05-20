@@ -1,16 +1,13 @@
 #include "Game.h"
 
-
-
-
 //Constructor
 Game::Game() {
   srand((unsigned)time(0));
   gameOver_ = false;
 }
 
-//Runs primary game loop
-//Prints out high scores
+//Prints title screen and high score table.
+//Runs player initialization and primary game loop
 void Game::Start() {
   ClearScreen();
   cout << "\n             A Spooky Domicile\n\n";
@@ -77,15 +74,12 @@ void Game::Tick() {
 
 //Displays current information
 void Game::HUD() {
-  //stringf padding
   cout << "Tick: " << gameTicks_ << " Room visits: " << player_.GetRoomVisits() << endl;
   cout << player_.GetName() << " the Level " << player_.GetLevel() << " " << player_.GetRole() << endl;
-  //cout << "Health: " << player_.GetHealth() << " Wealth: " << player_.GetWealth() << endl;
   printf("Health : %12d Wealth  : %d \n", player_.GetHealth(), player_.GetWealth());
-  //cout << "Attack: " << player_.GetAttack() << " Defense: " << player_.GetArmor() << endl;
   printf("Attack : %12d Defense : %d \n", player_.GetAttack(), player_.GetArmor());
-  //cout << "Weapon : " << player_.GetWeaponName() << " Armor : " << player_.GetArmorName() << endl << endl;
   printf("Weapon : %12s Armor   : %s\n\n", player_.GetWeaponName().c_str(), player_.GetArmorName().c_str());
+  //Displays enqueued messages
   player_.PrintMessages();
 }
 
@@ -93,10 +87,9 @@ void Game::HUD() {
 void Game::HighScores() {
   scores_ = CreateVector("HighScores.txt");
   OutputScores(scores_);
-
 }
 
-//Inserts new ranked score
+//Inserts new ranked score into high score vector and writes to file
 void Game::UpdateHighScores() {
   vector<string> newScore{player_.GetName(), to_string(player_.GetWealth())};
   scores_ = UpdateVector(scores_, newScore);
@@ -108,6 +101,7 @@ void Game::GameOver() {
   player_.PrintMessages();
   UpdateHighScores();
   HighScores();
+  //Pause console to prevent abrupt shutdown
   int x;
   cout << "Thanks for playing!\n";
   cin >> x;
@@ -115,10 +109,10 @@ void Game::GameOver() {
 
 //Chance of a battle when entering room
 //Chance inversely proportion to room visits
-void Game::BattleRoll(int chance) {
+void Game::BattleRoll(int danger) {
   int modifier = 2 + player_.GetRoomVisits();
   int roll = rand() % modifier;
-  if (roll < chance) {
+  if (roll < danger) {
     player_.AddMessage("An enemy emerges from the shadows!\n");
     Battle b(player_, player_.GetRoomNumber());
     player_.IncrementRoomVisits();
@@ -130,12 +124,19 @@ void Game::BattleRoll(int chance) {
 //Room 1
 //Armor, Weapon
 void Game::Foyer() {
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid action inputs
   string readCharString = "wWeEsSlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Increment gameTicks_, room visits, display HUD
     Tick();
+
+    //Room description and actions
     cout << "You stand in the Foyer.\n\n"
     << "To the west the sun flows through a large glass door.\n"
     << "To the east is an old mahogany door.\n"
@@ -145,8 +146,12 @@ void Game::Foyer() {
     << "(E)ast\n"
     << "(S)outh\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(readCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'W':
         player_.SetRoomNumber(2);
@@ -172,14 +177,24 @@ void Game::Foyer() {
 
 //Room 2
 //Armor
+//Regenerating health
 void Game::SunRoom() {
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid action inputs
   string readCharString = "eEsSlL";
+  CinReader read;
+
+  //Regenerates health on room entry
   player_.SetHealth(player_.GetMaxHealth());
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while(inRoom && !player_.GetGameOver()) {
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
+
+    //Room description and actions
     cout << "You bask in the light of the Sun Room.\n"
     << "You feel your health regaining.\n\n"
     << "To the east is the Foyer.\n"
@@ -188,8 +203,12 @@ void Game::SunRoom() {
     << "(E)ast\n"
     << "(S)outh\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(readCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'E':
         player_.SetRoomNumber(1);
@@ -212,11 +231,19 @@ void Game::SunRoom() {
 //Room 3
 //Armor, Weapon
 void Game::Office() {
-  CinReader read;
+  //Flag for while loop
   bool inRoom = true;
+
+  //Set of valid actions
   string readCharString = "wWsSlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
+
+    //Room description and actions
     cout << "You stand in a well furnished Office.\n\n"
     << "To the west is the Foyer.\n"
     << "To the south is the Library.\n\n"
@@ -224,8 +251,12 @@ void Game::Office() {
     << "(W)est\n"
     << "(S)outh\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(readCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'W':
         player_.SetRoomNumber(1);
@@ -247,20 +278,28 @@ void Game::Office() {
 
 //Room 4
 void Game::Hall() {
-
-  CinReader read;
-  string readCharString = "nNwWeEsSlL";
+  //Flag for while loop
   bool inRoom = true;
+
+  //Set of valid actions
+  string readCharString = "nNwWeEsSlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(4);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
-
+    //Room description and actions
     cout << "You stand in a dimly lit Hall.\n"
     << "Your least favorite art hangs on the walls.\n\n"
     << "To the north is the Foyer.\n"
     << "To the west is the Garden.\n"
     << "To the east is the Library.\n";
+    //Checks if player has found basement key to enable progress into basement
     if (basementKey_) cout << "To the south is the basement.\n";
     else cout << "To the south is a locked door.\n";
     cout << "\nEnter your action: \n"
@@ -270,8 +309,11 @@ void Game::Hall() {
     << "(S)outh\n"
     << "(L)ook around\n";
 
+    //Read player input
     char c  = toupper(read.readChar(readCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'N':
         player_.SetRoomNumber(1);
@@ -306,17 +348,27 @@ void Game::Hall() {
 //Room 5
 //Weapon
 void Game::Garden() {
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid actions
   string roomCharString = "nNeEsSlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(4);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
+    //Room description and actions
     cout << "You stand in an overgrown garden.\n\n"
     << "To the north is the Sun Room.\n"
     << "To the east is the Hall.\n";
+
+    //Checks if player has discovered cave to enable progress into cave
     if(caveDiscovered_) {
       cout << "To the south is a Cave.\n";
     }
@@ -327,8 +379,12 @@ void Game::Garden() {
       cout << "(S)outh\n";
     }
     cout << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(roomCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'N':
         player_.SetRoomNumber(2);
@@ -357,14 +413,22 @@ void Game::Garden() {
 //Room 6
 //Weapon
 void Game::Library() {
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid actions
   string roomCharString = "nNwWlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(4);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
+    //Room description and actions
     cout << "You stand in a dusty library.  Books tower above.\n\n"
     << "To the north is the Office.\n"
     << "To the west is the Hall.\n\n"
@@ -372,8 +436,12 @@ void Game::Library() {
     << "(N)orth\n"
     << "(W)est\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(roomCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'N':
         player_.SetRoomNumber(3);
@@ -396,14 +464,22 @@ void Game::Library() {
 //Room 7
 //Armor, Weapon
 void Game::Basement() {
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid inputs
   string roomCharString = "nNwWeEsSlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(7);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
+    //Room description and actions
     cout << "You stand in a cold basement. To your side is a cavern.\n"
     << "A single bare lightbulb hangs above.\n\n"
     << "To the north is a stairway to the Hall.\n"
@@ -416,8 +492,12 @@ void Game::Basement() {
     << "(E)ast\n"
     << "(S)outh\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(roomCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'N':
         player_.SetRoomNumber(4);
@@ -448,15 +528,22 @@ void Game::Basement() {
 
 //Room 8
 void Game::Cave() {
-
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid inputs
   string roomCharString = "nNeElL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(6);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
+    //Room description and actions
     cout << "You hunch down in a small, dark cave.\n\n"
     << "To the north sunlight breaches the crevices.\n"
     << "To the east a cavern opens.\n\n"
@@ -464,8 +551,12 @@ void Game::Cave() {
     << "(N)orth\n"
     << "(E)ast\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(roomCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'N':
         caveDiscovered_ = true;
@@ -489,22 +580,33 @@ void Game::Cave() {
 //Room 9
 //Armor, Weapon
 void Game::Utility() {
-
-
+  //Flag for while loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid actions
   string roomCharString = "wWlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(8);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
+    //Room description and actions
     cout << "You stand in a well-stocked utility room.\n\n"
     << "To the west is the maintenance door.\n\n"
     << "Enter your action: \n"
     << "(W)est\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(roomCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'W':
         player_.SetRoomNumber(7);
@@ -523,22 +625,33 @@ void Game::Utility() {
 //Room 10
 //Boss
 void Game::Tomb() {
-
-
+  //Flag for game loop
   bool inRoom = true;
-  CinReader read;
+
+  //Set of valid actions
   string roomCharString = "nNlL";
+  CinReader read;
+
+  //Room loop, continues until player leaves room, dies, or defeats boss
   while (inRoom && !player_.GetGameOver()) {
+    //Chance of battle while in room
     BattleRoll(9);
+
+    //Increments gameTicks_, room visits, and displays HUD
     Tick();
 
+    //Room description and actions
     cout << "You stand before an ominous tomb.\n\n"
     << "To the north is the basement.\n\n"
     << "Enter your action: \n"
     << "(N)orth\n"
     << "(L)ook around\n";
+
+    //Read player input
     char c = toupper(read.readChar(roomCharString));
     ClearScreen();
+
+    //Action branch
     switch (c) {
       case 'N':
         player_.SetRoomNumber(7);
@@ -609,11 +722,9 @@ void Game::LookAround() {
         } else {
           player_.AddMessage("Lousy junk.");
         }
-
       } else {
         player_.AddMessage("Nothing interesting.");
       }
-
       break;
     case 4:
       //Armor
