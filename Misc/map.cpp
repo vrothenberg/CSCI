@@ -9,9 +9,21 @@ using namespace std;
 
 
 int main() {
-    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
-    int n;
-    cin >> n;
+
+  int a = 24;
+  int b = 49;
+
+  vector<int> zero;
+  cout << "Before";
+  for (int i = 0; i < zero.size(); i++)
+    cout << zero[i];
+  cout << "After";
+
+
+
+
+
+
     /*
     vector<int> v;
     map<int, int>m;

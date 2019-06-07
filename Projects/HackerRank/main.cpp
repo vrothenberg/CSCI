@@ -24,11 +24,13 @@ int saveThePrisoner(int n, int m, int s) {
 
 int main()
 {
-  int s = 5;
-  int q = 4;
-  int k = 7;
-  int i = (s - abs((k % s) - q)) % s;
-  cout << i;
+  string s = "ABCXYZ";
+
+  for (int i = 0; i < s.size(); i++) {
+
+    cout << s[i] << " " << (int)s[i] << endl;
+  }
+
 
 /*
   cout << "Output   : " << saveThePrisoner(208526924, 756265725, 150817879) << endl;

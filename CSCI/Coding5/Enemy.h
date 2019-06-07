@@ -21,7 +21,7 @@ const int ROOM_ENEMY_ARRAY[7][3] = {
   {3,4,6}, //Basement
   {2,3,5}, //Cave
   {4,6,6}, //Utility
-  {6,6,7}, //Tomb
+  {7,7,7}, //Tomb
 };
 
 class Enemy : public Character {
@@ -32,7 +32,7 @@ public:
   //Accessor
   string GetTaunt();
 
-  //Static variable of possible enemies and stat values 
+  //Static variable of possible enemies and stat values
   static EnemyType Enemies[8];
 
 private:
