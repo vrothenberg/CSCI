@@ -1,0 +1,6 @@
+c:/mingw/bin/../lib/gcc/mingw32/8.2.0/../../../../mingw32/bin/ld.exe: C:\Users\Thinkpad\AppData\Local\Temp\ccOhzjWL.o:Sept3.cpp:(.text+0x45): undefined reference to `CinReader::CinReader()'
+c:/mingw/bin/../lib/gcc/mingw32/8.2.0/../../../../mingw32/bin/ld.exe: C:\Users\Thinkpad\AppData\Local\Temp\ccOhzjWL.o:Sept3.cpp:(.text+0x232): undefined reference to `CinReader::readChar(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)'
+c:/mingw/bin/../lib/gcc/mingw32/8.2.0/../../../../mingw32/bin/ld.exe: C:\Users\Thinkpad\AppData\Local\Temp\ccOhzjWL.o:Sept3.cpp:(.text+0x43f): undefined reference to `CinReader::readChar(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)'
+c:/mingw/bin/../lib/gcc/mingw32/8.2.0/../../../../mingw32/bin/ld.exe: C:\Users\Thinkpad\AppData\Local\Temp\ccOhzjWL.o:Sept3.cpp:(.text+0x4c3): undefined reference to `CinReader::~CinReader()'
+c:/mingw/bin/../lib/gcc/mingw32/8.2.0/../../../../mingw32/bin/ld.exe: C:\Users\Thinkpad\AppData\Local\Temp\ccOhzjWL.o:Sept3.cpp:(.text+0x59c): undefined reference to `CinReader::~CinReader()'
+collect2.exe: error: ld returned 1 exit status
