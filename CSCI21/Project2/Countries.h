@@ -51,6 +51,9 @@ public:
   // Returns size of _countriesv
   int GetSize();
 
+  // Print sorted _countriesv vector
+  void Display(bool lohi, int num);
+
   // Data viewing functions
   // Displays sorted list of num length based on column attribute
   // Displays top or bottom based on bool lohi, false = top
@@ -73,9 +76,10 @@ public:
   // Literacy
   void Literacy(bool lohi, int num);
 
-  // Birthrate 
+  // Birthrate
   void Birthrate(bool lohi, int num);
 
 private:
+  const unsigned int NUM_FIELDS = 8;
   vector<Country> _countriesv;
 };

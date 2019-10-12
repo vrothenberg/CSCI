@@ -44,7 +44,7 @@ bool Countries::ReadFile(string file) {
     pos = line.find(delim);
     token = line.substr(0,pos);
     categories.push_back(token);
-    for (int i = 1; i < 8; i++) {
+    for (int i = 1; i < NUM_FIELDS; i++) {
       line = line.substr(pos+delim.size());
       pos = line.find(delim);
       token = line.substr(0,pos);
@@ -58,7 +58,7 @@ bool Countries::ReadFile(string file) {
         pos = line.find(delim);
         string name = line.substr(0,pos);
         attr.push_back(name);
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < NUM_FIELDS; i++) {
           line = line.substr(pos+delim.size());
           pos = line.find(delim);
           token = line.substr(0,pos);
@@ -95,11 +95,17 @@ void Countries::AddCountry(vector<string> attr) {
 // Prevents out of bounds error when user specifies too many elements for display
 int Countries::GetSize() {
   return this->_countriesv.size();
-}
+};
+
+void Countries::Display(bool lohi, int num) {
+
+};
 
 // Data viewing functions
 // Displays sorted list of num length based on column attribute
 // Displays top or bottom based on bool lohi, false = top
+
+
 
 // Population
 void Countries::Populous(bool lohi, int num) {
@@ -122,6 +128,8 @@ void Countries::Populous(bool lohi, int num) {
     Country &c = this->_countriesv.at(i);
     printf("%-15s %-10u \n", c._name.substr(0,15).c_str(), c._population);
   }
+
+  //Display(lohi, num, attribute);
 
   // Pauses to display information
   ContinuePrompt();
