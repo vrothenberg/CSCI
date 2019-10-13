@@ -1,7 +1,7 @@
 // Lab 10 -- singly-linked list
 //
-// Programmer name: __________
-// Date completed:  __________
+// Programmer name: Vince Rothenberg
+// Date completed:  Oct 12 2019
 
 #pragma once
 
