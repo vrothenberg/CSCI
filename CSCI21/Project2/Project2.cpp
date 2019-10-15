@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
     // File name provided
     file = argv[1];
   } else {
+    file = argv[1];
     cout << "Invalid number of arguments\n";
   }
 
