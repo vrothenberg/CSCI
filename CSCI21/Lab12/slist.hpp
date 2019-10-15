@@ -85,15 +85,15 @@ public:
   // EXAMPLE: "13,-1,0,99,-47"
   string toString() const {
     Node* temp = head;
-    string result = "";
+    ostringstream sout;
     for (int i = 0; i < this->size; i++) {
-      result += std::to_string(temp->value);
+      sout << temp->value;
       if (temp->next != nullptr) {
-        result += ",";
+        sout << ",";
         temp = temp->next;
       }
     }
-    return result;
+    return sout.str();
   }
 
 private:
