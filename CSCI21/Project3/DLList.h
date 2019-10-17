@@ -6,6 +6,17 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
+#include <stdexcept>
+
+using std::logic_error;
+using std::ostringstream;
+using std::string;
+using std::vector;
+using std::cout;
+using std::endl;
+
+
 
 /*
 OPERATION codes + descriptions
@@ -29,10 +40,12 @@ K               : pop the tail node
 N               : return the size of the list
 P               : print all items in the list
 */
-class DLList {
+
+class Handler {
 public:
-  // Constructor
-  DLList();
+  void ReadFile(string file);
+
+  void Operation(vector<string> opLine);
 
   // Create dynamic list instance
   void Create();
@@ -78,6 +91,22 @@ public:
 
   // Print all items in list
   void PrintList();
+
+private:
+  DLList<int> myList;
+
+};
+
+template <typename T>
+class DLList {
+public:
+  // Constructor
+  DLList();
+
+  // Destructor
+  ~DLList();
+
+
 private:
   // Number of nodes in list
   unsigned int size;
@@ -97,6 +126,7 @@ private:
     }
 
   }
+
   * head;
   * tail;
 

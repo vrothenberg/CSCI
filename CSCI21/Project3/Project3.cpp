@@ -1,4 +1,4 @@
-#include "Project3.h"
+#include "DLList.h"
 
 
 int main(int argc, char* argv[]) {
@@ -17,19 +17,9 @@ int main(int argc, char* argv[]) {
     file = argv[1];
     cout << "Invalid number of arguments\n";
   }
+  //string readCharString = "#CXDIFBERGAZTKNP";
+  Handler myHandle;
+  myHandle.ReadFile(string file);
 
-  bool inUse = true;
-  string readCharString = "eEnNpPaAdDmMgGlLbB";
-  while(inUse) {
-    ClearScreen();
-    cout <<
-
-    char choice = toupper(read.readChar(readCharString));
-
-    switch(choice) {
-      case 'E':
-
-    }
-  }
   return 0;
 }
