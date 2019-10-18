@@ -1,7 +1,5 @@
 #pragma once
 
-#include "CinReader.h"
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -9,14 +7,13 @@
 #include <sstream>
 #include <stdexcept>
 
+
 using std::logic_error;
 using std::ostringstream;
 using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
-
-
 
 /*
 OPERATION codes + descriptions
@@ -40,9 +37,17 @@ K               : pop the tail node
 N               : return the size of the list
 P               : print all items in the list
 */
+template <typename T>
+struct Node {
+  struct Node* next;
+  struct Node* prev;
+  T value;
+};
 
 class Handler {
 public:
+  Handler(string file);
+
   void ReadFile(string file);
 
   void Operation(vector<string> opLine);
@@ -93,9 +98,12 @@ public:
   void PrintList();
 
 private:
-  DLList<int> myList;
+  string file;
+
+  DLList<int> HandleDLList;
 
 };
+
 
 template <typename T>
 class DLList {
@@ -106,6 +114,9 @@ public:
   // Destructor
   ~DLList();
 
+  //
+  Clear();
+
 
 private:
   // Number of nodes in list
@@ -114,20 +125,10 @@ private:
   // A singly-linked list node with a pointer to next and a data field.
   // Implements a constructor to initialize the data field to a param value
   // and the pointer to nullptr.
-  struct Node {
-    Node *next;
-    Node *prev;
-    T value;
 
-    Node(T newValue) {
-      next = nullptr;
-      prev = nullptr;
-      value = newValue;
-    }
 
-  }
 
-  * head;
-  * tail;
+  Node* head;
+  Node* tail;
 
 };

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CinReader.h"
+//#include "DLList.h"
 
 #include <iostream>
 #include <string>
@@ -29,6 +29,8 @@ K               : pop the tail node
 N               : return the size of the list
 P               : print all items in the list
 */
+
+/*
 class DLList {
 public:
   // Constructor
@@ -101,3 +103,4 @@ private:
   * tail;
 
 };
+*/

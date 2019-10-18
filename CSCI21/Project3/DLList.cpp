@@ -1,8 +1,12 @@
 #include "DLList.h"
 
+Handler::Handler(string file) {
+  this->file = file;
+}
+
 void Handler::ReadFile(string file) {
 
-  ifstream fin(file);
+  std::ifstream fin(file);
   string line, token, op;
 
   if (fin.is_open()) {
@@ -38,64 +42,192 @@ void Handler::ReadFile(string file) {
 };
 
 void Handler::Operation(vector<string> opLine) {
-  char op = opLine[0].c_str();
+  char op = opLine[0][0];
+  int num = 0;
+  if (opLine.size() == 2) num = stoi(opLine[1]);
+
   switch(op) {
     case '#':
       // Comment
       break;
     case 'C':
       // Create dynamic list instance
-      this->myList.Create();
-
-
+      this->Create();
       break;
     case 'X':
       // Clear current list instance of contents
+      this->Clear();
       break;
     case 'D':
       // Delete dynamic list and set to nullptr
+      this->Delete();
       break;
     case 'I':
       // Insert number into list (sorted)
+      this->Insert(num);
       break;
     case 'F':
       // Add number to front of list
+      this->Front(num);
       break;
     case 'B':
       // Add number to back of list
+      this->Back(num);
       break;
     case 'E':
       // Eliminate all occurrences of number from list
+      this->EliminateAll(num);
       break;
     case 'R':
       // Remove first occurrence of number from the list
+      this->RemoveFirst(num);
       break;
     case 'G':
       // Get number from the list
+      this->GetNum(num);
       break;
     case 'A':
       // Return contents of head node
+      this->HeadContents();
       break;
     case 'Z':
       // Return contents of tail node
+      this->TailContents();
       break;
     case 'T':
       // Pop the head node
+      this->PopHead();
       break;
     case 'K':
       // Pop the tail node
+      this->PopTail();
       break;
     case 'N':
       // Return the size of the list
+      this->ListSize();
       break;
     case 'P':
       // Print all items in the list
+      this->PrintList();
       break;
     default:
       cout << "Invalid input.  Shouldn't be here.\n";
       break;
   }
 };
+
+
+
+// Create dynamic list instance
+void Handler::Create() {
+  /*
+  this->head = nullptr;
+  this->tail = nullptr;
+  this->size = 0;
+  */
+  cout << "LIST CREATED\n";
+};
+
+// Clear the current list instance of contents
+void Handler::Clear() {
+  /*
+  Node* temp = head;
+  for (int i = 0; i < this->size; i++) {
+    Node* temp1 = temp->next;
+    delete temp;
+    temp = temp1;
+  }
+  delete temp;
+  temp = nullptr;
+  this->head = nullptr;
+  this->tail = nullptr;
+  this->size = 0;
+  */
+  cout << "CLEAR\n";
+};
+
+// Delete the dynamic list instance and set to nullptr
+void Handler::Delete() {
+  this->HandleDLList->Clear();
+
+};
+
+// Insert number into list (sorted)
+void Handler::Insert(int num) {
+  cout << "INSERT\n";
+};
+
+// Add number to front of list
+void Handler::Front(int num) {
+  cout << "FRONT\n";
+};
+
+// Add number to back of list
+void Handler::Back(int num) {
+  cout << "BACK\n";
+};
+
+// Eliminate all occurrences of number from the list
+void Handler::EliminateAll(int num) {
+  cout << "ELIMINATE ALL\n";
+};
+
+// Remove the first occurrence of number from the list
+void Handler::RemoveFirst(int num) {
+  cout << "REMOVE FIRST\n";
+};
+
+// Get number from the list
+void Handler::GetNum(int num) {
+  cout << "GET NUM\n";
+
+};
+
+// Return contents of head node
+void Handler::HeadContents() {
+  cout << "VALUE \n";
+  //<< this->head->value << "AT TAIL\n";
+};
+
+// Return contents of tail node
+void Handler::TailContents() {
+  cout << "VALUE \n";
+  // << this->tail->value << "AT TAIL\n";
+};
+
+// Pop the head node
+void Handler::PopHead() {
+  cout << "POP HEAD\n";
+};
+
+// Pop the tail node
+void Handler::PopTail() {
+  cout << "POP TAIL\n";
+};
+
+// Return size of list
+void Handler::ListSize() {
+  cout << "LIST SIZE IS \n";
+  //<< this->size << endl;
+};
+
+// Print all items in list
+void Handler::PrintList() {
+  /*
+  Node* temp = head;
+  ostringstream sout;
+  for (int i = 0; i < this->size; i++) {
+    sout << temp->value;
+    if (temp->next != nullptr) {
+      sout << ",";
+      temp = temp->next;
+    }
+  }
+  cout << sout.str();
+  */
+  cout << "PRINT\n";
+};
+
 
 
 // Constructor
@@ -108,88 +240,3 @@ DLList::DLList() {
 DLList::~SList() {
   this->Clear();
 }
-
-// Create dynamic list instance
-void DLList::Create() {
-  this->head = nullptr;
-  this->tail = nullptr;
-  this->size = 0;
-  cout << "LIST CREATED\n";
-};
-
-// Clear the current list instance of contents
-void DLList::Clear() {
-  Node* temp = head;
-  for (int i = 0; i < this->size; i++) {
-    Node* temp1 = temp->next;
-    delete temp;
-    temp = temp1;
-  }
-  delete temp;
-  temp = nullptr;
-  this->head = nullptr;
-  this->tail = nullptr;
-  this->size = 0;
-  cout <<
-};
-
-// Delete the dynamic list instance and set to nullptr
-void DLList::Delete() {
-  this->Clear();
-
-};
-
-// Insert number into list (sorted)
-void DLList::Insert(int num);
-
-// Add number to front of list
-void DLList::Front(int num);
-
-// Add number to back of list
-void DLList::Back(int num);
-
-// Eliminate all occurrences of number from the list
-void DLList::EliminateAll(int num);
-
-// Remove the first occurrence of number from the list
-void DLList::RemoveFirst(int num);
-
-// Get number from the list
-void DLList::GetNum(int num) {
-
-};
-
-// Return contents of head node
-void DLList::HeadContents() {
-  cout << "VALUE " << this->head->value << "AT TAIL\n";
-};
-
-// Return contents of tail node
-void DLList::TailContents() {
-  cout << "VALUE " << this->tail->value << "AT TAIL\n";
-};
-
-// Pop the head node
-void DLList::PopHead();
-
-// Pop the tail node
-void DLList::PopTail();
-
-// Return size of list
-void DLList::ListSize() {
-  cout << "LIST SIZE IS " << this->size << endl;
-};
-
-// Print all items in list
-void DLList::PrintList() {
-  Node* temp = head;
-  ostringstream sout;
-  for (int i = 0; i < this->size; i++) {
-    sout << temp->value;
-    if (temp->next != nullptr) {
-      sout << ",";
-      temp = temp->next;
-    }
-  }
-  cout << sout.str();
-};

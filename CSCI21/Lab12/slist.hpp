@@ -18,7 +18,6 @@ public:
   SList() {
     this->head = nullptr;
     this->size = 0;
-
   }
 
   // Destructor.

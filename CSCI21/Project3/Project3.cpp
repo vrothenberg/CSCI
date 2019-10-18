@@ -3,9 +3,8 @@
 
 int main(int argc, char* argv[]) {
   string file;
-  CinReader read;
 
-  // Check arguments for
+  // Check arguments
   if(argc == 1) {
     // No file provided
     file = "sample_input.txt";
@@ -18,8 +17,9 @@ int main(int argc, char* argv[]) {
     cout << "Invalid number of arguments\n";
   }
   //string readCharString = "#CXDIFBERGAZTKNP";
-  Handler myHandle;
-  myHandle.ReadFile(string file);
+  Handler DoubleLinkedList(file);
+  vector<string> opLine = {"C"};
+  DoubleLinkedList.Operation(opLine);
 
   return 0;
 }
