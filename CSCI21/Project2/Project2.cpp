@@ -1,3 +1,7 @@
+// Project 2 - CSV Country Data Viewer 
+// Programmer Name: Vince Rothenberg
+// Date Completed: October 11 2019
+
 #include "Countries.h"
 #include "CinReader.h"
 

@@ -1,3 +1,6 @@
+// Countries class object stores vector of Country class objects
+// File I/O, sorting and data viewing functionality provided by Countries object 
+
 #pragma once
 
 #include <iostream>
@@ -35,7 +38,8 @@ struct Country {
 
 };
 
-
+// Countries class object
+// Stores vector of countries, provides functions for data I/O, sorting, and display
 
 class Countries {
 public:
