@@ -8,6 +8,8 @@ using std::string;
 using std::stringstream;
 using std::setw;
 
+// Product class object for each item to be purchased
+
 class Product {
 public:
   // Default constructor

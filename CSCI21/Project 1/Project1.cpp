@@ -3,7 +3,6 @@
 // Programmer Name: Vince Rothenberg
 // Date Completed: October 4, 2019
 
-#include "rang.hpp"
 #include "CinReader.h"
 #include "Product.h"
 #include "Vendor.h"
@@ -15,7 +14,7 @@ using std::to_string;
 
 using namespace std;
 
-// Clears screen, works with Windows and *nix 
+// Clears screen, works with Windows and *nix
 void ClearScreen() {
   #ifdef _WIN32
     system("cls");
