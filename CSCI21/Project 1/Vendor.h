@@ -15,6 +15,8 @@ using std::right;
 using std::string;
 using std::to_string;
 
+// Vendor class object, handles vending machine functions 
+
 class Vendor {
 public:
   // Default construct to initialize vendor class object
