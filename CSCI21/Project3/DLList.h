@@ -7,7 +7,6 @@
 #include <sstream>
 #include <stdexcept>
 
-
 using std::logic_error;
 using std::ostringstream;
 using std::string;
@@ -42,6 +41,37 @@ struct Node {
   struct Node* next;
   struct Node* prev;
   T value;
+  Node(T newValue) {
+    next = nullptr;
+    prev = nullptr;
+    value = newValue;
+  }
+};
+
+template <typename T>
+class DLList {
+public:
+  // Constructor
+  DLList();
+
+  // Destructor
+  ~DLList();
+
+  // Clear current list instance of contents
+  void Clear();
+
+
+private:
+  // Number of nodes in list
+  unsigned int size;
+
+  // A singly-linked list node with a pointer to next and a data field.
+  // Implements a constructor to initialize the data field to a param value
+  // and the pointer to nullptr.
+
+  Node<int>* head;
+  Node<int>* tail;
+
 };
 
 class Handler {
@@ -97,38 +127,8 @@ public:
   // Print all items in list
   void PrintList();
 
-private:
   string file;
 
-  DLList<int> HandleDLList;
-
-};
-
-
-template <typename T>
-class DLList {
-public:
-  // Constructor
-  DLList();
-
-  // Destructor
-  ~DLList();
-
-  //
-  Clear();
-
-
-private:
-  // Number of nodes in list
-  unsigned int size;
-
-  // A singly-linked list node with a pointer to next and a data field.
-  // Implements a constructor to initialize the data field to a param value
-  // and the pointer to nullptr.
-
-
-
-  Node* head;
-  Node* tail;
+  DLList<int>* HandleDLList;
 
 };

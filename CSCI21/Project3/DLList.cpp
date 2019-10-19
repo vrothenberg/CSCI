@@ -2,6 +2,7 @@
 
 Handler::Handler(string file) {
   this->file = file;
+
 }
 
 void Handler::ReadFile(string file) {
@@ -56,7 +57,7 @@ void Handler::Operation(vector<string> opLine) {
       break;
     case 'X':
       // Clear current list instance of contents
-      this->Clear();
+      this->HandleDLList->Clear();
       break;
     case 'D':
       // Delete dynamic list and set to nullptr
@@ -120,11 +121,7 @@ void Handler::Operation(vector<string> opLine) {
 
 // Create dynamic list instance
 void Handler::Create() {
-  /*
-  this->head = nullptr;
-  this->tail = nullptr;
-  this->size = 0;
-  */
+  this->HandleDLList = new DLList<int>();
   cout << "LIST CREATED\n";
 };
 
@@ -231,12 +228,115 @@ void Handler::PrintList() {
 
 
 // Constructor
-DLList::DLList() {
+template <typename T>
+DLList<T>::DLList() {
   this->head = nullptr;
   this->tail = nullptr;
   this->size = 0;
 };
 
-DLList::~SList() {
+template <typename T>
+DLList<T>::~DLList() {
   this->Clear();
 }
+
+template <typename T>
+void DLList<T>::Clear() {
+  this->head = nullptr;
+  this->tail = nullptr;
+}
+
+
+// Delete the dynamic list instance and set to nullptr
+template <typename T>
+void DLList<T>::Delete() {
+  this->HandleDLList->Clear();
+
+};
+
+// Insert number into list (sorted)
+template <typename T>
+void DLList<T>::Insert(int num) {
+  cout << "INSERT\n";
+};
+
+// Add number to front of list
+template <typename T>
+void DLList<T>::Front(int num) {
+  cout << "FRONT\n";
+};
+
+// Add number to back of list
+template <typename T>
+void DLList<T>::Back(int num) {
+  cout << "BACK\n";
+};
+
+// Eliminate all occurrences of number from the list
+template <typename T>
+void DLList<T>::EliminateAll(int num) {
+  cout << "ELIMINATE ALL\n";
+};
+
+// Remove the first occurrence of number from the list
+template <typename T>
+void DLList<T>::RemoveFirst(int num) {
+  cout << "REMOVE FIRST\n";
+};
+
+// Get number from the list
+template <typename T>
+void DLList<T>::GetNum(int num) {
+  cout << "GET NUM\n";
+
+};
+
+// Return contents of head node
+template <typename T>
+void DLList<T>::HeadContents() {
+  cout << "VALUE \n";
+  //<< this->head->value << "AT TAIL\n";
+};
+
+// Return contents of tail node
+template <typename T>
+void DLList<T>::TailContents() {
+  cout << "VALUE \n";
+  // << this->tail->value << "AT TAIL\n";
+};
+
+// Pop the head node
+template <typename T>
+void DLList<T>::PopHead() {
+  cout << "POP HEAD\n";
+};
+
+// Pop the tail node
+template <typename T>
+void DLList<T>::PopTail() {
+  cout << "POP TAIL\n";
+};
+
+// Return size of list
+template <typename T>
+void DLList<T>::ListSize() {
+  cout << "LIST SIZE IS \n" << this->size << endl;
+};
+
+// Print all items in list
+template <typename T>
+void DLList<T>::PrintList() {
+  /*
+  Node* temp = head;
+  ostringstream sout;
+  for (int i = 0; i < this->size; i++) {
+    sout << temp->value;
+    if (temp->next != nullptr) {
+      sout << ",";
+      temp = temp->next;
+    }
+  }
+  cout << sout.str();
+  */
+  cout << "PRINT\n";
+};
