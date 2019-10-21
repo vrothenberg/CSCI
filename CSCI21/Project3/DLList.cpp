@@ -61,55 +61,55 @@ void Handler::Operation(vector<string> opLine) {
       break;
     case 'D':
       // Delete dynamic list and set to nullptr
-      this->Delete();
+      this->HandleDLList->Delete();
       break;
     case 'I':
       // Insert number into list (sorted)
-      this->Insert(num);
+      this->HandleDLList->Insert(num);
       break;
     case 'F':
       // Add number to front of list
-      this->Front(num);
+      this->HandleDLList->Front(num);
       break;
     case 'B':
       // Add number to back of list
-      this->Back(num);
+      this->HandleDLList->Back(num);
       break;
     case 'E':
       // Eliminate all occurrences of number from list
-      this->EliminateAll(num);
+      this->HandleDLList->EliminateAll(num);
       break;
     case 'R':
       // Remove first occurrence of number from the list
-      this->RemoveFirst(num);
+      this->HandleDLList->RemoveFirst(num);
       break;
     case 'G':
       // Get number from the list
-      this->GetNum(num);
+      this->HandleDLList->GetNum(num);
       break;
     case 'A':
       // Return contents of head node
-      this->HeadContents();
+      this->HandleDLList->HeadContents();
       break;
     case 'Z':
       // Return contents of tail node
-      this->TailContents();
+      this->HandleDLList->TailContents();
       break;
     case 'T':
       // Pop the head node
-      this->PopHead();
+      this->HandleDLList->PopHead();
       break;
     case 'K':
       // Pop the tail node
-      this->PopTail();
+      this->HandleDLList->PopTail();
       break;
     case 'N':
       // Return the size of the list
-      this->ListSize();
+      this->HandleDLList->ListSize();
       break;
     case 'P':
       // Print all items in the list
-      this->PrintList();
+      this->HandleDLList->PrintList();
       break;
     default:
       cout << "Invalid input.  Shouldn't be here.\n";
@@ -124,108 +124,6 @@ void Handler::Create() {
   this->HandleDLList = new DLList<int>();
   cout << "LIST CREATED\n";
 };
-
-// Clear the current list instance of contents
-void Handler::Clear() {
-  /*
-  Node* temp = head;
-  for (int i = 0; i < this->size; i++) {
-    Node* temp1 = temp->next;
-    delete temp;
-    temp = temp1;
-  }
-  delete temp;
-  temp = nullptr;
-  this->head = nullptr;
-  this->tail = nullptr;
-  this->size = 0;
-  */
-  cout << "CLEAR\n";
-};
-
-// Delete the dynamic list instance and set to nullptr
-void Handler::Delete() {
-  this->HandleDLList->Clear();
-
-};
-
-// Insert number into list (sorted)
-void Handler::Insert(int num) {
-  cout << "INSERT\n";
-};
-
-// Add number to front of list
-void Handler::Front(int num) {
-  cout << "FRONT\n";
-};
-
-// Add number to back of list
-void Handler::Back(int num) {
-  cout << "BACK\n";
-};
-
-// Eliminate all occurrences of number from the list
-void Handler::EliminateAll(int num) {
-  cout << "ELIMINATE ALL\n";
-};
-
-// Remove the first occurrence of number from the list
-void Handler::RemoveFirst(int num) {
-  cout << "REMOVE FIRST\n";
-};
-
-// Get number from the list
-void Handler::GetNum(int num) {
-  cout << "GET NUM\n";
-
-};
-
-// Return contents of head node
-void Handler::HeadContents() {
-  cout << "VALUE \n";
-  //<< this->head->value << "AT TAIL\n";
-};
-
-// Return contents of tail node
-void Handler::TailContents() {
-  cout << "VALUE \n";
-  // << this->tail->value << "AT TAIL\n";
-};
-
-// Pop the head node
-void Handler::PopHead() {
-  cout << "POP HEAD\n";
-};
-
-// Pop the tail node
-void Handler::PopTail() {
-  cout << "POP TAIL\n";
-};
-
-// Return size of list
-void Handler::ListSize() {
-  cout << "LIST SIZE IS \n";
-  //<< this->size << endl;
-};
-
-// Print all items in list
-void Handler::PrintList() {
-  /*
-  Node* temp = head;
-  ostringstream sout;
-  for (int i = 0; i < this->size; i++) {
-    sout << temp->value;
-    if (temp->next != nullptr) {
-      sout << ",";
-      temp = temp->next;
-    }
-  }
-  cout << sout.str();
-  */
-  cout << "PRINT\n";
-};
-
-
 
 // Constructor
 template <typename T>
@@ -250,43 +148,69 @@ void DLList<T>::Clear() {
 // Delete the dynamic list instance and set to nullptr
 template <typename T>
 void DLList<T>::Delete() {
-  this->HandleDLList->Clear();
+  this->Clear();
 
 };
 
 // Insert number into list (sorted)
 template <typename T>
-void DLList<T>::Insert(int num) {
+void DLList<T>::Insert(T value) {
   cout << "INSERT\n";
 };
 
 // Add number to front of list
 template <typename T>
-void DLList<T>::Front(int num) {
-  cout << "FRONT\n";
+void DLList<T>::Front(T value) {
+  Node<T>* temp = new Node<T>(value);
+  if (this->size == 0) {
+    this->tail = temp;
+  } else {
+    temp->next = this->head;
+    this->head->prev = temp;
+  }
+  this->head = temp;
+  this->size++;
+  cout << "VALUE " << value << " ADDED TO HEAD\n";
 };
 
 // Add number to back of list
 template <typename T>
-void DLList<T>::Back(int num) {
-  cout << "BACK\n";
+void DLList<T>::Back(T value) {
+  Node<T>* temp = new Node<T>(value);
+  if (this->size == 0) {
+    this->head = temp;
+  } else {
+    temp->prev = this->tail;
+    this->tail->next = temp;
+  }
+  this->tail = temp;
+  this->size++;
+  cout << "VALUE " << value << " ADDED TO TAIL\n";
 };
 
 // Eliminate all occurrences of number from the list
 template <typename T>
-void DLList<T>::EliminateAll(int num) {
+void DLList<T>::EliminateAll(T value) {
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
+  Node<T>* temp = this->head;
+  while(temp != nullptr) {
+    cout << temp->value;
+    temp = temp->next;
+  }
   cout << "ELIMINATE ALL\n";
 };
 
 // Remove the first occurrence of number from the list
 template <typename T>
-void DLList<T>::RemoveFirst(int num) {
+void DLList<T>::RemoveFirst(T value) {
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
   cout << "REMOVE FIRST\n";
 };
 
 // Get number from the list
 template <typename T>
-void DLList<T>::GetNum(int num) {
+void DLList<T>::GetNum(T value) {
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
   cout << "GET NUM\n";
 
 };
@@ -294,49 +218,44 @@ void DLList<T>::GetNum(int num) {
 // Return contents of head node
 template <typename T>
 void DLList<T>::HeadContents() {
-  cout << "VALUE \n";
-  //<< this->head->value << "AT TAIL\n";
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
+  cout << "VALUE " << this->head->value << " AT HEAD\n";
 };
 
 // Return contents of tail node
 template <typename T>
 void DLList<T>::TailContents() {
-  cout << "VALUE \n";
-  // << this->tail->value << "AT TAIL\n";
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
+  cout << "VALUE " << this->tail->value << " AT TAIL\n";
 };
 
 // Pop the head node
 template <typename T>
 void DLList<T>::PopHead() {
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
   cout << "POP HEAD\n";
 };
 
 // Pop the tail node
 template <typename T>
 void DLList<T>::PopTail() {
+  if(this->size == 0) throw std::logic_error("EMPTY LIST");
   cout << "POP TAIL\n";
 };
 
 // Return size of list
 template <typename T>
 void DLList<T>::ListSize() {
-  cout << "LIST SIZE IS \n" << this->size << endl;
+  cout << "LIST SIZE IS " << this->size << endl;
 };
 
 // Print all items in list
 template <typename T>
 void DLList<T>::PrintList() {
-  /*
-  Node* temp = head;
-  ostringstream sout;
-  for (int i = 0; i < this->size; i++) {
-    sout << temp->value;
-    if (temp->next != nullptr) {
-      sout << ",";
-      temp = temp->next;
-    }
+  Node<T>* temp = this->head;
+  while(temp != nullptr) {
+    cout << temp->value;
+    if (temp->next != nullptr) cout << ",";
+    temp = temp->next;
   }
-  cout << sout.str();
-  */
-  cout << "PRINT\n";
 };

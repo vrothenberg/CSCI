@@ -1,5 +1,10 @@
-// Countries class object stores vector of Country class objects
-// File I/O, sorting and data viewing functionality provided by Countries object 
+// Project 2 - CSV Country Data Viewer
+//
+// Programmer Name: Vince Rothenberg
+// Date Completed: October 11 2019
+//
+// Countries class object stores vector of Country struct objects
+// File I/O, sorting and data viewing functionality provided by Countries class
 
 #pragma once
 

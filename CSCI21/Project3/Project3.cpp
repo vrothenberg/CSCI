@@ -16,10 +16,18 @@ int main(int argc, char* argv[]) {
     file = argv[1];
     cout << "Invalid number of arguments\n";
   }
-  //string readCharString = "#CXDIFBERGAZTKNP";
+
   Handler DoubleLinkedList(file);
   vector<string> opLine = {"C"};
-  DoubleLinkedList.Operation(opLine);
+  DoubleLinkedList.Operation({"C"});
+  DoubleLinkedList.Operation({"F", "10"});
+  DoubleLinkedList.Operation({"A"});
+  DoubleLinkedList.Operation({"B", "20"});
+  DoubleLinkedList.Operation({"Z"});
+  DoubleLinkedList.Operation({"F", "5"});
+  DoubleLinkedList.Operation({"B", "35"});
+  DoubleLinkedList.Operation({"N"});
+  DoubleLinkedList.Operation({"P"});
 
   return 0;
 }

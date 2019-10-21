@@ -60,6 +60,47 @@ public:
   // Clear current list instance of contents
   void Clear();
 
+  // Delete the dynamic list instance and set to nullptr
+  void Delete();
+
+
+  // Insert number into list (sorted)
+  void Insert(T value);
+
+  // Add number to front of list
+  void Front(T value);
+
+  // Add number to back of list
+  void Back(T value);
+
+  // Eliminate all occurrences of number from the list
+  void EliminateAll(T value);
+
+  // Remove the first occurrence of number from the list
+
+  void RemoveFirst(T value);
+
+  // Get number from the list
+  void GetNum(T value);
+
+  // Return contents of head node
+  void HeadContents();
+
+  // Return contents of tail node
+  void TailContents();
+
+  // Pop the head node
+  void PopHead();
+
+  // Pop the tail node
+  void PopTail();
+
+  // Return size of list
+  void ListSize();
+
+  // Print all items in list
+  void PrintList();
+
 
 private:
   // Number of nodes in list
