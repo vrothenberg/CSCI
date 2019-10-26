@@ -106,7 +106,6 @@ void Countries::Display(bool lohi, int num) {
 // Displays top or bottom based on bool lohi, false = top
 
 
-
 // Population
 void Countries::Populous(bool lohi, int num) {
 

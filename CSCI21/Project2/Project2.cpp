@@ -1,6 +1,9 @@
-// Project 2 - CSV Country Data Viewer 
+// Project 2 - CSV Country Data Viewer
 // Programmer Name: Vince Rothenberg
 // Date Completed: October 11 2019
+//
+// Reads, sorts, and displays data from a csv file of countries
+// Takes optional file argument, otherwise defaults to "countries.csv"
 
 #include "Countries.h"
 #include "CinReader.h"
@@ -25,15 +28,16 @@ int main(int argc, char* argv[]) {
 
   bool inUse = true;
   string readCharString = "eEnNpPaAdDmMgGlLbB";
+  Countries MyCountries(file);
   while(inUse) {
     ClearScreen();
     cout << "Country Data Viewer\n\n";
     // Create Countries object to hold vector of Country objects
-    Countries MyCountries(file);
+
     cout << "\nSystem Options\n"
          << "(N) New CSV file\n"
          << "(E) Exit\n\n"
-         << "Data viewing options\n"
+         << "Data Viewing Options\n"
          << "(P) Population\n"
          << "(A) Area\n"
          << "(D) Population Density\n"
@@ -43,12 +47,18 @@ int main(int argc, char* argv[]) {
          << "(B) Birthrate\n"
          << "Select your option: ";
 
+    // Set choice char variable to option selected
     char choice = toupper(read.readChar(readCharString));
+    // Initialize num and hilo to default values
     int num = 10;
     bool hilo = false;
     char b;
 
+
     switch(choice) {
+      //
+      // System Options
+      //
       case 'E':
         // Exit selected
         ClearScreen();
@@ -68,8 +78,9 @@ int main(int argc, char* argv[]) {
         };
         ContinuePrompt();
         break;
-
-      // Data viewing options
+      //
+      // Data Viewing Options
+      //
       case 'P':
         // Population
         ClearScreen();

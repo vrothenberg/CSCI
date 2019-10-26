@@ -45,7 +45,6 @@ struct Country {
 
 // Countries class object
 // Stores vector of countries, provides functions for data I/O, sorting, and display
-
 class Countries {
 public:
   // Constructor, takes csv file of countries as input

@@ -1,5 +1,14 @@
-#include "DLList.h"
+// Project 3 - Doubly Linked List
+//
+// Programmer Name: Vince Rothenberg
+// Date Completed: October 25 2019
+//
+// Implements Handler class to operate on dynamic templated doubly linked lists
+// DLList class object composed of Node structs, which point to previous and next
+// Default Node type: int
 
+
+#include "DLList.h"
 
 int main(int argc, char* argv[]) {
   string file;
@@ -18,16 +27,7 @@ int main(int argc, char* argv[]) {
   }
 
   Handler DoubleLinkedList(file);
-  vector<string> opLine = {"C"};
-  DoubleLinkedList.Operation({"C"});
-  DoubleLinkedList.Operation({"F", "10"});
-  DoubleLinkedList.Operation({"A"});
-  DoubleLinkedList.Operation({"B", "20"});
-  DoubleLinkedList.Operation({"Z"});
-  DoubleLinkedList.Operation({"F", "5"});
-  DoubleLinkedList.Operation({"B", "35"});
-  DoubleLinkedList.Operation({"N"});
-  DoubleLinkedList.Operation({"P"});
+  DoubleLinkedList.ReadFile(file);
 
   return 0;
 }
