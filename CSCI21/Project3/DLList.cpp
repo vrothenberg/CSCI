@@ -1,19 +1,23 @@
 #include "DLList.h"
 
+// Default constructor
 Handler::Handler() {
   cerr << "NO FILE PROVIDED\n";
 };
 
+// Constructor with file provided, calls ReadFile
 Handler::Handler(string file) {
   this->file = file;
   this->HandleDLList = nullptr;
   this->ReadFile(file);
 };
 
+// Destructor
 Handler::~Handler() {
   delete this->HandleDLList;
 };
 
+// File I/O, parses input file and calls Operation function
 void Handler::ReadFile(string file) {
   std::ifstream fin(file);
   string line, token, op;
@@ -40,9 +44,10 @@ void Handler::ReadFile(string file) {
         cerr << e.what() << endl;
       }
     }
-  }
+  } else cerr << "FAILED TO OPEN FILE.\n";
 };
 
+// Executes operations from parsed operation string vector
 void Handler::Operation(vector<string> opLine) {
   string listNull = "MUST CREATE LIST INSTANCE\n";
   char op = opLine[0][0];
@@ -138,7 +143,7 @@ void Handler::Operation(vector<string> opLine) {
       else cerr << listNull;
       break;
     default:
-      cout << "Invalid input.  Shouldn't be here.\n";
+      cerr << "Invalid input.\n";
       break;
   }
 };
@@ -149,19 +154,18 @@ void Handler::Create() {
   cout << "LIST CREATED\n";
 };
 
-// Constructor
+// DLList Constructor
 template <typename T>
 DLList<T>::DLList() {
-  //Node<T>::created = 0;
-  //Node<T>::destroyed = 0;
   this->head = nullptr;
   this->tail = nullptr;
   this->size = 0;
 };
 
-// Destructor
+// DLList Destructor
 template <typename T>
 DLList<T>::~DLList() {
+  // Clear list contents, deletes pointers and sets to nullptr
   this->Clear();
 };
 
@@ -187,7 +191,6 @@ template <typename T>
 void DLList<T>::Insert(T value) {
   Node<T>* temp = new Node<T>(value);
   if(this->size == 0) {
-    cout << "FIRST VALUE\n";
     this->head = temp;
     this->tail = temp;
   } else {
@@ -209,7 +212,6 @@ void DLList<T>::Insert(T value) {
         inserted = true;
         break;
       } else if (current->next == nullptr && inserted == false) {
-        // cout << "TEMP: " << temp->value << " LARGER THAN " << current->value << endl;
         // New node larger than all elements
         current->next = temp;
         temp->prev = current;
