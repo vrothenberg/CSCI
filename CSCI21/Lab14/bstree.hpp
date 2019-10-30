@@ -23,7 +23,7 @@ public:
   // Destructor.
   // Clear the tree.
   ~BSTree() {
-    this->root->clear();
+    this->clear(this->root);
 
   }
 
@@ -35,7 +35,7 @@ public:
 
   // Clear the tree of all nodes. Reset head to nullptr and size to 0.
   void clear() {
-    this->root>clear();
+    this->clear(this->root);
 
   }
 
@@ -67,40 +67,59 @@ private:
   // Helper functions to hide internal node pointers from the public API.
 
   void clear(Node *&troot) {
-
+    if (troot != nullptr) {
+      if (troot->leftChild != nullptr) {
+        clear(troot->leftChild);
+      }
+      if (troot->rightChild != nullptr) {
+        clear(troot->rightChild);
+      }
+      delete troot;
+      troot = nullptr;
+      this->size--;
+    }
   }
 
   bool insert(T newData, Node *&troot) {
     if (troot == nullptr) {
       // Tree empty
-      troot = new Node<T>(newData);
+      troot = new Node(newData);
+      this->size++;
       return true;
-    } else if (newData < troot) {
+    } else if (newData < troot->data) {
       // Left subtree
       if (troot->leftChild != nullptr) insert(newData, troot->leftChild);
-      else troot->leftChild = new Node<T>(newData);
-    } else if (newData > troot) {
+      else {
+        troot->leftChild = new Node(newData);
+        this->size++;
+        return true;
+      }
+    } else if (newData > troot->data) {
       // Right subtree
       if (troot->rightChild != nullptr) insert(newData, troot->rightChild);
-      else troot->rightChild = new Node<T>(newData);
+      else {
+        troot->rightChild = new Node(newData);
+        this->size++;
+        return true;
+      }
     } else {
       // Duplicate
       return false;
     }
+    return false;
   }
 
   void printInOrder(Node *troot) {
-    if (troot == nullptr) {
-      // Tree empty
-    } else {
+    if (troot != nullptr){
       if (troot->leftChild != nullptr) {
         // Left subtree
-
-      } else if (troot->rightChild != nullptr) {
-        // Right subtree
-
+        printInOrder(troot->leftChild);
       }
       cout << troot->data << endl;
+      if (troot->rightChild != nullptr) {
+        // Right subtree
+        printInOrder(troot->rightChild);
+      }
     }
   }
 };
