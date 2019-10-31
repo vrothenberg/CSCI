@@ -7,7 +7,7 @@ Handler::Handler() {
 Handler::Handler(string file) {
   this->file = file;
   this->HandleDLList = nullptr;
-  //this->ReadFile(file);
+  this->ReadFile(file);
 };
 
 Handler::~Handler() {
@@ -15,8 +15,6 @@ Handler::~Handler() {
 };
 
 void Handler::ReadFile(string file) {
-  //if (file == "") file = this->file;
-
   std::ifstream fin(file);
   string line, token, op;
 
@@ -32,16 +30,9 @@ void Handler::ReadFile(string file) {
           op = line.substr(0,pos);
           opLine.push_back(op);
           line = line.substr(pos+delim.size());
-        } while (pos!=-1 );
+        } while (pos!=-1);
 
         Operation(opLine);
-
-        /*
-        for(string s : opLine){
-          cout << s << " ";
-        }
-        cout << endl;
-        */
 
       } catch (const std::exception &e) {
         // Shouldn't occur normally

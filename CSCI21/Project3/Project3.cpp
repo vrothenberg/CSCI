@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
   }
 
   Handler DoubleLinkedList(file);
-  DoubleLinkedList.ReadFile(file);
+  //DoubleLinkedList.ReadFile(file);
 
   return 0;
 }
