@@ -5,7 +5,7 @@
 //
 // Implements Handler class to operate on dynamic templated doubly linked lists
 // DLList class object composed of Node structs, which point to previous and next
-// Default Node type: int 
+// Default Node type: int
 
 
 #pragma once
@@ -23,6 +23,7 @@ using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
+using std::cerr;
 
 /*
 OPERATION codes + descriptions
@@ -93,9 +94,6 @@ public:
 
   // Clear current list instance of contents
   void Clear();
-
-  // Delete the dynamic list instance and set to nullptr
-  void Delete();
 
   // Insert number into list (sorted)
   void Insert(T num);

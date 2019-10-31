@@ -27,7 +27,10 @@ int main(int argc, char* argv[]) {
   }
 
   Handler DoubleLinkedList(file);
+<<<<<<< HEAD
   //DoubleLinkedList.ReadFile(file);
+=======
+>>>>>>> cf5a840745204d10e2dc09e6dcd3194bb78b388b
 
   return 0;
 }

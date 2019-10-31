@@ -34,6 +34,10 @@ TEST_CASE("Binary Search Tree (int)") {
     CHECK(captureCout.str() == string(""));
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cf5a840745204d10e2dc09e6dcd3194bb78b388b
   SECTION("BSTree<int> -- ONE ITEM") {
     BSTree<int> tree;
 
@@ -93,4 +97,8 @@ TEST_CASE("Binary Search Tree (int)") {
     cout.rdbuf(oldCout);
     CHECK(captureCout.str() == string(""));
   }
+<<<<<<< HEAD
+=======
+  
+>>>>>>> cf5a840745204d10e2dc09e6dcd3194bb78b388b
 }
