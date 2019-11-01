@@ -145,7 +145,6 @@ private:
   bool remove(T target, Node *&troot) {
     if (troot != nullptr) {
       if (target == troot->data) {
-
         return true;
       } else if (troot->leftChild != nullptr && target < troot->data) {
         return remove(target, troot->leftChild);
@@ -155,7 +154,6 @@ private:
       return false;
     }
     return false;
-
   }
 
   void removeMax(T &removed, Node *&troot) {
@@ -166,7 +164,8 @@ private:
   T *get(T target, Node *troot) {
     if (troot != nullptr) {
       if (target == troot->data) {
-        return troot;
+        cout << "troot:" << troot << " value: " << troot->data << endl;
+        return *troot;
       } else if (troot->leftChild != nullptr && target < troot->data) {
         return get(target, troot->leftChild);
       } else if (troot->rightChild != nullptr && target > troot->data) {
