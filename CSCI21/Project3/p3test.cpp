@@ -5,7 +5,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
-#include "dllist.hpp"
+#include "DLList.cpp"
 
 /*
  * Unit test. Do not alter.

@@ -1,14 +1,14 @@
-// Project 3 - Doubly Linked List
+// Project 4 - Binary Search Tree
 //
 // Programmer Name: Vince Rothenberg
-// Date Completed: October 25 2019
+// Date Completed: November 19 2019
 //
 // Implements Handler class to operate on dynamic templated doubly linked lists
 // DLList class object composed of Node structs, which point to previous and next
 // Default Node type: int
 
 
-#include "DLList.h"
+#include "Tree.hpp"
 
 int main(int argc, char* argv[]) {
   string file;
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     cout << "Invalid number of arguments\n";
   }
 
-  Handler DoubleLinkedList(file);
+  Handler Tree(file);
 
   return 0;
 }

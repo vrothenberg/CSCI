@@ -2,7 +2,7 @@
 
 // Default constructor
 Handler::Handler() {
-  cerr << "NO FILE PROVIDED\n";
+  cout << "NO FILE PROVIDED\n";
 };
 
 // Constructor with file provided, calls ReadFile
@@ -36,22 +36,15 @@ void Handler::ReadFile(string file) {
           op = line.substr(0,pos);
           opLine.push_back(op);
           line = line.substr(pos+delim.size());
-<<<<<<< HEAD
         } while (pos!=-1);
-
-        Operation(opLine);
-
-=======
-        } while (pos!=-1 );
         // Pass vector of operation and operand to Operation function
         Operation(opLine);
->>>>>>> cf5a840745204d10e2dc09e6dcd3194bb78b388b
       } catch (const std::exception &e) {
         // Shouldn't occur normally
-        cerr << e.what() << endl;
+        cout << e.what() << endl;
       }
     }
-  } else cerr << "FAILED TO OPEN FILE.\n";
+  } else cout << "FAILED TO OPEN FILE.\n";
 };
 
 // Executes operations from parsed operation string vector
@@ -78,7 +71,7 @@ void Handler::Operation(vector<string> opLine) {
       if (this->HandleDLList) {
         this->HandleDLList->Clear();
         cout << "LIST CLEARED\n";
-      } else cerr << listNull;
+      } else cout << listNull;
       break;
     case 'D':
       // Delete dynamic list and set to nullptr
@@ -87,70 +80,70 @@ void Handler::Operation(vector<string> opLine) {
         delete this->HandleDLList;
         this->HandleDLList = nullptr;
         cout << "LIST DELETED\n";
-      } else cerr << listNull;
+      } else cout << listNull;
       break;
     case 'I':
       // Insert number into list (sorted)
       if (this->HandleDLList) this->HandleDLList->Insert(num);
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'F':
       // Add number to front of list
       if (this->HandleDLList) this->HandleDLList->Front(num);
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'B':
       // Add number to back of list
       if (this->HandleDLList) this->HandleDLList->Back(num);
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'E':
       // Eliminate all occurrences of number from list
       if (this->HandleDLList) this->HandleDLList->EliminateAll(num);
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'R':
       // Remove first occurrence of number from the list
       if (this->HandleDLList) this->HandleDLList->RemoveFirst(num);
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'G':
       // Get number from the list
       if (this->HandleDLList) this->HandleDLList->GetNum(num);
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'A':
       // Return contents of head node
       if (this->HandleDLList) this->HandleDLList->HeadContents();
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'Z':
       // Return contents of tail node
       if (this->HandleDLList) this->HandleDLList->TailContents();
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'T':
       // Pop the head node
       if (this->HandleDLList) this->HandleDLList->PopHead();
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'K':
       // Pop the tail node
       if (this->HandleDLList) this->HandleDLList->PopTail();
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'N':
       // Return the size of the list
       if (this->HandleDLList) this->HandleDLList->ListSize();
-      else cerr << listNull;
+      else cout << listNull;
       break;
     case 'P':
       // Print all items in the list
       if (this->HandleDLList) this->HandleDLList->PrintList();
-      else cerr << listNull;
+      else cout << listNull;
       break;
     default:
-      cerr << "Invalid input.\n";
+      cout << "Invalid input.\n";
       break;
   }
 };
@@ -200,37 +193,46 @@ void DLList<T>::Insert(T value) {
   if(this->size == 0) {
     this->head = temp;
     this->tail = temp;
-  } else {
-    Node<T>* current = this->head;
-    bool inserted = false;
-    while(current != nullptr && inserted == false) {
-      if (current->value >= temp->value) {
-        // Insert before current
-        temp->next = current;
-        temp->prev = current->prev;
-        current->prev = temp;
-        if (current == this->head) {
-          // New node becomes head
-          this->head = temp;
-        } else if (current->next == nullptr) {
-          // New node
-          this->tail = current;
-        }
-        inserted = true;
-        break;
-      } else if (current->next == nullptr && inserted == false) {
-        // New node larger than all elements
-        current->next = temp;
-        temp->prev = current;
-        temp->next = nullptr;
-        this->tail = temp;
-        inserted = true;
-      }
-      current = current->next;
-    }
+    this->size++;
+    cout << "VALUE " << value << " INSERTED\n";
+    return;
   }
-  this->size++;
-  cout << "VALUE " << value << " INSERTED\n";
+  Node<T>* current = this->head;
+  bool inserted = false;
+  while(current != nullptr && inserted == false) {
+    if (current->value == value) {
+      // Duplicate
+      cout << "VALUE " << value << " INSERTED\n";
+      break;
+    } else if (current->value >= temp->value) {
+      // Insert before current
+      temp->next = current;
+      temp->prev = current->prev;
+      current->prev = temp;
+      if (current == this->head) {
+        // New node becomes head
+        this->head = temp;
+      } else if (current->next == nullptr) {
+        // New node
+        this->tail = current;
+      }
+      inserted = true;
+      break;
+    } else if (current->next == nullptr && inserted == false) {
+      // New node larger than all elements
+      current->next = temp;
+      temp->prev = current;
+      temp->next = nullptr;
+      this->tail = temp;
+      inserted = true;
+      break;
+    }
+    current = current->next;
+  }
+  if (inserted) {
+    this->size++;
+    cout << "VALUE " << value << " INSERTED\n";
+  }
 };
 
 // Add number to front of list
@@ -266,7 +268,11 @@ void DLList<T>::Back(T value) {
 // Eliminate all occurrences of number from the list
 template <typename T>
 void DLList<T>::EliminateAll(T value) {
-  if(this->size == 0) throw std::logic_error("LIST EMPTY");
+  if(this->size == 0) {
+    //throw std::logic_error("LIST EMPTY");
+    cout << "VALUE " << value << " NOT FOUND\n";
+    return;
+  }
   Node<T>* current = this->head;
   while(current != nullptr) {
     if (current->value == value) {
@@ -290,27 +296,37 @@ void DLList<T>::EliminateAll(T value) {
 // Remove the first occurrence of number from the list
 template <typename T>
 void DLList<T>::RemoveFirst(T value) {
-  if(this->size == 0) throw std::logic_error("LIST EMPTY");
+  if(this->size == 0) {
+    //throw std::logic_error("LIST EMPTY");
+    cout << "VALUE " << value << " NOT FOUND\n";
+    return;
+  }
   Node<T>* current = this->head;
+  bool removed = false;
   while(current != nullptr) {
     if (current->value == value) {
       // First occurrence detected
+      removed = true;
       current->next->prev = current->prev;
       current->prev->next = current->next;
+      delete current;
+      current = nullptr;
+      this->size--;
       break;
     }
     current = current->next;
   }
-  delete current;
-  current = nullptr;
-  this->size--;
-  cout << "VALUE " << value << " REMOVED\n";
+  cout << "VALUE " << value << (removed ? " REMOVED" : " NOT FOUND") << endl;
 };
 
 // Get number from the list
 template <typename T>
 void DLList<T>::GetNum(T value) {
-  if(this->size == 0) throw std::logic_error("LIST EMPTY");
+  if(this->size == 0) {
+    //throw std::logic_error("LIST EMPTY");
+    cout << "VALUE " << value << " NOT FOUND\n";
+    return;
+  }
   Node<T>* current = this->head;
   bool found = false;
   while(current != nullptr && found == false) {
