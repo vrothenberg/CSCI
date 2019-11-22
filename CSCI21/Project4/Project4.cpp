@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
   // Check arguments
   if(argc == 1) {
     // No file provided
-    file = "sample_input.txt";
+    file = "test.txt";
     cout << "ERROR! No file provided.\n";
   } else if (argc == 2) {
     // File name provided

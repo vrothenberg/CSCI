@@ -6,21 +6,22 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
 #include <string>
 using std::cout;
 using std::endl;
 using std::string;
+using std::ostream;
 
 class Word {
 public:
   // Constructor
   Word() {
     this->count = 0;
-
   };
 
   // Constructor overload
-  //
+  // Takes string argument to initialize word attribute
   Word(string word) {
     this->word = word;
     this->count = 0;
@@ -56,45 +57,54 @@ public:
   // Returns true if the Word object's string attribute is
   // equal to the target Word's string attribute.
   bool operator==(const Word &target) {
-    return (this->getWord() == target.getWord());
+    return (this->GetWord() == target->GetWord());
 
   }
 
   // Returns true if this Word object's string attribute comes (lexicographically)
   // after the target Word's string attribute. Case-insensitive.
   bool operator>(const Word &target) {
-    return (this->getWord() > target.getWord());
+    return (this->GetWord() > target.GetWord());
   };
 
   // Returns true if this Word object's string attribute comes (lexicographically)
   // before the target Word's string attribute. Case-insensitive.
   bool operator<(const Word &target) {
-    return (this->getWord() < target.getWord());
+    return (this->GetWord() < target.GetWord());
   };
 
   // Example: APPLE 3
   // Places a string representation of the Word on an output stream.
-  ostream &operator<<(ostream &outs, const Word &src) {
-    outs << src.getWord() << " " << src.getCount();
+  friend ostream &operator<<(ostream &outs, const Word &src) {
+    outs << src.GetWord() << " " << src.GetCount();
     return outs;
   };
 
 private:
   string word;
   unsigned int count;
-
 };
 
+template <typename T>
 class Handler {
 public:
-  // Constructor
-  Handler(string file) {
+  // Default constructor
+  Handler() {
+    cout << "NO FILE PROVIDED\n";
+  }
 
+  // Overloaded Constructor
+  // Takes string argument for filename, calls ReadFile function
+  // File must be in local folder
+  Handler(string file) {
+    this->file = file;
+    this->HandleTree = nullptr;
+    this->ReadFile(file);
   };
 
   // Destructor
   ~Handler() {
-
+    delete this->HandleDLList;
   };
 
   // File I/O, parses input file and calls Operation function
@@ -184,7 +194,7 @@ public:
         break;
       case 'N':
         // Return the size of the tree
-        if (this->HandleTree) this->HandleTree->ListSize();
+        if (this->HandleTree) this->HandleTree->GetSize();
         else cout << treeNull;
         break;
       case 'O':
@@ -206,13 +216,11 @@ public:
   // Create dynamic list instance
   void Create() {
     this->HandleTree = new DLList<int>();
-    cout << "LIST CREATED\n";
+    cout << "TREE CREATED\n";
   };
 
-
-
 private:
-  HandleTree<T>
+  HandleTree<Word>* HandleTree;
 
 }
 
@@ -234,47 +242,47 @@ public:
   }
 
   // Returns the size (number of nodes) of this tree.
-  unsigned int getSize() {
+  unsigned int GetSize() {
     return this->size;
   }
 
   // Clear the tree of all nodes. Reset head to nullptr and size to 0.
-  void clear() {
-    this->clear(this->root);
+  void Clear() {
+    this->Clear(this->root);
   }
 
   // Insert the data in the tree. Returns true if the data is not a
   // duplicate, and can be inserted. Returns false otherwise.
-  bool insert(T data) {
-    return this->insert(data, this->root);
+  bool Insert(T data) {
+    return this->Insert(data, this->root);
   }
 
   // Find the target data in the tree. Returns true if target is found.
   // Returns false otherwise.
-  bool find(T target) {
-    return this->find(target, this->root);
+  bool Find(T target) {
+    return this->Find(target, this->root);
   }
 
   // Remove the target data from the tree. Returns true if the target
   // is found and removed. Returns false otherwise.
-  bool remove(T target) {
-    return this->remove(target, this->root);
+  bool Remove(T target) {
+    return this->Remove(target, this->root);
   }
 
   // Return a pointer to the target data. Returns nullptr if the target
   // data is not found.
-  T *get(T target) {
-    return this->get(target, this->root);
+  T *Get(T target) {
+    return this->Get(target, this->root);
   }
 
   // Print the data in the tree to STDOUT, in-order (ascending).
-  void printInOrder() {
-    this->printInOrder(this->root);
+  void PrintInOrder() {
+    this->PrintInOrder(this->root);
   }
 
   // Print the data in the tree to STDOUT, reverse-order (descending).
-  void printReverseOrder() {
-    this->printReverseOrder(this->root);
+  void PrintReverseOrder() {
+    this->PrintReverseOrder(this->root);
   }
 
 private:
@@ -292,13 +300,13 @@ private:
   // Helper functions to hide internal node pointers from the public API.
 
   // Clear the tree of all nodes. Reset head to nullptr and size to 0.
-  void clear(Node *&troot) {
+  void Clear(Node *&troot) {
     if (troot != nullptr) {
       if (troot->leftChild != nullptr) {
-        clear(troot->leftChild);
+        Clear(troot->leftChild);
       }
       if (troot->rightChild != nullptr) {
-        clear(troot->rightChild);
+        Clear(troot->rightChild);
       }
       delete troot;
       troot = nullptr;
@@ -308,7 +316,7 @@ private:
 
   // Insert the data in the tree. Returns true if the data is not a
   // duplicate, and can be inserted. Returns false otherwise.
-  bool insert(T newData, Node *&troot) {
+  bool Insert(T newData, Node *&troot) {
     if (troot == nullptr) {
       // Tree empty
       troot = new Node(newData);
@@ -316,7 +324,7 @@ private:
       return true;
     } else if (newData < troot->data) {
       // Left subtree
-      if (troot->leftChild != nullptr) insert(newData, troot->leftChild);
+      if (troot->leftChild != nullptr) Insert(newData, troot->leftChild);
       else {
         troot->leftChild = new Node(newData);
         this->size++;
@@ -324,7 +332,7 @@ private:
       }
     } else if (newData > troot->data) {
       // Right subtree
-      if (troot->rightChild != nullptr) insert(newData, troot->rightChild);
+      if (troot->rightChild != nullptr) Insert(newData, troot->rightChild);
       else {
         troot->rightChild = new Node(newData);
         this->size++;
@@ -339,14 +347,14 @@ private:
 
   // Find the target data in the tree. Returns true if target is found.
   // Returns false otherwise.
-  bool find(T target, Node *troot) {
+  bool Find(T target, Node *troot) {
     if (troot != nullptr) {
       if (target == troot->data) {
         return true;
       } else if (troot->leftChild != nullptr && target < troot->data) {
-        return find(target, troot->leftChild);
+        return Find(target, troot->leftChild);
       } else if (troot->rightChild != nullptr && target > troot->data) {
-        return find(target, troot->rightChild);
+        return Find(target, troot->rightChild);
       }
       return false;
     }
@@ -355,12 +363,12 @@ private:
 
   // Remove the target data from the tree. Returns true if the target
   // is found and removed. Returns false otherwise.
-  bool remove(T target, Node *&troot) {
+  bool Remove(T target, Node *&troot) {
     if (troot != nullptr) {
       if (target < troot->data) {
-        return remove(target, troot->leftChild);
+        return Remove(target, troot->leftChild);
       } else if (target > troot->data) {
-        return remove(target, troot->rightChild);
+        return Remove(target, troot->rightChild);
       } else if (target == troot->data) {
         //Delete
         if (troot->leftChild == nullptr && troot->rightChild == nullptr) {
@@ -379,7 +387,7 @@ private:
           delete temp;
         } else if (troot->rightChild != nullptr && troot->leftChild != nullptr) {
           // Two Children
-          removeMax(troot->data, troot->leftChild);
+          RemoveMax(troot->data, troot->leftChild);
         }
         this->size--;
         return true;
@@ -390,11 +398,11 @@ private:
   }
 
 
-  void removeMax(T &removed, Node *&troot) {
+  void RemoveMax(T &removed, Node *&troot) {
     if (troot != nullptr) {
       if(troot->rightChild != nullptr) {
         // Largers nodes in right subtree
-        removeMax(removed, troot->rightChild);
+        RemoveMax(removed, troot->rightChild);
       } else {
         // Max is root
         removed = troot->data;
@@ -406,15 +414,15 @@ private:
 
   // Return a pointer to the target data. Returns nullptr if the target
   // data is not found.
-  T *get(T target, Node *troot) {
+  T *Get(T target, Node *troot) {
     if (troot != nullptr) {
       if (target == troot->data) {
-        int* p = &troot->data;
+        T* p = &troot->data;
         return p;
       } else if (troot->leftChild != nullptr && target < troot->data) {
-        return get(target, troot->leftChild);
+        return Get(target, troot->leftChild);
       } else if (troot->rightChild != nullptr && target > troot->data) {
-        return get(target, troot->rightChild);
+        return Get(target, troot->rightChild);
       }
       return nullptr;
     }
@@ -422,31 +430,31 @@ private:
   }
 
   // Print the data in the tree to STDOUT, in-order (ascending).
-  void printInOrder(Node *troot) {
+  void PrintInOrder(Node *troot) {
     if (troot != nullptr){
       if (troot->leftChild != nullptr) {
         // Left subtree
-        printInOrder(troot->leftChild);
+        PrintInOrder(troot->leftChild);
       }
       cout << troot->data << endl;
       if (troot->rightChild != nullptr) {
         // Right subtree
-        printInOrder(troot->rightChild);
+        PrintInOrder(troot->rightChild);
       }
     }
   }
 
   // Print the data in the tree to STDOUT, reverse-order (descending).
-  void printReverseOrder(Node *troot) {
+  void PrintReverseOrder(Node *troot) {
     if (troot != nullptr){
       if (troot->rightChild != nullptr) {
         // Right subtree
-        printReverseOrder(troot->rightChild);
+        PrintReverseOrder(troot->rightChild);
       }
       cout << troot->data << endl;
       if (troot->leftChild != nullptr) {
         // Left subtree
-        printReverseOrder(troot->leftChild);
+        PrintReverseOrder(troot->leftChild);
       }
     }
   }

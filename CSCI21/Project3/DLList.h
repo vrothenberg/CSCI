@@ -93,43 +93,43 @@ public:
   ~DLList();
 
   // Clear current list instance of contents
-  void Clear();
+  bool Clear();
 
   // Insert number into list (sorted)
-  void Insert(T num);
+  bool Insert(T num);
 
   // Add number to front of list
-  void Front(T num);
+  bool Front(T num);
 
   // Add number to back of list
-  void Back(T num);
+  bool Back(T num);
 
   // Eliminate all occurrences of number from the list
-  void EliminateAll(T num);
+  bool EliminateAll(T num);
 
   // Remove the first occurrence of number from the list
-  void RemoveFirst(T num);
+  bool RemoveFirst(T num);
 
   // Get number from the list
-  void GetNum(T num);
+  bool GetNum(T num);
 
   // Return contents of head node
-  void HeadContents();
+  T HeadContents();
 
   // Return contents of tail node
-  void TailContents();
+  T TailContents();
 
   // Pop the head node
-  void PopHead();
+  bool PopHead();
 
   // Pop the tail node
-  void PopTail();
+  bool PopTail();
 
   // Return size of list
-  void ListSize();
+  unsigned int ListSize();
 
   // Print all items in list
-  void PrintList();
+  string PrintList();
 
 
 private:
@@ -160,7 +160,8 @@ public:
   void Operation(vector<string> opLine);
 
   // Create dynamic list instance
-  void Create();
+  // Returns true on success
+  bool Create();
 
 
   // Filename variable
