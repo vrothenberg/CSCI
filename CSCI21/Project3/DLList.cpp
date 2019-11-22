@@ -25,7 +25,7 @@ void Handler::ReadFile(string file) {
   if (fin.is_open()) {
     string delim = " ";
     // Primary file input loop
-    while(getline(fin,line)) {
+    while (getline(fin,line)) {
       try {
         vector<string> opLine;
         int pos = line.find(delim);
@@ -55,7 +55,7 @@ void Handler::Operation(vector<string> opLine) {
   int num = 0;
   if (opLine.size() == 2 && op != '#') num = stoi(opLine[1]);
 
-  switch(op) {
+  switch (op) {
     case '#':
       // Comment
       break;
@@ -73,7 +73,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'X':
       // Clear current list instance of contents
       if (this->HandleDLList) {
-        if(this->HandleDLList->Clear()) cout << "LIST CLEARED" << endl;
+        if (this->HandleDLList->Clear()) cout << "LIST CLEARED" << endl;
         else cout << "FAILED TO CLEAR LIST" << endl;
       }
       else cout << listNull << endl;
@@ -85,7 +85,8 @@ void Handler::Operation(vector<string> opLine) {
         delete this->HandleDLList;
         this->HandleDLList = nullptr;
         cout << "LIST DELETED" << endl;
-      } else cout << listNull << endl;
+      }
+      else cout << listNull << endl;
       break;
     case 'I':
       // Insert number into list (sorted)
@@ -99,7 +100,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'F':
       // Add number to front of list
       if (this->HandleDLList) {
-        if(this->HandleDLList->Front(num))
+        if (this->HandleDLList->Front(num))
           cout << "VALUE " << num << " ADDED TO HEAD" << endl;
         else cout << "FAILED TO ADD TO HEAD" << endl;
       }
@@ -108,7 +109,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'B':
       // Add number to back of list
       if (this->HandleDLList) {
-        if(this->HandleDLList->Back(num))
+        if (this->HandleDLList->Back(num))
           cout << "VALUE " << num << " ADDED TO TAIL" << endl;
         else cout << "FAILED TO ADD TO TAIL" << endl;
       }
@@ -117,7 +118,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'E':
       // Eliminate all occurrences of number from list
       if (this->HandleDLList) {
-        if(this->HandleDLList->EliminateAll(num))
+        if (this->HandleDLList->EliminateAll(num))
           cout << "VALUE " << num << " ELIMINATED" << endl;
         else cout << "VALUE " << num << " NOT FOUND" << endl;
       }
@@ -126,7 +127,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'R':
       // Remove first occurrence of number from the list
       if (this->HandleDLList) {
-        if(this->HandleDLList->RemoveFirst(num))
+        if (this->HandleDLList->RemoveFirst(num))
           cout << "VALUE " << num << " REMOVED" << endl;
         else cout << "VALUE " << num << " NOT FOUND" << endl;
       }
@@ -135,7 +136,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'G':
       // Get number from the list
       if (this->HandleDLList) {
-        if(this->HandleDLList->GetNum(num))
+        if (this->HandleDLList->GetNum(num))
           cout << "VALUE " << num << " FOUND\n";
         else cout << "VALUE " << num << " NOT FOUND\n";
       }
@@ -173,7 +174,7 @@ void Handler::Operation(vector<string> opLine) {
     case 'K':
       // Pop the tail node
       if (this->HandleDLList) {
-        if(this->HandleDLList->ListSize() > 0) {
+        if (this->HandleDLList->ListSize() > 0) {
           this->HandleDLList->PopTail();
           cout << "REMOVED TAIL" << endl;
         }
@@ -204,12 +205,8 @@ void Handler::Operation(vector<string> opLine) {
 
 // Create dynamic list instance
 bool Handler::Create() {
-  try {
-    this->HandleDLList = new DLList<int>();
-    return true;
-  } catch (const std::exception &e) {
-    return false;
-  }
+  this->HandleDLList = new DLList<int>();
+  return true;
 };
 
 // DLList Constructor
@@ -232,7 +229,7 @@ template <typename T>
 bool DLList<T>::Clear() {
   if (this->size == 0) return true;
   Node<T>* temp = this->head;
-  while(temp != nullptr) {
+  while (temp != nullptr) {
     Node<T>* temp1 = temp->next;
     delete temp;
     temp = temp1;
@@ -248,7 +245,6 @@ bool DLList<T>::Clear() {
 // Insert number into list (sorted)
 template <typename T>
 bool DLList<T>::Insert(T value) {
-
   if (this->size == 0) return Front(value);
   Node<T>* current = this->head;
   bool inserted = false;
@@ -294,21 +290,16 @@ bool DLList<T>::Front(T value) {
 // Add number to back of list
 template <typename T>
 bool DLList<T>::Back(T value) {
-  try {
-    Node<T>* temp = new Node<T>(value);
-    if (this->size == 0) {
-      this->head = temp;
-    } else {
-      temp->prev = this->tail;
-      this->tail->next = temp;
-    }
-    this->tail = temp;
-    this->size++;
-    return true;
-  } catch (const std::exception &e) {
-    cout << e.what() << endl;
-    return false;
+  Node<T>* temp = new Node<T>(value);
+  if (this->size == 0) {
+    this->head = temp;
+  } else {
+    temp->prev = this->tail;
+    this->tail->next = temp;
   }
+  this->tail = temp;
+  this->size++;
+  return true;
 };
 
 // Eliminate all occurrences of number from the list
@@ -363,8 +354,8 @@ bool DLList<T>::GetNum(T value) {
   if (this->size == 0) return false;
   Node<T>* current = this->head;
   bool found = false;
-  while(current != nullptr && found == false) {
-    if(current->value == value) {
+  while (current != nullptr && found == false) {
+    if (current->value == value) {
       found = true;
       return true;
     };
@@ -392,7 +383,7 @@ template <typename T>
 bool DLList<T>::PopHead() {
   if (this->size == 0) return false;
   Node<T>* temp = this->head;
-  if(this->size == 1) {
+  if (this->size == 1) {
     this->head->next = nullptr;
     this->head = nullptr;
   } else {
@@ -436,8 +427,8 @@ template <typename T>
 string DLList<T>::PrintList() {
   ostringstream sout;
   Node<T>* current = this->head;
-  if (this->size==0) throw std::logic_error("LIST EMPTY");
-  while(current != nullptr) {
+  if (this->size == 0) throw std::logic_error("LIST EMPTY");
+  while (current != nullptr) {
     sout << current->value;
     if (current->next != nullptr) sout << ",";
     current = current->next;
