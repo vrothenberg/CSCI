@@ -16,8 +16,8 @@ int main(int argc, char* argv[]) {
   // Check arguments
   if(argc == 1) {
     // No file provided
-    file = "test.txt";
-    cout << "ERROR! No file provided.\n";
+    file = "sample_input.txt";
+    //cout << "ERROR! No file provided.\n";
   } else if (argc == 2) {
     // File name provided
     file = argv[1];
@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     cout << "Invalid number of arguments\n";
   }
 
-  Handler Tree(file);
+  Handler<Word> Tree(file);
 
   return 0;
 }
