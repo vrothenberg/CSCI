@@ -36,12 +36,14 @@ bool Parse(vector<int>& v, int i) {
   return false;
 }
 
+bool Multiply(vector<int>& v, int i) {
+  v[v[i+3]] = v[v[i+1]] * v[v[i+2]];
+  return true;
+}
+
 void IntcodeLoop(vector<int>& v) {
   int i = 0;
-  while(Parse(v, i)) {
-    i += 4;
-  }
-
+  while(Parse(v, i)) i += 4;
 }
 
 
@@ -71,12 +73,19 @@ int main() {
     }
     fin.close();
   }
-  intcode[1] = 12;
-  intcode[2] = 2;
-  IntcodeLoop(intcode);
 
-  cout << "Intcode: " << endl;
-  Print(intcode);
+  for (int a = 0; a < 100; a++) {
+    for (int b = 0; b < 100; b++) {
+      vector<int> intcodeAB = intcode;
+      intcodeAB[1] = a;
+      intcodeAB[2] = b;
+      IntcodeLoop(intcodeAB);
+      if (intcodeAB[0] == 19690720) cout << "a: " << a << " b: " << b << " " << 100 * a + b << endl;
+    }
+  }
+
+
+  cout << "END" << endl;
 
 
   return 0;
