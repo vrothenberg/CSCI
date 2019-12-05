@@ -373,6 +373,7 @@ public:
   };
 
   // File I/O, parses input file and calls Operation function
+  // Automatically capitalizes input strings 
   void ReadFile(string file) {
     std::ifstream fin(file);
     string line, token, op;
@@ -390,7 +391,7 @@ public:
             pos = line.find(delim);
             op = line.substr(0,pos);
             opLine.push_back(op);
-            line = line.substr(pos+delim.size());
+            line = Capitalize(line.substr(pos+delim.size()));
           } while (pos!=-1);
           // Pass vector of operation and operand to Operation function
           Operation(opLine);
