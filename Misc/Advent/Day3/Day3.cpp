@@ -11,11 +11,30 @@ using std::ostream;
 using std::vector;
 using std::ostringstream;
 
-bool Path(string wire) {
+bool Path(string wire, vector<vector<char>>& wiremap, int& currX, int& currY) {
   char d = wire[0];
-  int x = stoi(wire.substr(1, wire.size()));
-  return true;
+  int n = stoi(wire.substr(1, wire.size()));
+  switch(d) {
+    case 'U':
+      // Up
+      for (int y = currY; y < currY + n; y++) {
+        wiremap[y][x] = ''
+      }
 
+      break;
+    case 'D':
+      // Down
+      break;
+    case 'L':
+      // Left
+      break;
+    case 'R':
+      // Right
+      break;
+  }
+
+
+  return true;
 }
 
 int main() {
@@ -83,6 +102,16 @@ int main() {
   cout << "Max Left: " << maxLeft << " Max Right: " << maxRight << endl;
   cout << "Height: " << maxUp + maxDown << endl;
   cout << "Max Up: " << maxUp << " Max Down: " << maxDown << endl;
+
+  int currX = 0;
+  int currY = 0;
+  for (int i = 0; i < wires.size(); i++) {
+    Path(wires[i], wiremap, currX, currY);
+  }
+
+
+
+
 
 
   return 0;
