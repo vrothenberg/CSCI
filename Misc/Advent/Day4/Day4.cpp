@@ -44,12 +44,20 @@ bool Increasing(vector<int> digits) {
 
 bool Adjacent(vector<int> digits) {
   bool adjacent = false;
+  bool double = false;
   for (int i = 0; i < pwLen -1; i++) {
-    if (digits[i] == digits[i+1]) {
+    int j = i+1;
+    if (digits[i] == digits[j]) {
       adjacent = true;
-      if (digits[i+1] == digits[i+2]) return false;
+      int numAdjacent = 2;
+      j++;
+      while(digits[i] == digits[j]) {
+        numAdjacent++;
+        j++;
+      }
+      if (numAdjacent % 2 == 1 || numAdjacent == 6) return false;
+      else i = j-1;
     }
-
   }
   return adjacent;
 }
@@ -61,13 +69,17 @@ int main() {
   int start = 138307;
   int end =   654504;
 
+  //int start = 577888;
+  //int end = 577888;
+
   int validPasswords = 0;
   for (int pw = start; pw <= end; pw++) {
     // Iterate through possible passwords
     vector<int> digits = ToArray(pw);
     if (Increasing(digits) && Adjacent(digits)) {
-      cout << pw << endl;
       validPasswords++;
+      cout << pw << " " << validPasswords << endl;
+
     }
   }
   cout << "Valid Passwords: " << validPasswords << endl;
