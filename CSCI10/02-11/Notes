@@ -1,0 +1,20 @@
+ldr r0, =x // Address of x in RAM
+ldr r1, [r0] // Value of x
+
+ldr r0, =y // Address of y in RAM
+ldr r2, r[0] // Value of y
+
+add r3, r1, r2 // Data manipulation, add values of x and y
+
+ldr r0, =z // Address of z
+str r3, [r0] // Store value in r3 into r0
+
+
+
+// Incrementing, x++;
+ldr r0, =x // Address of x in RAM
+ldr r1, r[0] // Value of x loaded into r1
+add r1, r1, 1 // Increment r1 by 1
+// add r1, 1 // Also legal
+
+str r1, [r0] // Store value of r1 into r0

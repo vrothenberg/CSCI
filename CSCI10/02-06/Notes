@@ -1,0 +1,11 @@
+0b0000_0110
+0x06
+
+Cortex M4 - Quad Flat Package System of a Chip
+
+ARM
+bit - Smallest unit of information in binary
+nibble - 4 bits of binary, 1 digit of hex.  0b1111 = 0xF  Max: 15
+byte - 8 bits, 2 digits of hex                            Max: 255
+halfword - 16 bits. 0x0CAD                                Max: 65,535
+word - 32 bits.     0x00000CAD                            Max: 4,294,967,295
