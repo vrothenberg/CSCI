@@ -1,7 +1,7 @@
 // Lab 5 -- load/store/mov
 //
 // Programmer name: Vince Rothenberg
-// Date completed:  6 February 2020
+// Date completed:  13 February 2020
 
 .syntax unified
 .cpu cortex-m4
@@ -47,6 +47,7 @@ reset_handler:
   ldr   r0, =xvar
 
   // 1. LOAD THE ADDRESS OF yvar INTO REGISTER r2
+  ldr   r2, =yvar
 
   // Initialize r5 (loop counter)
   mov   r5, 1
@@ -56,11 +57,13 @@ reset_handler:
     ldr   r1, [r0]
 
     // 2. DEREFERENCE r2 TO GET THE VALUE OF yvar, LOAD INTO r3
+    ldr   r3, [r2]
 
     // Store the value from register r3 into xvar, by dereferencing r0
     str   r3, [r0]
 
     // 3. STORE THE VALUE FROM REGISTER r1 INTO yvar, BY DEREFERENCING r2
+    str   r1, [r2]
 
     // Increment r5 (loop counter)
     add   r5, 1

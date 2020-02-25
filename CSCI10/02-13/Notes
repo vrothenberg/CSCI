@@ -1,0 +1,5 @@
+r0-r12 General purpose registers
+32 bit capacity
+
+cmp r0, r1  // Sets program status register code
+blo LOOP // Branch if lower than.  Checks program status register to conditionally branch
