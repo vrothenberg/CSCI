@@ -1,7 +1,7 @@
 // Lab 6 -- blink
 //
-// Programmer name: __________
-// Date completed:  __________
+// Programmer name: Vince Rothenberg
+// Date completed:  27 February 2020
 
 .syntax unified
 .cpu cortex-m4
@@ -14,6 +14,7 @@
 .global vtable
 .global reset_handler
 
+// Permanent GPIO addresses
 .equ RCC_AHB1ENR,       0x40023830      // peripheral clock enable register
 // STM32F401RE -- LED output is PA5
 .equ GPIOA_MODER,       0x40020000      // port A direction/mode register
@@ -38,7 +39,7 @@ _start:
 	ldr		r2, [r3]
 
 	// 1. SET BIT 0 IN REGISTER r2
-
+  orr   r2, r2, #1
 	str		r2, [r3]
 
 	// Configure pin A5 for output
@@ -46,7 +47,7 @@ _start:
 	ldr		r2, [r3]
 
 	// 2. SET BIT 10 IN REGISTER r2
-
+  orr   r2, r2, #0x400
 	str		r2, [r3]
 
 	// Load the address then value for the GPIOA output data register
@@ -55,6 +56,7 @@ _start:
 
 main_loop:
 	// 3. INVERT BIT 5 IN REGISTER r2 TO TOGGLE THE LED CONNECTED TO PA5
+  eor r2, r2, #0x20
 
   // Overwrite GPIOA_ODR with the updated pin value
 	str		r2, [r3]

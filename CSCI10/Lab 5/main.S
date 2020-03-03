@@ -21,8 +21,8 @@
 .endm
 
 .section .data
-xvar: .word 10
-yvar: .word 20
+xvar: .word 0xA  // 10
+yvar: .word 0xF4 // 20
 
 .section .text
 .global vtable
