@@ -1,7 +1,7 @@
 // Lab 7 -- blink more
 //
-// Programmer name: __________
-// Date completed:  __________
+// Programmer name: Vince Rothenberg
+// Date completed:  5 Mar 2020
 
 .syntax unified
 .cpu cortex-m4
@@ -37,7 +37,7 @@ _start:
 	ldr		r2, [r3]
 
   // 1. ENABLE GPIOA CLOCK IN RCC_AHB1ENR BY UPDATING VALUE IN r2
-
+  orr   r2, 0x1
 	str		r2, [r3]
 
 	// Load the address then value for the GPIOA mode register
@@ -46,7 +46,7 @@ _start:
 
   // 2. SET FOR OUTPUT THE GPIOA PINS ASSOCIATED WITH
   //    D13, D12, D11, D7, in GPIOA_MODER BY UPDATING r2
-
+  orr   r2, 0x15400
 	str		r2, [r3]
 
 	// Load the address and content for the GPIOA output data register
@@ -55,14 +55,19 @@ _start:
 
   // 3. SET THE BITS IN GPIOA ASSOCIATED WITH D13, D11 in GPIOA_ODR
   //    BY UPDATING r2
+  orr   r2, 0xA0
+  str   r2, [r3]
+
 
   // 4. CLEAR THE BITS IN GPIOA ASSOCIATED WITH D12, D7 in GPIOA_ODR
   //    BY UPDATING r2
+  bic   r2, 0x140 // PA6 and PA8
+  str   r2, [r3]
 
 main_loop:
 
   // 5. INVERT THE BITS IN GPIOA ASSOCIATED WITH D13, D12, D11, D7 in GPIOA_ODR
-
+  eor   r2, 0x1E0 // PA5,6,7,
 	str		r2, [r3]
 
 	// Delay loop
