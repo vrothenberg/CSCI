@@ -1,0 +1,22 @@
+Hardware
+
+On-chip debugging: Control execution of code step by step, inspect registers and memory.
+
+Programming: Burning the compiled code onto the hardware's flash memory (EEPROM).
+ROM (read only memory) doesn't change.
+Variables go in RAM, volatile memory.
+
+ST-LINK, ST Micro's technology which implements on chip debugging and programming.
+Connects via USB which also provides power.
+
+stm32_flash.ld
+
+FLASH (rx) read and execute
+RAM (xrw) execute and read and write
+
+Steps:
+Assemble
+Compile
+Open Comms
+
+monitor reset halt : reboot and don't execute

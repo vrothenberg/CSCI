@@ -1,0 +1,29 @@
+Bitwise Operations:  Set individual bits
+
+ORR: Or, turns on
+BIC: Bit clear, turns off
+EOR: Toggles
+
+MOV   r0, 0x11 (0001_0001)
+#Turn into     (1001_0111)
+ORR   r0, 0x86 (1000_0110)
+#Current       (1001_0111)
+#Turn into     (1000_0010)
+BIC   r0, 0x15 (0001_0101)
+
+
+#Toggle         1??1_?11?
+EOR   r0, 0x96 (1001_0110)
+
+Other operations
+LSL
+LSR
+ROL
+ROR
+ASR
+
+MOV   r0, 0x1
+LSL   r0, 1 (Shifts bits left, multiply by 2)
+LSR   r0, 2 (Shifts bits right, divide by 4)
+ROR   r0, 1 (0b0001 -> 0x8000000)
+ASR

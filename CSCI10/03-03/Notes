@@ -1,0 +1,24 @@
+ldr   r0, =xvar // Gets address of xvar and loads into r0
+
+In I/O memory all addresses are known, prescribed.  You don't create variables.
+
+GPIO A, memory bank.  32 bit register.
+
+Bit manipulation
+
+ORR bitwise or
+BIC bitclear
+EOR exclusive or (toggle)
+
+.equ BTIO   0xFACEFACE // Like declaring a constant BTIO
+
+//   their mine
+// 0b_0000_0000
+// 0b_0011_0011  All lights on
+
+ldr r0, =BTIO
+ldr r1, [r0]
+//orr r1, #3
+eor r1, 0x33  // Toggle all the lights, their 2 and my 2
+str r1, [r0]
+bic r1, 0b0011_0000  // 0x30 in hex Turn off their first 2 bits, keep mine unchanged

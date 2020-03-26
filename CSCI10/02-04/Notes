@@ -1,0 +1,33 @@
+Computer Architecture
+
+Functionality - Primary for CS
+Organization - Secondary for CS
+Implementation - Mostly for Computer / Electrical Engineers
+
+[Instruction Set] Architecture (ISA) - Functionality, Most relevant for CS
+Microarchitecture - Implementation
+Systems Design - Implementation and Organization
+
+ISA
+Addressing - Pointers.  Different modes. & direct address, * indirect address.
+Data Types - Sizes / amounts.  ARM is 32 bit.
+Memory - RAM
+Registers - A form of memory.
+
+add r0,r1,r2
+    r0=r1+r2
+
+CISC - Use more complicated circuitry and often more electricity
+RISC - Simpler to implement, though can end up doing more instructions to do more complex instructions
+
+ARM - RISC, reduced instruction set computer
+Intel x86 - Some CISC, complex instruction set computer
+RISC-V
+
+Common types of instructions
+Arithmetic/logic
+Data handling and memory
+Control flow - Conditional statements, jumps, branches.
+Coprocessor - Can handle floating point or arithmetic.  Not multiple cores.
+
+SoC - System on a chip.

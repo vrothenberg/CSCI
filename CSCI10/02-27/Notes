@@ -1,0 +1,25 @@
+Addressing Modes
+  Ways to access memory.
+  Related to load / store
+
+Immediate: The value is the literal value.
+  ldr r0, 0x20001FFC
+  // int x = 0;
+
+Register: The value refers to a register address.  (indirect)
+  ldr r1, [r2]
+  // string* s; (reference to string)
+  // s->size(); (dereference s)
+
+Scaled Register (indexed)
+  ldr r3, [r5,|s| 0x2] // Shifts by 32 bits
+  // Logical shift left from r5 and offsets by |s| 0x2 (2 * 16)
+  // int nums[10];
+  // nums[4] = 5;
+
+Load:
+  ldr   dest, src
+Store:
+  str   src,  dest
+
+=xvar is like &var in c++
