@@ -43,23 +43,20 @@ bool Increasing(vector<int> digits) {
 }
 
 bool Adjacent(vector<int> digits) {
-  bool adjacent = false;
-  bool double = false;
   for (int i = 0; i < pwLen -1; i++) {
     int j = i+1;
     if (digits[i] == digits[j]) {
-      adjacent = true;
       int numAdjacent = 2;
       j++;
       while(digits[i] == digits[j]) {
         numAdjacent++;
         j++;
       }
-      if (numAdjacent % 2 == 1 || numAdjacent == 6) return false;
+      if (numAdjacent == 2) return true;
       else i = j-1;
     }
   }
-  return adjacent;
+  return false;
 }
 
 
