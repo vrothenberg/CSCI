@@ -1,0 +1,11 @@
+Decision making in ARM assembly
+
+CMP x, y      // compare x and y
+B __          // Branch on result
+
+if (x == y) {
+  // then do things
+}
+
+CMP x, y
+BNE somewhere
