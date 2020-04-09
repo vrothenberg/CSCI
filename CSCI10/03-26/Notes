@@ -1,0 +1,41 @@
+Tow's Complement
+
+High bit is sign bit
+
+0 -> Positive
+1 -> Negative
+
+0b 0_000_0001 -> 1
+
+0b 1_111_1110 -> invert the bits/one's complement
++           1 -> Add 1
+
+0b 1_111_1111 -> -1
+-------------
+0b 1_111_1111 -> -1
+
+0b 0_000_0000 -> invert the bits/one's complement
++           1 -> add 1
+
+0b 0_000_0001 -> 1
+-------------
+0b 0000_0101  -> 5
+
+0b 1111_1010  -> Invert the bits/one's complement
++          1  -> add 1
+
+0b 1111_1011  -> -5
+0x FB
+------------
+
+SIGN EXTENSION
+
+0b 0000_0101 -> 5 as 8-bits
+0b 0000_0000_0000_0101 -> 5 as 16-bits
+
+0b 1111_1011 -> -5
+0b 1111_1111_1111_1011 -> -5 as 16-bits
+
+CONVERT UNSIGNED VALUE IN REGISTER R2 TO TWO COMPLEMENT FORM IN R1
+
+eor r2, 0xFFFFFFFF

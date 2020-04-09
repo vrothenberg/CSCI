@@ -24,12 +24,10 @@ int saveThePrisoner(int n, int m, int s) {
 
 int main()
 {
-  string s = "ABCXYZ";
+  int p,q,sum;
+  cin>>p>>q>>sum;
+  cout << p << " " << sum;
 
-  for (int i = 0; i < s.size(); i++) {
-
-    cout << s[i] << " " << (int)s[i] << endl;
-  }
 
 
 /*

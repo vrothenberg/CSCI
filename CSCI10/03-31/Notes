@@ -1,0 +1,30 @@
+  0b0     0b0     0b1     0b1
++ 0b0   + 0b1   + 0b0   + 0b1
+-----   -----   -----   -----
+  0b0     0b1     0b1    0b10
+
+UNSIGNED Carry
+
+  0b1111_1111 (unsigned 255)
++ 0b0000_0001 (unsigned 1)
+-------------
+0b1_0000_0000
+  ^
+Carry
+
+SIGNED   Overflow  
+
+  0b0111_1111 (signed 127)
++ 0b0000_0001 (signed 1)
+-------------
+ 0b_1000_0000
+
+ How often are condition flags checked?  Does it not cost much if you check them all each cycle or for each arithmetic operation?  Are there various strategies for being economical about this or is there not much efficiency to be gained?
+
+Can you go through an example of checking for condition flags?  Are there efficiencies to be gained by only checking at certain points of if there are synchronizations?
+
+Jim Keller was talking about
+
+
+cmp r0, r1
+beq _some_loop
