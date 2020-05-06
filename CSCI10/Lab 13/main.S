@@ -1,7 +1,16 @@
 // Lab 13 -- MUL/DIV/MLS (FizzBuzz)
 //
-// Programmer name: __________
-// Date completed:  __________
+// Programmer name: Vince Rothenberg
+// Date completed:  28 Apr 20
+
+// Loop from 1 to n
+// For each value:
+// If Divisible by 3 : print "Fizz"
+// If Divisible by 5 : print "Buzz"
+// If Divisible by 3 and 5: print "FizzBuzz"
+// If none just print the value
+
+// 1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz
 
 .syntax unified
 .cpu cortex-m4
@@ -45,7 +54,7 @@ reset_handler:
 .include "macros.S"
 
 _start:
-	// Enable the GPIOA and GPIOB clocks
+	// Enable the GPIOA, GPIOB and GPIOC clocks
 	ldr		r3, =RCC_AHB1ENR
 	ldr		r2, [r3]
 	orr		r2, 0x7
@@ -108,6 +117,40 @@ main_loop:
   //    (Fizz) Else if r8%3 == 0, call fizz macro
   //    (Buzz) Else if r8%5 == 0, call buzz macro
   //    (Value) Else call value macro
+  // udiv Rd, Rn, Rm // Rd = Rn / Rm
+_try_fizzbuzz:
+  mov   r1, 15
+  udiv  r0, r8, r1
+  // r0 = r8 - (r0 * r1)  -> r0 is remainder of r8/r1
+  mls   r0, r0, r1, r8
+
+  cmp   r0, 0
+  bne   _try_fizz
+  fizzbuzz
+  b     end_
+
+_try_fizz:
+  mov   r1, 3
+  udiv  r0, r8, r1
+  mls   r0, r0, r1, r8
+
+  cmp   r0, 0
+  bne   _try_buzz
+  fizz
+  b     end_
+
+_try_buzz:
+  mov   r1, 5
+  udiv  r0, r8, r1
+  mls   r0, r0, r1, r8
+
+  cmp   r0, 0
+  bne   _show_value
+  buzz
+  b     end_
+
+_show_value:
+  value
 
 end_:
   // counter
@@ -119,8 +162,13 @@ end_:
   str     r7, [r6]
 
   // 2. If r8 == 100, reset r8 to 1
+  teq     r8, 100
+  it      eq
+  moveq   r8, r1
+
 
   // 3. call delay macro
+  delay
 
 	// Repeat forever
 	b		main_loop
