@@ -1,7 +1,7 @@
 // Lab 14 -- arrays, button input (polling)
 //
-// Programmer name: __________
-// Date completed:  __________
+// Programmer name: Vince Rothenberg
+// Date completed:  07 May 20
 
 .syntax unified
 .cpu cortex-m4
@@ -15,9 +15,10 @@
 
 // 1. Declare an array called "numbers" of 40 bytes
 //    (room for 10 integers)
+numbers: .skip 40 // labels are addresses
 
-
-// 2. Add a label called "len" to be used to find end of array
+// 2. Add a label called "length" to be used to find end of array
+length: // address after numbers array, used to find length of array
 
 .section .text
 .global vtable
@@ -108,13 +109,17 @@ _start:
   str   r1, [r0]
 
   // 3. Call the resetArray macro
+  resetArray
 
   // 4a. Load the address of the array into a register
+  ldr   r2, =numbers
   // 4b. Load the first value of the array into a register
+  ldr   r1, [r2, #0] // Grabs first 32 bits, first 4 bytes
 
 main_loop:
   // 5. Call the showbits macro -- pass the register containing
   //    the array value to be displayed
+  showbits r1
 
   // Use r6 to flag change in button state
   mov   r6, 0x0
@@ -138,16 +143,25 @@ debounce_:
 continue_:
   // 6. If button state changed (r6=0x1), advance to next
   //    item in array
+  teq   r6, 1
+  it    eq
+  addeq r2, 4 // updating indexing -- r2 is the array location pointer
 
   // 7. If prior operation is now past the end of the array,
   //    reset to base address of array
   //    (HINT: use the "length" label declared at top)
+  ldr   r3, =length
+  teq   r2, r3
+  it    eq
+  ldreq r2, =numbers
 
 
   // 8. Load the next array value into a register
   //    (must be the same register passed to showbits above)
+  ldr   r1, [r2]
 
   // 9. Call clearbits to clear the display
+  clearbits
 
   // Repeat forever
   b   main_loop
