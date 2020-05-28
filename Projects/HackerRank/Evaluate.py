@@ -7,52 +7,63 @@ def calc(expression):
         '(': 3,
         ')': 3}        
         
-    stack = []
+    opstack = []
     output = []
     operators = '+-*/'
     i = 0
     while i < len(expression):
         if expression[i].isnumeric():
+            print(i, 'numeric:', expression[i])
             num = expression[i]
-            i+= 1
+            i += 1
             while i < len(expression) and expression[i].isnumeric():
                 num += expression[i]
-                i +=1 
+                i += 1 
             output.append(num)
+            print(i, "Output:",  output)
         else:
+            print('else')
             if expression[i] in operators:
-                while stack and precedence[stack[-1]] >= precedence[expression[i]] and stack[-1] != '(':
-                    output.append(stack.pop())
-                stack.append(expression[i])
+                while opstack and precedence[opstack[-1]] >= precedence[expression[i]] and opstack[-1] != '(':
+                    output.append(opstack.pop())
+                    print(i, "Output:",  output)
+                opstack.append(expression[i])
+                print(i, "opstack:",  opstack)
             elif expression[i] == '(':
-                stack.append('(')
+                opstack.append('(')
             elif expression[i] == ')':
-                while stack[-1] != '(':
-                    output.append(stack.pop())
-                if stack[-1] == '(':
-                    stack.pop()
+                while opstack[-1] != '(':
+                    output.append(opstack.pop())
+                if opstack[-1] == '(':
+                    opstack.pop()
             i += 1
+        print('End', i, 'Output:', output, 'Opstack:', opstack)
 
-    while stack:
-        output.append(stack.pop())
+    while opstack:
+        output.append(opstack.pop())
             
     print("Output:",  output)
     result = []
     for i,o in enumerate(output):
-        print("i:", i, "result", o)
+        print("i:", i, "result:", result, "o:", o)
         if o.isnumeric():
             result.append(int(o))
         elif o in operators:
             op2 = result.pop()
-            op1 = result.pop()
+            op1 = 0
+            if result:
+                op1 = result.pop()
             if o == '+':
                 result.append(op1 + op2)
             elif o == '-':
                 if i+1 < len(output) and output[i+1] == '-':
+                    print('Subtraction if')
                     op2 = -op2
                     result.append(op1)
                     result.append(op2)
                 else:
+                    print('op1 - op2')
+
                     result.append(op1 - op2) 
             elif o == '*':
                 result.append(op1 * op2)
@@ -74,5 +85,5 @@ tests = [
     ["3 * 5", 15],
     ["-7 * -(6 / 3)", 14]
 ]
-test = tests[3]
+test = tests[4]
 print("calc(test[0]):", calc(test[0]), test[1])
