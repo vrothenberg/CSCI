@@ -77,5 +77,5 @@ tests = [
     ["3 * 5", 15],
     ["-7 * -(6 / 3)", 14]
 ]
-test = tests[4]
-print("calc(test[0]):", calc(test[0]), test[1])
+for test in tests:
+    print("calc(test[0]):", calc(test[0]), test[1])
